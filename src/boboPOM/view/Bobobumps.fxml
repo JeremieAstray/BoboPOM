@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="540" prefWidth="960" styleClass="background"
+            xmlns:fx="http://javafx.com/fxml" fx:controller="boboPOM.controller.Controller">
+    <children>
+        <TextField layoutX="10" layoutY="10" onKeyReleased="#click" editable="true" styleClass="input" fx:id="textField">
+        </TextField>
+        <Text layoutX="20" layoutY="50" styleClass="statusText" text="连接状态："/>
+        <Text layoutX="100" layoutY="50" styleClass="statusText" fx:id="serverStatus" text=""/>
+        <Button layoutX="10" layoutY="60" onAction="#openSocketServer" text="启动服务"/>
+        <Button layoutX="100" layoutY="60" onAction="#closeSocketServer" text="关闭服务"/>
+        <Button layoutX="10" layoutY="90" onAction="#connectSocket" text="客户端连接"/>
+        <Button layoutX="100" layoutY="90" onAction="#disConnectSocket" text="客户端关闭"/>
+        <Text layoutX="20" layoutY="130" styleClass="statusText" fx:id="clientStatus" text=""/>
+    </children>
+</AnchorPane>
