@@ -9,6 +9,8 @@
         <ImageView fx:id="underBackgroundRight" />
         <CentreBoboImagesView layoutX="87" layoutY="-24"/>
         <CentreBoboImagesView layoutX="565" layoutY="-24" />
+        <BrickBoboImageView/>
+        <BrickBoboImageView/>
         <BoboExtendsView />
         <BackgroundView fx:id="background" />
         <BorderBoboImagesView layoutX="19" layoutY="43" />

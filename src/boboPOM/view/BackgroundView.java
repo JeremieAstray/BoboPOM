@@ -13,14 +13,16 @@ public class BackgroundView extends Region {
     private ImageView leftCpHundreds = new ImageView();
     private ImageView leftCpDecade = new ImageView();
     private ImageView leftCpUnit = new ImageView();
-    private ImageView leftCpControl = new ImageView();
+    private ImageView leftCpBottom = new ImageView();
+    private ImageView leftCpBottomEx = new ImageView();
     private ImageView leftCpProgressBar = new ImageView();
     private ImageView leftLineup = new ImageView();
 
     private ImageView rightCpHundreds = new ImageView();
     private ImageView rightCpDecade = new ImageView();
     private ImageView rightCpUnit = new ImageView();
-    private ImageView rightCpControl = new ImageView();
+    private ImageView rightCpBottom = new ImageView();
+    private ImageView rightCpBottomEx = new ImageView();
     private ImageView rightCpProgressBar = new ImageView();
     private ImageView rightLineup = new ImageView();
 
@@ -28,21 +30,23 @@ public class BackgroundView extends Region {
         Background.setVisible(true);
         this.setPartsVisible(false);
         this.getChildren().addAll(Background
-                , leftCpHundreds, leftCpDecade, leftCpUnit, leftCpControl, leftCpProgressBar, leftLineup
-                , rightCpHundreds, rightCpDecade, rightCpUnit, rightCpControl, rightCpProgressBar, rightLineup);
+                , leftCpHundreds, leftCpDecade, leftCpUnit, leftCpBottom,leftCpBottomEx, leftCpProgressBar, leftLineup
+                , rightCpHundreds, rightCpDecade, rightCpUnit, rightCpBottom,rightCpBottomEx, rightCpProgressBar, rightLineup);
     }
 
     public final void setPartsVisible(boolean value) {
         leftCpHundreds.setVisible(value);
         leftCpDecade.setVisible(value);
         leftCpUnit.setVisible(value);
-        leftCpControl.setVisible(value);
+        leftCpBottom.setVisible(value);
+        leftCpBottomEx.setVisible(value);
         leftCpProgressBar.setVisible(value);
         leftLineup.setVisible(value);
         rightCpHundreds.setVisible(value);
         rightCpDecade.setVisible(value);
         rightCpUnit.setVisible(value);
-        rightCpControl.setVisible(value);
+        rightCpBottom.setVisible(value);
+        rightCpBottomEx.setVisible(value);
         rightCpProgressBar.setVisible(value);
         rightLineup.setVisible(value);
     }
