@@ -3,16 +3,18 @@ package boboPOM.controller;
 import boboPOM.service.SocketLink;
 import boboPOM.util.Config;
 import boboPOM.util.MsgQueue;
-import boboPOM.view.BackgroundView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +22,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jeremie on 14-3-5.
+ * Created by Jeremie on 14-3-1.
  */
-public class Controller implements Initializable {
+public class ControllerTest implements Initializable {
 
     private String resourcesPath;
     @FXML
@@ -30,8 +32,25 @@ public class Controller implements Initializable {
     @FXML
     private ImageView underBackgroundRight;
     @FXML
-    private BackgroundView background;
-
+    private ImageView background;
+    @FXML
+    private TextField textField;
+    @FXML
+    private Text connectStatus;
+    @FXML
+    private Text serverStatus;
+    @FXML
+    private Button openServer;
+    @FXML
+    private Button closeServer;
+    @FXML
+    private Button openClient;
+    @FXML
+    private Button closeClient;
+    @FXML
+    private Text clientStatus;
+    @FXML
+    private ImageView testImage;
 
     private Timeline timeline;
     private MsgQueue<String> msgQueue;
@@ -42,7 +61,7 @@ public class Controller implements Initializable {
 
     /**
      * @param event
-     * @throws java.io.IOException
+     * @throws IOException
      */
     @FXML
     private void click(KeyEvent event) throws IOException {
@@ -123,6 +142,14 @@ public class Controller implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                if (!msgQueue.isEmpty()) {
+                    serverStatus.setText(msgQueue.recv());
+                }
+                if (!key.isEmpty()) {
+                    clientStatus.setText(clientStatus.getText() + key.recv());
+                }
+                moveImage();
+
             }
         });
         timeline.getKeyFrames().add(kf);
@@ -142,8 +169,46 @@ public class Controller implements Initializable {
         underBackgroundLeft.setLayoutY(-8);
         underBackgroundRight.setLayoutX(526);
         underBackgroundRight.setLayoutY(-8);
-        background.setBackgroundImage(image);
+        background.setImage(image);
         background.setVisible(true);
+        textField.setLayoutX(10);
+        textField.setLayoutY(10);
+        connectStatus.setLayoutX(20);
+        connectStatus.setLayoutY(50);
+        serverStatus.setLayoutX(100);
+        serverStatus.setLayoutY(50);
+        openServer.setLayoutX(10);
+        openServer.setLayoutY(60);
+        closeServer.setLayoutX(100);
+        closeServer.setLayoutY(60);
+        openClient.setLayoutX(10);
+        openClient.setLayoutY(90);
+        closeClient.setLayoutX(100);
+        closeClient.setLayoutY(90);
+        clientStatus.setLayoutX(20);
+        clientStatus.setLayoutY(130);
+        testImage.setImage(imagetest);
+        testImage.setLayoutX(Config.SCREEN_WIDTH / 4 - 100);
+        testImage.setLayoutY(Config.SCREEN_HEIGHT / 2);
+    }
+
+    private void moveImage() {
+        double x = testImage.getLayoutX();
+        double y = testImage.getLayoutY();
+        double speed = 10;
+        if ((x >= Config.SCREEN_WIDTH / 4 - 100 && x < Config.SCREEN_WIDTH / 4) && (y >= Config.SCREEN_HEIGHT / 2 && y < Config.SCREEN_HEIGHT / 2 + 100)) {
+            testImage.setLayoutX(x + speed);
+            testImage.setLayoutY(y + speed);
+        } else if ((x >= Config.SCREEN_WIDTH / 4 && x < Config.SCREEN_WIDTH / 4 + 100) && (y <= Config.SCREEN_HEIGHT / 2 + 100 && y > Config.SCREEN_HEIGHT / 2)) {
+            testImage.setLayoutX(x + speed);
+            testImage.setLayoutY(y - speed);
+        } else if ((x > Config.SCREEN_WIDTH / 4 && x <= Config.SCREEN_WIDTH / 4 + 100) && (y <= Config.SCREEN_HEIGHT / 2 && y > Config.SCREEN_HEIGHT / 2 - 100)) {
+            testImage.setLayoutX(x - speed);
+            testImage.setLayoutY(y - speed);
+        } else if ((x > Config.SCREEN_WIDTH / 4 - 100 && x <= Config.SCREEN_WIDTH / 4) && (y < Config.SCREEN_HEIGHT / 2 && y >= Config.SCREEN_HEIGHT / 2 - 100)) {
+            testImage.setLayoutX(x - speed);
+            testImage.setLayoutY(y + speed);
+        }
     }
 
     private void setFilePath(URL location) {
