@@ -10,9 +10,9 @@ import javafx.scene.layout.Region;
 public class BackgroundView extends Region {
     private ImageView Background = new ImageView();
 
-    private ImageView leftCpHundreds = new ImageView();
-    private ImageView leftCpDecade = new ImageView();
-    private ImageView leftCpUnit = new ImageView();
+    private ImageView leftCpHundreds = new ImageView(); //百位
+    private ImageView leftCpDecade = new ImageView();   //十位
+    private ImageView leftCpUnit = new ImageView();     //个位
     private ImageView leftCpBottom = new ImageView();
     private ImageView leftCpBottomEx = new ImageView();
     private ImageView leftCpProgressBar = new ImageView();

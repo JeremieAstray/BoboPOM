@@ -15,6 +15,6 @@ public final class Config {
     public static final double PLAYBOBO_SPEED = 10;//pixel
 
     public static final double BORDERBOBO_INTERVAL = 46;//pixel
-    public static final double BOTTOMBOBO_INTERVAL = 43.8;//pixel
-    public static final double CENTREBOBO_INTERVALX = 43.8,CENTREBOBO_INTERVALY = 40.4;//pixel
+    public static final double BOTTOMBOBO_INTERVAL = 44;//pixel
+    public static final double CENTREBOBO_INTERVALX = 44,CENTREBOBO_INTERVALY = 40.4;//pixel
 }

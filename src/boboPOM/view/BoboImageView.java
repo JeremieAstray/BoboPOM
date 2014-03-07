@@ -12,8 +12,7 @@ public class BoboImageView extends Region {
     private ImageView baseImage;
 
     public BoboImageView(){
-        Image image = new Image("file:D:/temporary/programme/IdeaProjects/BoboPOM/bin/boboPOM/view/resources/images/bobotest.png");
-
+        Image image = new Image("file:D:/temporary/programme/IdeaProjects/BoboPOM/bin/boboPOM/view/resources/images/bobo/blueBobo1.png");
         baseImage = new ImageView();
         baseImage.setImage(image);
         this.getChildren().addAll(baseImage);
