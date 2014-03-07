@@ -134,7 +134,6 @@ public class Controller implements Initializable {
 
     private void initializeModule() {
         Image image = new Image(resourcesPath + "/images/background.png", Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, true, false);
-        Image imagetest = new Image(resourcesPath + "/images/mq0000.png", 15, 15, true, false);
         Image underBackgroundLeftImage = new Image(resourcesPath + "/images/underBackground.png");
         underBackgroundLeft.setImage(underBackgroundLeftImage);
         underBackgroundRight.setImage(underBackgroundLeftImage);
