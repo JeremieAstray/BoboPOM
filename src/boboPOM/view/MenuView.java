@@ -1,6 +1,5 @@
 package boboPOM.view;
 
-import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.scene.text.TextFlow;
 
