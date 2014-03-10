@@ -16,6 +16,7 @@
         <Button onAction="#closeSocketServer" fx:id="closeServer" text="关闭服务"/>
         <Button onAction="#connectSocket" fx:id="openClient" text="客户端连接"/>
         <Button onAction="#disConnectSocket" fx:id="closeClient" text="客户端关闭"/>
+        <Button onAction="#findBroadcast" fx:id="findBroadcast" text="寻找服务器"/>
         <Text styleClass="statusText" fx:id="clientStatus" text=""/>
         <ImageView fx:id="testImage" />
     </children>

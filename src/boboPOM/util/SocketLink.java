@@ -1,4 +1,4 @@
-package boboPOM.service;
+package boboPOM.util;
 
 
 import boboPOM.util.MsgQueue;

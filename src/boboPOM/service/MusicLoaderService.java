@@ -6,11 +6,11 @@ import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class MusicLoader implements RunnableFuture {
+public class MusicLoaderService implements RunnableFuture {
 
     private File file;
 
-    MusicLoader(String url){
+    MusicLoaderService(String url){
 
     }
 

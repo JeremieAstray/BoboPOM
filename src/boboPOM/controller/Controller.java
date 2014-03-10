@@ -1,6 +1,6 @@
 package boboPOM.controller;
 
-import boboPOM.service.SocketLink;
+import boboPOM.util.SocketLink;
 import boboPOM.util.Config;
 import boboPOM.util.MsgQueue;
 import boboPOM.view.BackgroundView;
@@ -36,77 +36,8 @@ public class Controller implements Initializable {
     private Timeline timeline;
     private MsgQueue<String> msgQueue;
     private MsgQueue<String> key;
-    private SocketLink socketLink;
     private Thread tClient;
     private Thread tServer;
-
-    /**
-     * @param event
-     * @throws java.io.IOException
-     */
-    @FXML
-    private void click(KeyEvent event) throws IOException {
-        //String get = event.getText();
-        String get = event.getCode().getName();
-        if (socketLink != null && socketLink.isLinked()) {
-            socketLink.send(get);
-        }
-    }
-
-    /**
-     * 打开socket服务
-     *
-     * @param event
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    @FXML
-    private void openSocketServer(ActionEvent event) throws IOException, InterruptedException {
-        socketLink.setServer(true);
-        tClient = null;
-        tServer = new Thread(socketLink);
-        tServer.start();
-    }
-
-    /**
-     * 关闭socket服务
-     *
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    private void closeSocketServer(ActionEvent event) throws IOException {
-        if (tServer != null)
-            if (socketLink.cancel(true))
-                tServer.interrupt();
-    }
-
-    /**
-     * 连接socket
-     *
-     * @param event
-     */
-    @FXML
-    private void connectSocket(ActionEvent event) {
-        socketLink.setServer(false);
-        socketLink.setIp("localhost");
-        tServer = null;
-        tClient = new Thread(socketLink);
-        tClient.start();
-    }
-
-    /**
-     * 断开socket连接
-     *
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    private void disConnectSocket(ActionEvent event) throws IOException {
-        if (tClient != null)
-            if (socketLink.cancel(true))
-                tClient.interrupt();
-    }
 
 
     /**
@@ -119,6 +50,8 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.setFilePath(location);
         initializeModule();
+
+        //定义时间轴
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
@@ -127,9 +60,9 @@ public class Controller implements Initializable {
         });
         timeline.getKeyFrames().add(kf);
         timeline.play();
+        //定义消息队列
         msgQueue = new MsgQueue<String>();
         key = new MsgQueue<String>();
-        socketLink = new SocketLink(msgQueue, key, 5918);
     }
 
     private void initializeModule() {

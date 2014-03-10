@@ -1,6 +1,7 @@
 package boboPOM.controller;
 
-import boboPOM.service.SocketLink;
+import boboPOM.util.SocketLink;
+import boboPOM.util.BroadcastSessionUtil;
 import boboPOM.util.Config;
 import boboPOM.util.MsgQueue;
 import javafx.animation.KeyFrame;
@@ -15,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +53,11 @@ public class ControllerTest implements Initializable {
     private Text clientStatus;
     @FXML
     private ImageView testImage;
+    @FXML
+    private Button findBroadcast;
 
+    private Timeline broadcaseTimeline;
+    private BroadcastSessionUtil broadcastSessionUtil;
     private Timeline timeline;
     private MsgQueue<String> msgQueue;
     private MsgQueue<String> key;
@@ -85,6 +91,7 @@ public class ControllerTest implements Initializable {
         tClient = null;
         tServer = new Thread(socketLink);
         tServer.start();
+        broadcaseTimeline.play();
     }
 
     /**
@@ -127,6 +134,20 @@ public class ControllerTest implements Initializable {
                 tClient.interrupt();
     }
 
+    /**
+     *
+     * @param event
+     * @throws IOException
+     */
+
+    @FXML
+    private void findBroadcast(ActionEvent event) throws IOException {
+        String receive = broadcastSessionUtil.receiveBroadcast();
+        if(receive!=null){
+            key.send("找到服务器：" + receive + "    ");
+            this.connectSocket(event);
+        }
+    }
 
     /**
      * 初始化controller
@@ -134,34 +155,54 @@ public class ControllerTest implements Initializable {
      * @param location
      * @param resources
      */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         this.setFilePath(location);
+
         initializeModule();
+
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (!msgQueue.isEmpty()) {
-                    serverStatus.setText(msgQueue.recv());
+                    String msg = msgQueue.recv();
+                    serverStatus.setText(msg);
+                    if("连接成功".equals(msg)){
+                        broadcaseTimeline.stop();
+                    }
                 }
                 if (!key.isEmpty()) {
                     clientStatus.setText(clientStatus.getText() + key.recv());
                 }
                 moveImage();
-
             }
         });
         timeline.getKeyFrames().add(kf);
         timeline.play();
+
         msgQueue = new MsgQueue<String>();
         key = new MsgQueue<String>();
-        socketLink = new SocketLink(msgQueue, key, 5918);
+
+        broadcastSessionUtil = new BroadcastSessionUtil("localhost",Config.PORT);
+        broadcaseTimeline = new Timeline();
+        broadcaseTimeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame broadcaseFame = new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                broadcastSessionUtil.sendBroadcast();
+                System.out.println("-------->");
+            }
+        });
+        broadcaseTimeline.getKeyFrames().add(broadcaseFame);
+
+        socketLink = new SocketLink(msgQueue, key, Config.PORT);
     }
 
     private void initializeModule() {
         Image image = new Image(resourcesPath + "/images/background.png", Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, true, false);
-        Image imagetest = new Image(resourcesPath + "/images/mq0000.png", 15, 15, true, false);
+        Image imagetest = new Image(resourcesPath + "/images/number/lineup1.png", 15, 15, true, false);
         Image underBackgroundLeftImage = new Image(resourcesPath + "/images/underBackground.png");
         underBackgroundLeft.setImage(underBackgroundLeftImage);
         underBackgroundRight.setImage(underBackgroundLeftImage);
@@ -185,6 +226,8 @@ public class ControllerTest implements Initializable {
         openClient.setLayoutY(90);
         closeClient.setLayoutX(100);
         closeClient.setLayoutY(90);
+        findBroadcast.setLayoutX(190);
+        findBroadcast.setLayoutY(90);
         clientStatus.setLayoutX(20);
         clientStatus.setLayoutY(130);
         testImage.setImage(imagetest);

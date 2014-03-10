@@ -5,6 +5,6 @@ package boboPOM.service;
  */
 public class MusicLoaderTest {
     public static void main(String[] args){
-        MusicLoader musicLoader = new MusicLoader("123");
+        MusicLoaderService musicLoader = new MusicLoaderService("123");
     }
 }
