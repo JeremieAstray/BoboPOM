@@ -1,11 +1,14 @@
 package boboPOM.util;
 
+import boboPOM.view.Main;
 import javafx.util.Duration;
 
 /**
  * Created by Jeremie on 14-3-4.
  */
 public final class Config {
+
+    public final static String RESOURCES_PATH = Main.class.getResource("resources").toString();
 
     public final static int NONE = 0;
     public final static int BLUE = 1;
@@ -18,6 +21,9 @@ public final class Config {
 
     public static final double SCREEN_WIDTH = 960.0;//pixel
     public static final double SCREEN_HEIGHT = 540.0;//pixel
+    public static final double UNDER_BACKGROUND_LEFT_X = 48 ;
+    public static final double UNDER_BACKGROUND_RIGHT_X = 526 ;
+    public static final double UNDER_BACKGROUND_Y = -8 ;
 
     public static final Duration ANIMATION_TIME = Duration.millis(40);//ms
 

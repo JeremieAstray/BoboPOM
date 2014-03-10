@@ -26,12 +26,11 @@ public class SocketLink implements RunnableFuture {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private MsgQueue<String> msgQueue;
-    private MsgQueue<String> key;
+    private MsgQueue<Object> key;
     private boolean isServer;
 
 
     /**
-     *
      * @param msgQueue
      * @param key
      * @param port
@@ -58,7 +57,6 @@ public class SocketLink implements RunnableFuture {
                 System.out.println(out);
                 waitMsg();
                 server.close();
-
             } else {
                 client = new Socket(ip, port);
                 waitMsg();
@@ -72,7 +70,7 @@ public class SocketLink implements RunnableFuture {
     }
 
     /**
-     *
+     * 等待对方信息
      */
     private void waitMsg() {
         try {
@@ -82,9 +80,9 @@ public class SocketLink implements RunnableFuture {
             while (true) {
                 Object o = null;
                 o = in.readObject();
-                if (o instanceof String) {
-                    key.send((String) o);
-                } else {
+                if (o != null)
+                    key.send(o);
+                else {
                     if (!client.isClosed())
                         out.writeObject(null);
                     in.close();
@@ -100,10 +98,11 @@ public class SocketLink implements RunnableFuture {
     }
 
     /**
+     * 向对方发送数据
      *
      * @param key
      */
-    public void send(String key) {
+    public void send(Object key) {
         try {
             out.writeObject(key);
             out.flush();
@@ -113,6 +112,7 @@ public class SocketLink implements RunnableFuture {
     }
 
     /**
+     * 关闭连接
      *
      * @param mayInterruptIfRunning
      * @return
@@ -136,15 +136,18 @@ public class SocketLink implements RunnableFuture {
     }
 
     /**
-     *
      * @return
      */
     public boolean isLinked() {
         return client != null && !client.isClosed();
     }
 
+
+    public MsgQueue<Object> getKey() {
+        return key;
+    }
+
     /**
-     *
      * @param ip
      */
     public void setIp(String ip) {
@@ -152,7 +155,6 @@ public class SocketLink implements RunnableFuture {
     }
 
     /**
-     *
      * @param isServer
      */
     public void setServer(boolean isServer) {

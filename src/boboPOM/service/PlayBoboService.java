@@ -2,19 +2,18 @@ package boboPOM.service;
 
 import boboPOM.Entity.PlayBoboEntity;
 import boboPOM.util.MsgQueue;
+import boboPOM.util.SocketLink;
 
 /**
  * Created by Jeremie on 14-3-10.
  */
-public class PlayBoboService extends BaseService {
+public class PlayBoboService {
 
-    private MsgQueue<PlayBoboEntity> playBoboMsg;
     private PlayBoboEntity playBoboEntity;
 
     public PlayBoboService() {
         super();
         playBoboEntity = new PlayBoboEntity();
-        playBoboMsg = new MsgQueue<PlayBoboEntity>();
         playBoboEntity.setX(3);
         playBoboEntity.setY(13);
         playBoboEntity.setBobos(new int[2]);
@@ -25,6 +24,10 @@ public class PlayBoboService extends BaseService {
     public void changeLoaction(int x,int y){
         playBoboEntity.setX(x);
         playBoboEntity.setY(y);
+    }
+
+    public void send(SocketLink socketLink) {
+        socketLink.send(this.playBoboEntity);
     }
 
 }

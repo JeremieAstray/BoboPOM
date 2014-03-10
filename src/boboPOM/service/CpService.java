@@ -2,19 +2,17 @@ package boboPOM.service;
 
 import boboPOM.Entity.CpEntity;
 import boboPOM.util.MsgQueue;
+import boboPOM.util.SocketLink;
 
 /**
  * Created by Jeremie on 14-3-10.
  */
-public class CpService extends BaseService {
+public class CpService {
 
-    private MsgQueue<CpEntity> cpMsg;
     private CpEntity cpEntity;
 
-    public CpService(){
-        super();
+    public CpService() {
         cpEntity = new CpEntity();
-        cpMsg = new MsgQueue<CpEntity>();
     }
 
     public void setCp(int cp) {
@@ -26,5 +24,9 @@ public class CpService extends BaseService {
 
     public boolean isBiggerThan100() {
         return cpEntity.getCp() > 100;
+    }
+
+    public void send(SocketLink socketLink) {
+        socketLink.send(this.cpEntity);
     }
 }

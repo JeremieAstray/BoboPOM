@@ -4,6 +4,7 @@ import boboPOM.util.SocketLink;
 import boboPOM.util.Config;
 import boboPOM.util.MsgQueue;
 import boboPOM.view.BackgroundView;
+import boboPOM.view.Main;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -24,7 +25,6 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
-    private String resourcesPath;
     @FXML
     private ImageView underBackgroundLeft;
     @FXML
@@ -35,7 +35,7 @@ public class Controller implements Initializable {
 
     private Timeline timeline;
     private MsgQueue<String> msgQueue;
-    private MsgQueue<String> key;
+    private MsgQueue<Object> key;
     private Thread tClient;
     private Thread tServer;
 
@@ -48,7 +48,6 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.setFilePath(location);
         initializeModule();
 
         //定义时间轴
@@ -62,24 +61,19 @@ public class Controller implements Initializable {
         timeline.play();
         //定义消息队列
         msgQueue = new MsgQueue<String>();
-        key = new MsgQueue<String>();
+        key = new MsgQueue<Object>();
     }
 
     private void initializeModule() {
-        Image image = new Image(resourcesPath + "/images/background.png", Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, true, false);
-        Image underBackgroundLeftImage = new Image(resourcesPath + "/images/underBackground.png");
+        Image image = new Image(Config.RESOURCES_PATH + "/images/background.png", Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, true, false);
+        Image underBackgroundLeftImage = new Image(Config.RESOURCES_PATH + "/images/underBackground.png");
         underBackgroundLeft.setImage(underBackgroundLeftImage);
         underBackgroundRight.setImage(underBackgroundLeftImage);
-        underBackgroundLeft.setLayoutX(48);
-        underBackgroundLeft.setLayoutY(-8);
-        underBackgroundRight.setLayoutX(526);
-        underBackgroundRight.setLayoutY(-8);
+        underBackgroundLeft.setLayoutX(Config.UNDER_BACKGROUND_LEFT_X);
+        underBackgroundLeft.setLayoutY(Config.UNDER_BACKGROUND_Y);
+        underBackgroundRight.setLayoutX(Config.UNDER_BACKGROUND_RIGHT_X);
+        underBackgroundRight.setLayoutY(Config.UNDER_BACKGROUND_Y);
         background.setBackgroundImage(image);
         background.setVisible(true);
-    }
-
-    private void setFilePath(URL location) {
-        File file = new File(location.toString());
-        this.resourcesPath = file.getParent().replaceAll("\\\\", "/") +"/resources";
     }
 }

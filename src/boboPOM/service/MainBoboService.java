@@ -12,20 +12,12 @@ import java.util.Vector;
 /**
  * Created by Jeremie on 14-3-10.
  */
-public class MainBoboService extends BaseService {
+public class MainBoboService {
 
-    private MsgQueue<MainBoboEntity> mainBoboMsg;
     private MainBoboEntity mainBoboEntity;
 
-    public MainBoboService(MsgQueue msgQueue,int port){
-        super();
+    public MainBoboService(){
         mainBoboEntity = new MainBoboEntity();
-        mainBoboMsg = new MsgQueue<MainBoboEntity>();
-
-        /*待修改*/
-        socketLink = new SocketLink(msgQueue,mainBoboMsg,port);
-
-
         init();
     }
     public void init() {
@@ -117,5 +109,9 @@ public class MainBoboService extends BaseService {
         }
 
         return bobos;
+    }
+
+    public void send(SocketLink socketLink) {
+        socketLink.send(this.mainBoboEntity);
     }
 }
