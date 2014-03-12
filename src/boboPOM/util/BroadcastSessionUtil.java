@@ -8,20 +8,20 @@ import java.net.*;
  */
 public class BroadcastSessionUtil {
 
-    private String ip;
     private int port;
 
-    public BroadcastSessionUtil(String ip, int port) {
-        this.ip = ip;
+    public BroadcastSessionUtil(int port) {
         this.port = port;
     }
 
     public void sendBroadcast() {
         try {
-            DatagramSocket ds = new DatagramSocket(this.port);
-            DatagramPacket dp = new DatagramPacket(ip.getBytes(), ip.getBytes().length,
-                    InetAddress.getByName("255.255.255.0"), this.port);
-            ds.send(dp);
+            String msg = "尚未连接";
+            DatagramSocket ds= new  DatagramSocket();
+            InetAddress inetAddress = InetAddress.getByName("255.255.255.255");
+            DatagramPacket datagramPacket = new DatagramPacket(
+                    msg.getBytes(), msg.length(), inetAddress, 7001);
+            ds.send(datagramPacket);
             ds.close();
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -35,12 +35,13 @@ public class BroadcastSessionUtil {
     public String receiveBroadcast() {
         String strRecv = null;
         try {
-            DatagramSocket ds = new DatagramSocket();
-            byte[] buf = new byte[30];
+            DatagramSocket ds = new DatagramSocket(7001);// 创建接收数据报套接字并将其绑定到本地主机上的指定端口
+            byte[] buf = new byte[128];
             DatagramPacket dp = new DatagramPacket(buf, buf.length);
             ds.receive(dp);
-            strRecv = new String(dp.getData(), 0, dp.getLength()) + " from "
-                    + dp.getAddress().getHostAddress() + ":" + dp.getPort();
+            strRecv = new String(dp.getAddress().getHostAddress());
+            System.out.println(new String(dp.getData(), 0, dp.getLength()) + " from "
+                    + dp.getAddress().getHostAddress() + ":" + dp.getPort());
             ds.close();
         } catch (UnknownHostException e) {
             e.printStackTrace();

@@ -115,7 +115,8 @@ public class ControllerTest implements Initializable {
     @FXML
     private void connectSocket(ActionEvent event) {
         socketLink.setServer(false);
-        socketLink.setIp("localhost");
+        if(socketLink.getIp() == null)
+            socketLink.setIp("localhost");
         tServer = null;
         tClient = new Thread(socketLink);
         tClient.start();
@@ -145,6 +146,7 @@ public class ControllerTest implements Initializable {
         String receive = broadcastSessionUtil.receiveBroadcast();
         if(receive!=null){
             key.send("找到服务器：" + receive + "    ");
+            socketLink.setIp(receive);
             this.connectSocket(event);
         }
     }
@@ -186,7 +188,7 @@ public class ControllerTest implements Initializable {
         msgQueue = new MsgQueue<String>();
         key = new MsgQueue<String>();
 
-        broadcastSessionUtil = new BroadcastSessionUtil("localhost",Config.PORT);
+        broadcastSessionUtil = new BroadcastSessionUtil(Config.PORT);
         broadcaseTimeline = new Timeline();
         broadcaseTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame broadcaseFame = new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>() {

@@ -180,4 +180,8 @@ public class SocketLink implements RunnableFuture {
     public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         return null;
     }
+
+    public String getIp() {
+        return ip;
+    }
 }
