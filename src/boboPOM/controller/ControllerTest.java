@@ -1,7 +1,7 @@
 package boboPOM.controller;
 
+import boboPOM.util.BroadcastSession;
 import boboPOM.util.SocketLink;
-import boboPOM.util.BroadcastSessionUtil;
 import boboPOM.util.Config;
 import boboPOM.util.MsgQueue;
 import javafx.animation.KeyFrame;
@@ -20,8 +20,10 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 /**
  * Created by Jeremie on 14-3-1.
@@ -55,15 +57,20 @@ public class ControllerTest implements Initializable {
     private ImageView testImage;
     @FXML
     private Button findBroadcast;
+    @FXML
+    private Text BroadcastStatus;
 
-    private Timeline broadcaseTimeline;
-    private BroadcastSessionUtil broadcastSessionUtil;
+    private Timer broadcaseTimer;
+    private BroadcastSession broadcastSession;
     private Timeline timeline;
     private MsgQueue<String> msgQueue;
     private MsgQueue<String> key;
+    private MsgQueue<String> broadcaseMsg;
     private SocketLink socketLink;
     private Thread tClient;
     private Thread tServer;
+    private Thread broadcaseServer;
+    private Thread broadcaseClient;
 
     /**
      * @param event
@@ -91,7 +98,11 @@ public class ControllerTest implements Initializable {
         tClient = null;
         tServer = new Thread(socketLink);
         tServer.start();
-        broadcaseTimeline.play();
+        broadcaseTimer = new Timer();
+        broadcastSession = new BroadcastSession(Config.PORT, this.broadcaseMsg);
+        broadcastSession.setServer(true);
+        broadcaseTimer.schedule(broadcastSession, 1000, 1000);
+
     }
 
     /**
@@ -102,6 +113,7 @@ public class ControllerTest implements Initializable {
      */
     @FXML
     private void closeSocketServer(ActionEvent event) throws IOException {
+        broadcaseTimer.cancel();
         if (tServer != null)
             if (socketLink.cancel(true))
                 tServer.interrupt();
@@ -114,12 +126,14 @@ public class ControllerTest implements Initializable {
      */
     @FXML
     private void connectSocket(ActionEvent event) {
+        broadcaseTimer.cancel();
         socketLink.setServer(false);
-        if(socketLink.getIp() == null)
+        if (socketLink.getIp() == null)
             socketLink.setIp("localhost");
         tServer = null;
         tClient = new Thread(socketLink);
         tClient.start();
+
     }
 
     /**
@@ -136,19 +150,15 @@ public class ControllerTest implements Initializable {
     }
 
     /**
-     *
      * @param event
      * @throws IOException
      */
 
     @FXML
     private void findBroadcast(ActionEvent event) throws IOException {
-        String receive = broadcastSessionUtil.receiveBroadcast();
-        if(receive!=null){
-            key.send("找到服务器：" + receive + "    ");
-            socketLink.setIp(receive);
-            this.connectSocket(event);
-        }
+        broadcaseTimer = new Timer();
+        broadcastSession = new BroadcastSession(Config.PORT, this.broadcaseMsg);
+        broadcaseTimer.schedule(broadcastSession, 1000, 1000);
     }
 
     /**
@@ -164,6 +174,7 @@ public class ControllerTest implements Initializable {
         this.setFilePath(location);
 
         initializeModule();
+        openClient.setDisable(true);
 
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -172,9 +183,15 @@ public class ControllerTest implements Initializable {
                 if (!msgQueue.isEmpty()) {
                     String msg = msgQueue.recv();
                     serverStatus.setText(msg);
-                    if("连接成功".equals(msg)){
-                        broadcaseTimeline.stop();
-                    }
+                }
+                if (!broadcaseMsg.isEmpty()) {
+                    String broadcasemsg = broadcaseMsg.recv();
+                    String[] broadcaseMsgs = broadcasemsg.split(":");
+                    msgQueue.send(broadcaseMsgs[0]);
+                    socketLink.setIp(broadcaseMsgs[1]);
+                    clientStatus.setText("找到服务器：" + broadcaseMsgs[1] + "    ");
+                    BroadcastStatus.setText(BroadcastStatus.getText() + " " + broadcaseMsgs[0]);
+                    openClient.setDisable(false);
                 }
                 if (!key.isEmpty()) {
                     clientStatus.setText(clientStatus.getText() + key.recv());
@@ -187,18 +204,7 @@ public class ControllerTest implements Initializable {
 
         msgQueue = new MsgQueue<String>();
         key = new MsgQueue<String>();
-
-        broadcastSessionUtil = new BroadcastSessionUtil(Config.PORT);
-        broadcaseTimeline = new Timeline();
-        broadcaseTimeline.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame broadcaseFame = new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                broadcastSessionUtil.sendBroadcast();
-                System.out.println("-------->");
-            }
-        });
-        broadcaseTimeline.getKeyFrames().add(broadcaseFame);
-
+        broadcaseMsg = new MsgQueue<String>();
         socketLink = new SocketLink(msgQueue, key, Config.PORT);
     }
 
@@ -232,6 +238,8 @@ public class ControllerTest implements Initializable {
         findBroadcast.setLayoutY(90);
         clientStatus.setLayoutX(20);
         clientStatus.setLayoutY(130);
+        BroadcastStatus.setLayoutX(20);
+        BroadcastStatus.setLayoutY(170);
         testImage.setImage(imagetest);
         testImage.setLayoutX(Config.SCREEN_WIDTH / 4 - 100);
         testImage.setLayoutY(Config.SCREEN_HEIGHT / 2);
@@ -258,6 +266,6 @@ public class ControllerTest implements Initializable {
 
     private void setFilePath(URL location) {
         File file = new File(location.toString());
-        this.resourcesPath = file.getParent().replaceAll("\\\\", "/") +"/resources";
+        this.resourcesPath = file.getParent().replaceAll("\\\\", "/") + "/resources";
     }
 }

@@ -19,5 +19,6 @@
         <Button onAction="#findBroadcast" fx:id="findBroadcast" text="寻找服务器"/>
         <Text styleClass="statusText" fx:id="clientStatus" text=""/>
         <ImageView fx:id="testImage" />
+        <Text fx:id="BroadcastStatus" text="" />
     </children>
 </AnchorPane>
