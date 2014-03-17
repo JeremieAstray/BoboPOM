@@ -1,9 +1,6 @@
 package boboPOM.controller;
 
-import boboPOM.util.BroadcastSession;
-import boboPOM.util.SocketLink;
-import boboPOM.util.Config;
-import boboPOM.util.MsgQueue;
+import boboPOM.util.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -59,6 +56,10 @@ public class ControllerTest implements Initializable {
     private Button findBroadcast;
     @FXML
     private Text BroadcastStatus;
+    @FXML
+    private Button playmusic;
+    @FXML
+    private Button stopmusic;
 
     private Timer broadcaseTimer;
     private BroadcastSession broadcastSession;
@@ -71,6 +72,7 @@ public class ControllerTest implements Initializable {
     private Thread tServer;
     private Thread broadcaseServer;
     private Thread broadcaseClient;
+    private MusicLoader musicLoader;
 
     /**
      * @param event
@@ -161,15 +163,30 @@ public class ControllerTest implements Initializable {
         broadcaseTimer.schedule(broadcastSession, 1000, 1000);
     }
 
+
+
+    @FXML
+     private void playMusic(ActionEvent event){
+        musicLoader.loopMusic();
+    }
+
+    @FXML
+    private void stopMusic(ActionEvent event){
+        musicLoader.stopMusic();
+    }
+
+
     /**
      * 初始化controller
      *
      * @param location
      * @param resources
      */
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        musicLoader = new MusicLoader(Config.RESOURCES_PATH + "/BGM/bobopomMusic1.mp3");
+
 
         this.setFilePath(location);
 
@@ -240,6 +257,12 @@ public class ControllerTest implements Initializable {
         clientStatus.setLayoutY(130);
         BroadcastStatus.setLayoutX(20);
         BroadcastStatus.setLayoutY(170);
+
+        playmusic.setLayoutX(10);
+        playmusic.setLayoutY(210);
+        stopmusic.setLayoutX(100);
+        stopmusic.setLayoutY(210);
+
         testImage.setImage(imagetest);
         testImage.setLayoutX(Config.SCREEN_WIDTH / 4 - 100);
         testImage.setLayoutY(Config.SCREEN_HEIGHT / 2);

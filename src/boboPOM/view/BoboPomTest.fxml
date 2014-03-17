@@ -20,5 +20,7 @@
         <Text styleClass="statusText" fx:id="clientStatus" text=""/>
         <ImageView fx:id="testImage" />
         <Text fx:id="BroadcastStatus" text="" />
+        <Button onAction="#playMusic" fx:id="playmusic" text="播放音乐" />
+        <Button onAction="#stopMusic" fx:id="stopmusic" text="停止音乐" />
     </children>
 </AnchorPane>
