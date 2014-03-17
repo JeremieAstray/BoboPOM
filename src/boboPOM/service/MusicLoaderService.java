@@ -1,54 +1,29 @@
 package boboPOM.service;
 
-import java.io.File;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javafx.scene.media.AudioClip;
 
-public class MusicLoaderService implements RunnableFuture {
+public class MusicLoaderService {
 
-    private File file;
-
+    AudioClip music; 
+    
     MusicLoaderService(String url){
-
+        music = new AudioClip(url);
     }
 
-    public boolean playMusic(){
-        return false;
+    public void playMusic(){
+        music.play();
     }
 
-    public boolean stopMusic(){
-        return false;
+    public void stopMusic(){
+        music.stop();
     }
-
-    @Override
-    public void run() {
-
+    public void loopMusic(){
+        music.setCycleCount(AudioClip.INDEFINITE);
+        music.play();
     }
-
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return false;
-    }
-
-    @Override
-    public boolean isDone() {
-        return false;
-    }
-
-    @Override
-    public Object get() throws InterruptedException, ExecutionException {
-        return null;
-    }
-
-    @Override
-    public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        return null;
-    }
+    
 }
