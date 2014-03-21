@@ -1,4 +1,4 @@
-package boboPOM.util;
+package boboPOM.config;
 
 import javafx.scene.media.AudioClip;
 

@@ -1,8 +1,7 @@
 package boboPOM.service;
 
 import boboPOM.Entity.PlayBoboEntity;
-import boboPOM.util.MsgQueue;
-import boboPOM.util.SocketLink;
+import boboPOM.net.SocketLink;
 
 /**
  * Created by Jeremie on 14-3-10.

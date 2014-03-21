@@ -1,6 +1,6 @@
 package boboPOM.view;
 
-import boboPOM.util.Config;
+import boboPOM.config.Config;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;

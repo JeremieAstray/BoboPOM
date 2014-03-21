@@ -1,9 +1,8 @@
 package boboPOM.service;
 
 import boboPOM.Entity.MainBoboEntity;
-import boboPOM.util.Config;
-import boboPOM.util.MsgQueue;
-import boboPOM.util.SocketLink;
+import boboPOM.config.Config;
+import boboPOM.net.SocketLink;
 
 import java.util.Iterator;
 import java.util.Random;

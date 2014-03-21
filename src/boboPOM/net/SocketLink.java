@@ -1,7 +1,5 @@
-package boboPOM.util;
+package boboPOM.net;
 
-
-import boboPOM.util.MsgQueue;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

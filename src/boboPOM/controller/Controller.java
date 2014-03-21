@@ -1,7 +1,7 @@
 package boboPOM.controller;
 
-import boboPOM.util.Config;
-import boboPOM.util.MsgQueue;
+import boboPOM.config.Config;
+import boboPOM.net.MsgQueue;
 import boboPOM.view.BackgroundView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

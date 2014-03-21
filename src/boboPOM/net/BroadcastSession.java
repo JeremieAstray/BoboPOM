@@ -1,4 +1,4 @@
-package boboPOM.util;
+package boboPOM.net;
 
 import java.io.IOException;
 import java.net.*;

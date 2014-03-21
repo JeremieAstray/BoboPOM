@@ -1,4 +1,4 @@
-package boboPOM.util;
+package boboPOM.config;
 
 import boboPOM.view.Main;
 import javafx.util.Duration;
