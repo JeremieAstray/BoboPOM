@@ -1,5 +1,6 @@
 package boboPOM.controller;
 
+import boboPOM.media.BGMMedia;
 import boboPOM.net.BroadcastSession;
 import boboPOM.net.MsgQueue;
 import boboPOM.net.SocketLink;
@@ -73,7 +74,7 @@ public class ControllerTest implements Initializable {
     private Thread tServer;
     private Thread broadcaseServer;
     private Thread broadcaseClient;
-    private MusicLoader musicLoader;
+    private BGMMedia musicLoader;
 
     /**
      * @param event
@@ -186,7 +187,7 @@ public class ControllerTest implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        musicLoader = new MusicLoader(Config.RESOURCES_PATH + "/BGM/bobopomMusic1.mp3");
+        musicLoader = new BGMMedia(Config.RESOURCES_PATH + "/BGM/bobopomMusic1.mp3");
 
 
         this.setFilePath(location);
