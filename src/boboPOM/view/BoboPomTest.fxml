@@ -22,5 +22,7 @@
         <Text fx:id="BroadcastStatus" text="" />
         <Button onAction="#playMusic" fx:id="playmusic" text="播放音乐" />
         <Button onAction="#stopMusic" fx:id="stopmusic" text="停止音乐" />
+        <Button onAction="#loopMusic" fx:id="loopmusic" text="循环播放" />
+        <Button onAction="#changeMusic" fx:id="changemusic" text="切换音乐" />
     </children>
 </AnchorPane>

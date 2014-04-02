@@ -5,6 +5,7 @@ import boboPOM.net.BroadcastSession;
 import boboPOM.net.MsgQueue;
 import boboPOM.net.SocketLink;
 import boboPOM.config.*;
+import boboPOM.media.EffectMedia;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -62,6 +63,10 @@ public class ControllerTest implements Initializable {
     private Button playmusic;
     @FXML
     private Button stopmusic;
+    @FXML
+    private Button loopmusic;
+    @FXML
+    private Button changemusic;
 
     private Timer broadcaseTimer;
     private BroadcastSession broadcastSession;
@@ -74,7 +79,9 @@ public class ControllerTest implements Initializable {
     private Thread tServer;
     private Thread broadcaseServer;
     private Thread broadcaseClient;
-    private BGMMedia musicLoader;
+    private BGMMedia musicMedia = new BGMMedia(Config.RESOURCES_PATH+"/BGM");
+    private int music=0;
+    private EffectMedia effectMedia = new EffectMedia(Config.RESOURCES_PATH + "/effects");
 
     /**
      * @param event
@@ -169,13 +176,27 @@ public class ControllerTest implements Initializable {
 
     @FXML
      private void playMusic(ActionEvent event){
-        musicLoader.loopMusic();
+        //musicMedia.playMusic("bobopomMusic1.mp3", false);
+         effectMedia.play("ed7s0001.wav");
     }
 
     @FXML
     private void stopMusic(ActionEvent event){
-        musicLoader.stopMusic();
+        effectMedia.stop();
+        //musicMedia.stopMusic();
     }
+    @FXML
+    private void loopMusic(ActionEvent event){
+        
+    }
+    @FXML
+    private void changeMusic(ActionEvent event){
+        if(music<4) music++;
+        else music=0;
+        effectMedia.play(music);
+        //musicMedia.playMusic(music, true);
+    }
+    
 
 
     /**
@@ -186,9 +207,6 @@ public class ControllerTest implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        musicLoader = new BGMMedia(Config.RESOURCES_PATH + "/BGM/bobopomMusic1.mp3");
-
 
         this.setFilePath(location);
 
@@ -264,6 +282,10 @@ public class ControllerTest implements Initializable {
         playmusic.setLayoutY(210);
         stopmusic.setLayoutX(100);
         stopmusic.setLayoutY(210);
+        loopmusic.setLayoutX(190);
+        loopmusic.setLayoutY(210);
+        changemusic.setLayoutX(270);
+        changemusic.setLayoutY(210);
 
         testImage.setImage(imagetest);
         testImage.setLayoutX(Config.SCREEN_WIDTH / 4 - 100);
@@ -290,7 +312,9 @@ public class ControllerTest implements Initializable {
     }
 
     private void setFilePath(URL location) {
+        System.out.println(location);
         File file = new File(location.toString());
+        System.out.println(file.getAbsolutePath());
         this.resourcesPath = file.getParent().replaceAll("\\\\", "/") + "/resources";
     }
 }
