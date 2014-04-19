@@ -26,7 +26,7 @@ public class Model implements EventHandler<OpEvent> {
     private int deep;
     private Brick brick;
     private int state;
-    private int character;
+    private int personage;
     //private brick cache
     //private list sound;
     //effect list
@@ -48,9 +48,9 @@ public class Model implements EventHandler<OpEvent> {
         this.p1 = p1;
         counterSet = new CounterSet(p1);
         prepareSet = new PrepareSet(p1);
-        character = Config.Robozy;
+        personage = Config.Robozy;
         deep = 0;
-        pane = new PlayerSide(p1, character);
+        pane = new PlayerSide(p1, personage);
         sp = new Splash(this);
     }
 
@@ -83,13 +83,13 @@ public class Model implements EventHandler<OpEvent> {
         return pane;
     }
 
-    public int getCharacter() {
-        return character;
+    public int getPersonage() {
+        return personage;
     }
 
-    public void setCharacter(int character) {
-        this.character = character;
-        pane.setCharacter(character);
+    public void setPersonage(int personage) {
+        this.personage = personage;
+        pane.setPersonage(personage);
     }
 
     public CounterSet getCounterSet() {

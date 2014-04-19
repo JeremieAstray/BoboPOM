@@ -18,15 +18,15 @@ import java.util.LinkedList;
 public class PlayerSide extends StackPane {
 
     private Shadow shadow;
-    private ImageView character;
+    private ImageView personage;
     private ImageView wol;
     private ImageView sTip;
             
-    public PlayerSide(boolean p1, int character) {
+    public PlayerSide(boolean p1, int personage) {
         this.getChildren().add(new ImageView(Config.getBackgrounds().get(1)));
-        this.character = new ImageView(Config.getCharacters().get(character));
-        this.character.setTranslateY(-Config.getSCREEN_HEIGHT() / 16);
-        this.getChildren().add(this.character);
+        this.personage = new ImageView(Config.getPersonages().get(personage));
+        this.personage.setTranslateY(-Config.getSCREEN_HEIGHT() / 16);
+        this.getChildren().add(this.personage);
         shadow = new Shadow(this);
         this.getChildren().add(shadow);
         this.wol = new ImageView(Config.getEffects().get(10));
@@ -51,8 +51,9 @@ public class PlayerSide extends StackPane {
 //      }
     }
 
-    public void setCharacter(int character) {
-        this.character.setImage(Config.getCharacters().get(character));
+    public void setPersonage(int personage) {
+        this.personage.setImage(Config.getPersonages().get(personage));
+        this.personage.setStyle("-fx-opacity: 0.5;");
     }
 
     public double getPosX(int x) {

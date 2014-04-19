@@ -4,6 +4,7 @@ package boboPOM.view.main;
 import boboPOM.code.controllers.Controller;
 import boboPOM.code.counters.CounterSet;
 import boboPOM.code.playerside.Model;
+import boboPOM.config.Config;
 import boboPOM.view.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,10 +37,11 @@ public class MainFrame extends StackPane {
         p1.setMainFrame(this);
         p2.setMainFrame(this);
         //test
-        p1.setCharacter(1);
-        p2.setCharacter(7);
+        p1.setPersonage(Config.Royde);
+        p2.setPersonage(Config.Tio);
 
         ImageView bg = new ImageView(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));
+
         bg.setTranslateY(-5);
         Controller c = new Controller();
         c.addHandler(p1);

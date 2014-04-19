@@ -340,7 +340,7 @@ public class Splash {
 
             private ArrayList<Bobo> findKey(Bobo i) {
                 LinkedList<Bobo> list = model.getAllBobo(Bobo.STATE_NORMAL);
-                ArrayList<Bobo> boes = new ArrayList<>();
+                ArrayList<Bobo> boes = new ArrayList<Bobo>();
                 int sum = 0;
                 for (Bobo bi : list) {
                     int c = 0;
@@ -430,6 +430,7 @@ public class Splash {
                 Image im = Config.getEffects().get(8);
                 for (int i = 0; i < 10; i++) {
                     ImageView iv = new ImageView(im);
+                    iv.setStyle("-fx-opacity: 0.5;");
                     iv.setTranslateX(bo.getTranslateX() + bo.getPlayerSide().getTranslateX());
                     iv.setTranslateY(bo.getTranslateY() + bo.getPlayerSide().getTranslateY());
                     iv.setScaleX(iv.getScaleX() - i * 0.1);
@@ -461,6 +462,7 @@ public class Splash {
                     public void handle(Event arg0) {
                         ScaleTransition newSt = newSt(Duration.millis(500), 2, false);
                         ImageView vanishEffect = new ImageView(Config.getEffects().get(16));
+                        vanishEffect.setStyle("-fx-opacity: 0.5;");
                         vanishEffect.setTranslateX(list.get(0).getTranslateX());
                         vanishEffect.setTranslateY(list.get(0).getTranslateY());
                         newSt.setNode(vanishEffect);

@@ -18,7 +18,7 @@ public final class Config {
     private static ArrayList<Image> effects;
     private static ArrayList<ArrayList<Image>> numbers;
     private static ArrayList<Image> backgrounds;
-    private static ArrayList<Image> characters;
+    private static ArrayList<Image> personages;
 
     public static ArrayList<KeyCode> p1Controller, p2Controller;
 
@@ -90,8 +90,8 @@ public final class Config {
         return backgrounds;
     }
 
-    public static ArrayList<Image> getCharacters() {
-        return characters;
+    public static ArrayList<Image> getPersonages() {
+        return personages;
     }
 
     public static int getSCREEN_WIDTH() {
@@ -141,9 +141,9 @@ public final class Config {
         }
 
         //personage
-        characters = new ArrayList<>();
+        personages = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
-            characters.add(new Image(Main.class.getResourceAsStream("resources/images/personage/" + i + ".png")));
+            personages.add(new Image(Main.class.getResourceAsStream("resources/images/personage/" + i + ".png")));
         }
         //effect
         effects = new ArrayList<>();
