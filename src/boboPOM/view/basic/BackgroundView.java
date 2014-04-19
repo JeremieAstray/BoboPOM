@@ -1,4 +1,4 @@
-package boboPOM.view;
+package boboPOM.view.basic;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +10,8 @@ import javafx.scene.layout.Region;
 public class BackgroundView extends Region {
     private ImageView Background = new ImageView();
 
+    private ImageView leftCharacter = new  ImageView();
+
     private ImageView leftCpHundreds = new ImageView(); //百位
     private ImageView leftCpDecade = new ImageView();   //十位
     private ImageView leftCpUnit = new ImageView();     //个位
@@ -18,6 +20,8 @@ public class BackgroundView extends Region {
     private ImageView leftCpProgressBar = new ImageView();
     private ImageView leftLineup = new ImageView();
 
+
+    private ImageView rightCharacter = new  ImageView();
     private ImageView rightCpHundreds = new ImageView();
     private ImageView rightCpDecade = new ImageView();
     private ImageView rightCpUnit = new ImageView();

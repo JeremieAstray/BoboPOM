@@ -31,47 +31,47 @@ public class MainBoboService {
         //初始化主界面波波
         for (int i = 0; i < 16; i++)
             for (int j = 0; j < 7; j++)
-                mainBoboEntity.getMainBobos()[i][j] = Config.NONE;
+                mainBoboEntity.getMainBobos()[i][j] = Config.NULL;
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 7; j++) {
                 int temp = rd.nextInt(101) + 1;
                 if (temp <= 25)
-                    mainBoboEntity.getMainBobos()[i][j] = Config.BLUE;
+                    mainBoboEntity.getMainBobos()[i][j] = Config.TYPE_BLUE;
                 else if (temp <= 50)
-                    mainBoboEntity.getMainBobos()[i][j] = Config.RED;
+                    mainBoboEntity.getMainBobos()[i][j] = Config.TYPE_RED;
                 else if (temp <= 75)
-                    mainBoboEntity.getMainBobos()[i][j] = Config.GREEN;
+                    mainBoboEntity.getMainBobos()[i][j] = Config.TYPE_GREEN;
                 else if (temp <= 100)
-                    mainBoboEntity.getMainBobos()[i][j] = Config.YELLOW;
+                    mainBoboEntity.getMainBobos()[i][j] = Config.TYPE_YELLOW;
                 else
-                    mainBoboEntity.getMainBobos()[i][j] = Config.WHITE;
+                    mainBoboEntity.getMainBobos()[i][j] = Config.TYPE_WHITE;
             }
         //初始化备用波波
         for (int i = 0; i < 7; i++) {
             int temp = rd.nextInt(101) + 1;
             if (temp <= 25)
-                mainBoboEntity.getStandbyMainBobo()[i] = Config.BLUE;
+                mainBoboEntity.getStandbyMainBobo()[i] = Config.TYPE_BLUE;
             else if (temp <= 50)
-                mainBoboEntity.getStandbyMainBobo()[i] = Config.RED;
+                mainBoboEntity.getStandbyMainBobo()[i] = Config.TYPE_RED;
             else if (temp <= 75)
-                mainBoboEntity.getStandbyMainBobo()[i] = Config.GREEN;
+                mainBoboEntity.getStandbyMainBobo()[i] = Config.TYPE_GREEN;
             else if (temp <= 100)
-                mainBoboEntity.getStandbyMainBobo()[i] = Config.YELLOW;
+                mainBoboEntity.getStandbyMainBobo()[i] = Config.TYPE_YELLOW;
             else
-                mainBoboEntity.getStandbyMainBobo()[i] = Config.WHITE;
+                mainBoboEntity.getStandbyMainBobo()[i] = Config.TYPE_WHITE;
         }
 
         //初始玩的备用波波
         for (int i = 0; i < 13; i++) {
             int temp = rd.nextInt(100) + 1;
             if (temp <= 25)
-                mainBoboEntity.getStandbyPlayBobo().add(Config.BLUE);
+                mainBoboEntity.getStandbyPlayBobo().add(Config.TYPE_BLUE);
             else if (temp <= 50)
-                mainBoboEntity.getStandbyPlayBobo().add(Config.RED);
+                mainBoboEntity.getStandbyPlayBobo().add(Config.TYPE_RED);
             else if (temp <= 75)
-                mainBoboEntity.getStandbyPlayBobo().add(Config.GREEN);
+                mainBoboEntity.getStandbyPlayBobo().add(Config.TYPE_GREEN);
             else
-                mainBoboEntity.getStandbyPlayBobo().add(Config.YELLOW);
+                mainBoboEntity.getStandbyPlayBobo().add(Config.TYPE_YELLOW);
         }
     }
 
@@ -98,13 +98,13 @@ public class MainBoboService {
         for (int i = 0; i < 2; i++) {
             int temp = rd.nextInt(100) + 1;
             if (temp <= 25)
-                standbyPlayBobo.add(Config.BLUE);
+                standbyPlayBobo.add(Config.TYPE_BLUE);
             else if (temp <= 50)
-                standbyPlayBobo.add(Config.RED);
+                standbyPlayBobo.add(Config.TYPE_RED);
             else if (temp <= 75)
-                standbyPlayBobo.add(Config.GREEN);
+                standbyPlayBobo.add(Config.TYPE_GREEN);
             else
-                standbyPlayBobo.add(Config.YELLOW);
+                standbyPlayBobo.add(Config.TYPE_YELLOW);
         }
 
         return bobos;

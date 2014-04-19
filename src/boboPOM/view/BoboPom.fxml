@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import boboPOM.view.*?>
-<?import javafx.scene.image.ImageView?>
+<?import boboPOM.view.MainView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane styleClass="" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.Controller">
+<AnchorPane  styleClass="" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.Controller">
     <children>
-        <ImageView fx:id="underBackgroundLeft" />
-        <ImageView fx:id="underBackgroundRight" />
-        <CentreBoboImagesView layoutX="87" layoutY="-24"/>
-        <CentreBoboImagesView layoutX="565" layoutY="-24" />
-        <BrickBoboImageView/>
-        <BrickBoboImageView/>
-        <BoboExtendsView />
-        <BackgroundView fx:id="background" />
-        <BorderBoboImagesView layoutX="19" layoutY="43" />
-        <BorderBoboImagesView layoutX="897" layoutY="43" />
-        <BottomBoboImagesView layoutX="87" layoutY="508" />
-        <BottomBoboImagesView layoutX="565" layoutY="508" />
-        <BoboExtendsView />
-        <SSkill />
+        <MainView fx:id="mainView" />
     </children>
 </AnchorPane>

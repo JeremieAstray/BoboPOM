@@ -1,6 +1,5 @@
 .background {
     -fx-image: url("../images/main.png");
-
     -fx-pref-width: 960;
     -fx-pref-height: 540;
     /*-fx-background-image: url("../images/main.png");

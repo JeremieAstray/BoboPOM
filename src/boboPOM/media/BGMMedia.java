@@ -1,13 +1,17 @@
 package boboPOM.media;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+/**
+ *
+ * @author:feng
+ */
 
 public class BGMMedia {
 
