@@ -79,9 +79,9 @@ public class ControllerTest implements Initializable {
     private Thread tServer;
     private Thread broadcaseServer;
     private Thread broadcaseClient;
-    private BGMMedia musicMedia = new BGMMedia(Config.RESOURCES_PATH+"/BGM");
+    private BGMMedia musicMedia ;//= new BGMMedia(Config.RESOURCES_PATH+"/BGM");
     private int music=0;
-    private EffectMedia effectMedia = new EffectMedia(Config.RESOURCES_PATH + "/effects");
+    private EffectMedia effectMedia; //= new EffectMedia(Config.RESOURCES_PATH + "/effects");
 
     /**
      * @param event

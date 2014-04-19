@@ -12,8 +12,6 @@ import java.util.ArrayList;
  */
 public final class Config {
 
-    public final static String RESOURCES_PATH = Main.class.getResource("resources").toString();
-
     private static ArrayList<ArrayList<Image>> bobosImages;
     private static ArrayList<Image> effects;
     private static ArrayList<ArrayList<Image>> numbers;
@@ -30,28 +28,12 @@ public final class Config {
     public static final int TYPE_GREEN = 3;
     public static final int TYPE_WHITE = 4;
 
-    public static final int STATE_BRICK = 0;
-    public static final int STATE_JUMPING = 1;
-    public static final int STATE_NORMAL = 2;
-    public static final int STATE_VANSHING = 3;
-    public static final int STATE_DROPPING = 4;
-    public static final int STATE_RISING = 5;
-
     public static final int PORT = 7001;//5918
 
     public static final int SCREEN_WIDTH = 960;//pixel
     public static final int SCREEN_HEIGHT = 540;//pixel
-    public static final double UNDER_BACKGROUND_LEFT_X = 48 ;
-    public static final double UNDER_BACKGROUND_RIGHT_X = 526 ;
-    public static final double UNDER_BACKGROUND_Y = -8 ;
 
     public static final Duration ANIMATION_TIME = Duration.millis(40);//ms
-
-    public static final double PLAYBOBO_SPEED = 10;//pixel
-
-    public static final double BORDERBOBO_INTERVAL = 46;//pixel
-    public static final double BOTTOMBOBO_INTERVAL = 44;//pixel
-    public static final double CENTREBOBO_INTERVALX = 44, CENTREBOBO_INTERVALY = 40.4;//pixel
 
 
     public static final int CP_MAX = 999;
