@@ -15,6 +15,7 @@ public class Shadow extends ImageView {
     private PlayerSide parent;
 
     public Shadow(PlayerSide parent) {
+        this.setStyle("-fx-opacity: 0.5;");
         this.parent = parent;
         warning = false;
         setScaleY(2.3);

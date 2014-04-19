@@ -197,6 +197,7 @@ public class Transitions {
         }
         for (int i = 0; i < bobos.size(); i++) {
             ImageView iv = new ImageView(Config.getEffects().get(9));
+            iv.setStyle("-fx-opacity:0.5;");
             iv.setTranslateX(bobos.get(i).getTranslateX());
             iv.setTranslateY(bobos.get(i).getTranslateY());
             ((ScaleTransition) pt.getChildren().get(i)).setNode(iv);
@@ -209,6 +210,7 @@ public class Transitions {
         ParallelTransition pt = (ParallelTransition) Transitions.transitions.get(Animes.CP_SHINNING);
         pt.pause();
         ImageView iv = new ImageView(Config.getEffects().get(13));
+        iv.setStyle("-fx-opacity:0.5;");
         iv.setTranslateX(bo.getTranslateX());
         iv.setTranslateY(bo.getTranslateY());
         ((ScaleTransition) pt.getChildren().get(0)).setNode(iv);
@@ -242,6 +244,7 @@ public class Transitions {
         ArrayList<ImageView> viewList = new ArrayList<>();
         for (int i = 0; i < bobos.size(); i++) {
             ImageView iv = new ImageView(Config.getEffects().get(bobos.get(i).getType() + 12));
+            iv.setStyle("-fx-opacity:0.5;");
             iv.setTranslateX(bobos.get(i).getPlayerSide().getTranslateX() + bobos.get(i).getTranslateX());
             iv.setTranslateY(bobos.get(i).getPlayerSide().getTranslateY() + bobos.get(i).getTranslateY());
             ((ScaleTransition) pt.getChildren().get(i)).setNode(iv);
