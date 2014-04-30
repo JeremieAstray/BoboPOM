@@ -1,7 +1,6 @@
 
 package boboPOM.view.main;
 
-import boboPOM.code.controllers.Controller;
 import boboPOM.code.counters.CounterSet;
 import boboPOM.code.playerside.Model;
 import boboPOM.config.Config;
@@ -36,23 +35,23 @@ public class MainFrame extends StackPane {
         this.p2 = model.getP2();
         p1.setMainFrame(this);
         p2.setMainFrame(this);
-        //test
         p1.setPersonage(Config.Royde);
         p2.setPersonage(Config.Tio);
-
         ImageView bg = new ImageView(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));
-
         bg.setTranslateY(-5);
-        Controller c = new Controller();
-        c.addHandler(p1);
-        c.addHandler(p2);
         this.setFocusTraversable(true);
-        this.getChildren().addAll(c, p1.getPane(), p2.getPane(), bg);
+        this.getChildren().addAll(p1.getPane(), p2.getPane(), bg);
         p1.regSet(this);
         p2.regSet(this);
         p1.getSp().play();
         p2.getSp().play();
-        c.requestFocus();
     }
-   
+
+    public Model getP2() {
+        return p2;
+    }
+
+    public Model getP1() {
+        return p1;
+    }
 }

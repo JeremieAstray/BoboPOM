@@ -2,7 +2,7 @@ package boboPOM.view;
 
 import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.MainModel;
-import boboPOM.code.controllers.Controller;
+import javafx.scene.control.Control;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -11,9 +11,11 @@ import javafx.scene.layout.StackPane;
 public class MainView extends StackPane {
 
     private MainFrame mainFrame;
+    private Control control;
 
     public MainView() {
-        Controller.root = this;
+        control = new MyControl();
+        this.getChildren().addAll(control);
         mainFrame = new MainFrame(new MainModel());
         this.layout();
         this.setTranslateY(6);
@@ -22,4 +24,11 @@ public class MainView extends StackPane {
 
     }
 
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    class MyControl extends Control {
+
+    }
 }

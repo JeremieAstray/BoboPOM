@@ -7,7 +7,7 @@ import boboPOM.view.main.MainModel;
 import boboPOM.view.main.Splash;
 import boboPOM.code.basic.Bobo;
 import boboPOM.code.basic.Brick;
-import boboPOM.code.controllers.OpEvent;
+import boboPOM.controller.OpEvent;
 import boboPOM.code.counters.CounterSet;
 import boboPOM.code.prepareContainer.PrepareSet;
 import javafx.event.EventHandler;

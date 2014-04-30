@@ -1,4 +1,4 @@
-package boboPOM.code.controllers;
+package boboPOM.controller;
 
 import javafx.event.Event;
 import javafx.event.EventType;

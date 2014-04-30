@@ -18,7 +18,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("BoboPomTest.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("BoboPom.fxml"));
         primaryStage.setMaxHeight(Config.SCREEN_HEIGHT + 28);
         primaryStage.setMaxWidth(Config.SCREEN_WIDTH + 6);
         Scene scene = new Scene(root);

@@ -4,6 +4,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane  styleClass="" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.Controller">
     <children>
-        <MainView fx:id="mainView" />
+        <MainView onKeyReleased="#keyRelease" onKeyPressed="#keyPressed" fx:id="mainView" />
     </children>
 </AnchorPane>
