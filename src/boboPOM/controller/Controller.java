@@ -1,7 +1,11 @@
 package boboPOM.controller;
 
 import boboPOM.config.Config;
+import boboPOM.net.MsgQueue;
 import boboPOM.view.MainView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,7 +27,7 @@ public class Controller implements Initializable {
 
     private ArrayList<KeyCode> c1, c2;
     private ArrayList<EventHandler> handlerList;
-
+    private MsgQueue<Object> message;
     @FXML
     private void keyPressed(KeyEvent event) {
         c1Pe(event);
@@ -85,6 +89,21 @@ public class Controller implements Initializable {
         c2.add(KeyCode.NUMPAD0);
         this.addHandler(mainView.getMainFrame().getP1());
         this.addHandler(mainView.getMainFrame().getP2());
+
+        mainView.getMainFrame().getP1().setController(this);
+        if(Config.network) {
+            message = new MsgQueue<>();
+            Timeline timeline = new Timeline();
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    if (!message.isEmpty())
+                        mainView.getMainFrame().getP1().recv(message.recv());
+                }
+            });
+            timeline.getKeyFrames().add(kf);
+            timeline.play();
+        }
     }
 
     private void processEvent(Event e) {
@@ -103,4 +122,7 @@ public class Controller implements Initializable {
         }
     }
 
+    public void send(Object o) {
+        System.out.println(o.toString());
+    }
 }

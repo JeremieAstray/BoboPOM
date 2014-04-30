@@ -18,9 +18,10 @@ public final class Config {
     private static ArrayList<Image> backgrounds;
     private static ArrayList<Image> personages;
 
+
     public static ArrayList<KeyCode> p1Controller, p2Controller;
 
-
+    public static boolean network = false;
     public static final int NULL = -1;
     public static final int TYPE_YELLOW = 0;
     public static final int TYPE_RED = 1;

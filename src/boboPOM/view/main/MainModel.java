@@ -1,22 +1,22 @@
-
 package boboPOM.view.main;
 
 import boboPOM.code.anime.Transitions;
 import boboPOM.code.playerside.Model;
+import boboPOM.config.Config;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import boboPOM.config.Config;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author yorlbgy
  */
 public class MainModel {
 
     private Model p1, p2;
-     private ArrayList<EventHandler> handlerList;
-   private boolean end;
+    private ArrayList<EventHandler> handlerList;
+    private boolean end;
+
     public MainModel() {
         Config.init();
         Transitions.initTransitions();
@@ -31,30 +31,29 @@ public class MainModel {
     public Model getP2() {
         return p2;
     }
-   
-     public void winner(boolean p1){
-        if(p1){
+
+    public void winner(boolean p1) {
+        if (p1) {
             this.p1.setWin(true);
-        }
-        else this.p2.setWin(true);
+        } else this.p2.setWin(true);
         end = true;
     }
-    
-    public void SAtt(boolean p1,int add){
-        if(p1){
+
+    public void SAtt(boolean p1, int add) {
+        if (p1) {
             this.p1.setSBurst(true);
-            this.p1.setBurstAtt(true,add);
-        }
-        else{
+            this.p1.setBurstAtt(true, add);
+        } else {
             this.p2.setSBurst(true);
-            this.p2.setBurstAtt(true,add);
+            this.p2.setBurstAtt(true, add);
         }
     }
 
-    public boolean isEnd(){
+    public boolean isEnd() {
         return end;
     }
-    public void again(){
+
+    public void again() {
         init();
         processEvent(new UpdataEvent("again"));
     }
@@ -66,8 +65,8 @@ public class MainModel {
         p1.setMainModel(this);
         p2.setMainModel(this);
     }
-    
-       private  void processEvent(Event e) {
+
+    private void processEvent(Event e) {
         ArrayList<EventHandler> list;
         synchronized (handlerList) {
             list = (ArrayList<EventHandler>) handlerList.clone();

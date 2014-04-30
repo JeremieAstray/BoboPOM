@@ -2,6 +2,7 @@
 package boboPOM.code.playerside;
 
 import boboPOM.config.Config;
+import boboPOM.controller.Controller;
 import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.MainModel;
 import boboPOM.view.main.Splash;
@@ -381,6 +382,7 @@ public void setSBurst(boolean sb){
     }
 
     public void setWin(boolean win) {
+        controller.send(win);
         if (win) {
             this.getPane().getWol().setImage(Config.getEffects().get(10));
         } else {
@@ -394,6 +396,26 @@ public void setSBurst(boolean sb){
         this.sp.getTimeline().stop();
         if(!win)
         this.getMainModel().winner(!p1);
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    private Controller controller;
+
+    /*
+    这是一个发出信息的示例
+        public void send(){
+            Object o = new Object();//这是你要发出的对象
+            controller.send(o);
+        }
+     */
+
+    public void recv(Object o){
+        //这个是被调用的，每次被调用就会接收到对方发出的对象
+        //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
+
     }
 
 }
