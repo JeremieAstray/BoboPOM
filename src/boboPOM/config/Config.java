@@ -1,11 +1,18 @@
 package boboPOM.config;
 
 import boboPOM.view.Main;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Jeremie on 14-3-4.
@@ -17,7 +24,9 @@ public final class Config {
     private static ArrayList<ArrayList<Image>> numbers;
     private static ArrayList<Image> backgrounds;
     private static ArrayList<Image> personages;
+    private static ArrayList<Image> memuImages;
 
+    private static File stateFile;
 
     public static ArrayList<KeyCode> p1Controller, p2Controller;
 
@@ -35,7 +44,6 @@ public final class Config {
     public static final int SCREEN_HEIGHT = 540;//pixel
 
     public static final Duration ANIMATION_TIME = Duration.millis(40);//ms
-
 
     public static final int CP_MAX = 999;
     public static final int CP_MIN = 0;
@@ -77,6 +85,14 @@ public final class Config {
         return personages;
     }
 
+    public static ArrayList<Image> getMemuImages() {
+        return memuImages;
+    }
+    
+    public static File getStateFile(){
+        return stateFile;
+    }
+
     public static int getSCREEN_WIDTH() {
         return SCREEN_WIDTH;
     }
@@ -90,6 +106,7 @@ public final class Config {
         backgrounds = new ArrayList<>();
         backgrounds.add(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));
         backgrounds.add(new Image(Main.class.getResourceAsStream("resources/images/background/underBackground.png")));
+        backgrounds.add(new Image(Main.class.getResourceAsStream("resources/images/background/main.png")));
         //boboImages
         bobosImages = new ArrayList<>();
         ArrayList<Image> list = new ArrayList<>();
@@ -118,7 +135,7 @@ public final class Config {
             }
             for (int j = 0; j < 8; j++) {
                 list.add(new Image(Main.class.getResourceAsStream("resources/images/bobo/" + type + "/"
-                        +  (j + 1) + ".png")));
+                        + (j + 1) + ".png")));
             }
             bobosImages.add(list);
         }
@@ -160,6 +177,18 @@ public final class Config {
             }
             numbers.add(list);
         }
-
+        //menu
+        memuImages = new ArrayList<Image>();
+        for (int i = 0; i < 5; i++) {
+            memuImages.add(new Image(Main.class.getResourceAsStream("resources/images/"
+                    + "menu/" + i + ".png")));
+        }
+        try {
+            // stateFile
+            stateFile = new File(Main.class.getResource("resources/images/menu"
+                    + "/statement.txt").toURI());
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
     }
 }

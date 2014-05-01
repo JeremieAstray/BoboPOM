@@ -2,7 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane styleClass="background" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.MenuController">
+<?import boboPOM.view.menu.*?>
+<AnchorPane  prefHeight="540" prefWidth="960" styleClass="background" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.MenuController">
     <children>
+        <BaseMenuBar onKeyPressed="#keyChoose" styleClass="menubar"  fx:id="baseMenuBar" />
+        <DialogBox  styleClass="dialogbox"  fx:id="dialogBox" />
     </children>
 </AnchorPane>
