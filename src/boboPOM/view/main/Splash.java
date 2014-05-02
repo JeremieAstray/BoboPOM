@@ -32,6 +32,7 @@ public class Splash {
     public static final int VANISHING = 2;
     public static final int DROPPING = 3;
     public static final int RAISING = 4;
+    public static final int SPECIAL = 5;
 
     private Model model;
     private Timeline timeline;
@@ -42,19 +43,22 @@ public class Splash {
     private double speed = 1.5;
     private int timecounter = 0;
 
-    public Splash(Model model) {
+    public Splash(Model model,boolean network) {
         this.model = model;
-        initTimeline();
+        initTimeline(network);
         level = Level.INIT;
         timeline.setOnFinished(null);
     }
 
-    private void initTimeline() {
+    private void initTimeline(boolean network) {
         timeline = new Timeline();
         timeline.setAutoReverse(false);
         timeline.setCycleCount(Timeline.INDEFINITE);
         arg = 0;
         state = Splash.INITING;
+        
+        if(network) state = Splash.SPECIAL;
+        
         KeyFrame kf = new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             private LinkedList<Bobo> list;
             private Bobo b;
@@ -97,6 +101,10 @@ public class Splash {
 
                 if (state == Splash.RAISING) {
                     raising();
+                }
+                
+                if(state == Splash.SPECIAL){
+                    
                 }
             }
 

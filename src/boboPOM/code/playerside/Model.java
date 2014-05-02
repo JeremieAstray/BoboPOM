@@ -11,11 +11,15 @@ import boboPOM.code.basic.Brick;
 import boboPOM.controller.OpEvent;
 import boboPOM.code.counters.CounterSet;
 import boboPOM.code.prepareContainer.PrepareSet;
+import boboPOM.view.main.UpdataEvent;
+import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.util.LinkedList;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 
 /**
  *
@@ -28,9 +32,6 @@ public class Model implements EventHandler<OpEvent> {
     private Brick brick;
     private int state;
     private int personage;
-    //private brick cache
-    //private list sound;
-    //effect list
     private final CounterSet counterSet;
     private final PrepareSet prepareSet;
     private final PlayerSide pane;
@@ -45,14 +46,14 @@ public class Model implements EventHandler<OpEvent> {
     private int SAtt;
     private MainModel mm;
 
-    public Model(boolean p1) {
+    public Model(boolean p1,boolean network) {
         this.p1 = p1;
         counterSet = new CounterSet(p1);
         prepareSet = new PrepareSet(p1);
         personage = Config.Robozy;
         deep = 0;
         pane = new PlayerSide(p1, personage);
-        sp = new Splash(this);
+        sp = new Splash(this,network);
     }
 
     public boolean isP1() {
@@ -382,7 +383,7 @@ public void setSBurst(boolean sb){
     }
 
     public void setWin(boolean win) {
-        controller.send(win);
+//        controller.send(win);
         if (win) {
             this.getPane().getWol().setImage(Config.getEffects().get(10));
         } else {
@@ -404,18 +405,35 @@ public void setSBurst(boolean sb){
 
     private Controller controller;
 
-    /*
-    这是一个发出信息的示例
+   
+    //这是一个发出信息的示例
         public void send(){
-            Object o = new Object();//这是你要发出的对象
-            controller.send(o);
+            ObservableList<Node> cops = this.pane.getChildren();
+            ObservableList<Node> comf = this.mf.getChildren(); 
+            ArrayList<Node> temp = new ArrayList<>();
+            if(p1)
+            for(Node n : this.mf.getChildren()){
+                if(n.getTranslateX()>=0){
+                    temp.add(n);
+                }
+            }
+            else
+               for(Node n : this.mf.getChildren()){
+                if(n.getTranslateX()<=0){
+                    temp.add(n);
+                }
+            }
+            comf.removeAll(temp);
+            comf.remove(this.pane);
+            controller.send(new UpdataEvent(p1,cops,comf));
         }
-     */
+     
 
     public void recv(Object o){
         //这个是被调用的，每次被调用就会接收到对方发出的对象
         //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
-
+        UpdataEvent ue = (UpdataEvent)o;
+        this.getMainModel().upData(ue);
     }
 
 }

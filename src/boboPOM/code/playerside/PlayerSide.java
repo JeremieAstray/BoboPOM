@@ -44,11 +44,6 @@ public class PlayerSide extends StackPane {
             this.setTranslateX(Config.getSCREEN_WIDTH() / 4);
         }
         this.setTranslateY(-Config.getSCREEN_HEIGHT() / 23);
-
-//         for(int i=0;i<7;i++){
-//          for(int j=0;j<3;j++){
-//          addBobo(new Bobo(this,0,4),i,j);}
-//      }
     }
 
     public void setPersonage(int personage) {

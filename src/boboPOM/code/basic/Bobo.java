@@ -81,9 +81,9 @@ public class Bobo extends ImageView {
             this.vanishEffect = new ImageView(Config.getEffects().get(type + 12));
             if (type == Bobo.TYPE_WHITE) {
                 this.shinningEffect = new ImageView(Config.getEffects().get(9));
+                   shinningEffect.setStyle("-fx-opacity:0.5;");
             }
         }
-        //content.setFitWidth(Config.FIELD_WIDTH/15);
     }
 
     public int getType() {

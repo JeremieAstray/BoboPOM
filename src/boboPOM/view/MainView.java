@@ -16,7 +16,7 @@ public class MainView extends StackPane {
     public MainView() {
         control = new MyControl();
         this.getChildren().addAll(control);
-        mainFrame = new MainFrame(new MainModel());
+        mainFrame = new MainFrame(new MainModel(true,false)); 
         this.layout();
         this.setTranslateY(6);
         mainFrame.getChildren().get(0).requestFocus();

@@ -1,6 +1,5 @@
 package boboPOM.view.main;
 
-import boboPOM.code.anime.Transitions;
 import boboPOM.code.playerside.Model;
 import boboPOM.config.Config;
 import javafx.event.Event;
@@ -17,10 +16,9 @@ public class MainModel {
     private ArrayList<EventHandler> handlerList;
     private boolean end;
 
-    public MainModel() {
+    public MainModel(boolean host,boolean network) {
         Config.init();
-        Transitions.initTransitions();
-        init();
+        init(host,network);
         this.handlerList = new ArrayList<EventHandler>();
     }
 
@@ -35,7 +33,9 @@ public class MainModel {
     public void winner(boolean p1) {
         if (p1) {
             this.p1.setWin(true);
-        } else this.p2.setWin(true);
+        } else {
+            this.p2.setWin(true);
+        }
         end = true;
     }
 
@@ -54,14 +54,29 @@ public class MainModel {
     }
 
     public void again() {
-        init();
-        processEvent(new UpdataEvent("again"));
+      // init();
+        //  processEvent(new UpdataEvent("again"));
     }
 
-    private void init() {
+    public void upData(UpdataEvent ue) {
+        processEvent(ue);
+    }
+
+    private void init(boolean host, boolean network) {
         end = false;
-        p1 = new Model(true);
-        p2 = new Model(false);
+
+        if (network) {
+            if (host) {
+                p1 = new Model(true, false);
+                p2 = new Model(false, true);
+            } else {
+                p1 = new Model(true, true);
+                p2 = new Model(false, false);
+            }
+        } else {
+            p1 = new Model(true, false);
+            p2 = new Model(false, false);
+        }
         p1.setMainModel(this);
         p2.setMainModel(this);
     }
