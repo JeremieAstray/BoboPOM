@@ -3,9 +3,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import boboPOM.view.menu.*?>
+<?import boboPOM.view.menu.mainmenu.*?>
+<?import boboPOM.view.menu.mainmenu.netmenu.*?>
 <AnchorPane  prefHeight="540" prefWidth="960" styleClass="background" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.MenuController">
     <children>
-        <BaseMenuBar onKeyPressed="#keyChoose" styleClass="menubar"  fx:id="baseMenuBar" />
-        <DialogBox  styleClass="dialogbox"  fx:id="dialogBox" />
+        <MainMenuBar onKeyPressed="#MainToNextInKey" onMousePressed="#MainToNextInMouse"   fx:id="mainMenuBar" />
+        <SoloMenuBar  onKeyPressed="#SoloToOtherInKey" onMousePressed="#SoloToOtherInMouse"   fx:id="soloMenuBar" />
+        <NetMenuBar  onKeyPressed="#NetToOtherInKey" onMousePressed="#NetToOtherInMouse"   fx:id="netMenuBar" />
+        <SocketMenu  fx:id="socketMenu"/>
+        <DialogBox onKeyPressed="#DialogNextInKey" onMousePressed="#DialogNextInMouse"   fx:id="dialogBox" />
+        <GameSetting fx:id="gameSetting"/>
+        <ConnectServerMenu onKeyPressed="#ConnectServerToOtherInKey" onMousePressed="#ConnectServerToOtherInMouse"
+                           fx:id="connectServerMenu"/>
+        <PlayerMenu onKeyPressed="#PlayerMenuToOtherInKey" onMousePressed="#PlayerMenuToOtherInMouse"   fx:id="playerMenu"/>
     </children>
 </AnchorPane>

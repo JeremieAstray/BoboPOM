@@ -18,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -25,39 +26,42 @@ import javafx.util.Duration;
  *
  * @author:feng
  */
-public class BaseMenuBar extends Control {
+public class MenuBar extends Control {
 
     private int BWidth;
     private int BHeight;
-    private int nowItemSelected = -1;
-    final private int menuItemHeigth = 50;
-    final private int menuItemWidth = 200;
+    protected int nowItemSelected = -1;
+    final private int menuItemHeigth = 40;
+    private int menuItemWidth = 200;
 
-    private ImageView cursorView;
+    protected ImageView cursorView;
     private ImageView borderView;
-    private Image line;
+    protected Image line;
     private ImageEditor borderEditor;
     private ImageEditor lineEditor;
-    private ArrayList<MenuItem> items;
-    private AnchorPane anchorPane;
-    private VBox vBox;
-    private VBox lineVBox;
+    protected VBox vBox;
 
-    public BaseMenuBar() {
-        this(100, 20);
+    protected KeyFrame keyFrameStar;
+    protected KeyFrame keyFrameEnd;
+    protected Timeline timeline;
+    protected ArrayList<MenuItem> items;
+    protected AnchorPane anchorPane;
+
+    public MenuBar() {
+        this(250, 70, 200);
     }
 
-    public BaseMenuBar(int width, int height) {
+    public MenuBar(int width, int height, int itemWidth) {
         this.BWidth = width;
         this.BHeight = height;
+        this.menuItemWidth = itemWidth;
         init();
     }
 
     private void init() {
         items = new ArrayList<MenuItem>();
         anchorPane = new AnchorPane();
-        vBox = new VBox(5);
-        lineVBox = new VBox(this.menuItemHeigth + 1);
+        vBox = new VBox(0);
 
         Image baseBorder = Config.getMemuImages().get(4);
         Image cursor = Config.getMemuImages().get(0);
@@ -65,21 +69,22 @@ public class BaseMenuBar extends Control {
 
         borderView = new ImageView(baseBorder);
         cursorView = new ImageView(cursor);
-        Timeline timeline = new Timeline();
+        timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.setAutoReverse(true);
-        timeline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO,
-                new KeyValue(cursorView.translateYProperty(), 0)),
-                new KeyFrame(new Duration(300),
-                        new KeyValue(cursorView.translateYProperty(), 10))
-        );
+        keyFrameStar = new KeyFrame(Duration.ZERO,
+                new KeyValue(cursorView.translateYProperty(), 0));
+        keyFrameEnd = new KeyFrame(new Duration(300),
+                new KeyValue(cursorView.translateYProperty(), 10));
+        timeline.getKeyFrames().addAll(keyFrameStar, keyFrameEnd);
         timeline.play();
 
         borderEditor = new ImageEditor(20, 30, 30, 30);
         lineEditor = new ImageEditor(10, 20, 0, 0);
         line = lineEditor.ChangeWidth(line, this.menuItemWidth - 10);
 
-        getAnchorPane().getChildren().addAll(borderView, cursorView, lineVBox, vBox);
+        AnchorPane.setTopAnchor(vBox, Double.valueOf(30));
+        getAnchorPane().getChildren().addAll(borderView, cursorView, vBox);
         updatUI();
 
         this.getChildren().add(getAnchorPane());
@@ -89,52 +94,61 @@ public class BaseMenuBar extends Control {
         Image baseBorder = borderView.getImage();
         baseBorder = borderEditor.ChangeWidth(baseBorder, getBWidth());
         baseBorder = borderEditor.ChangeHeight(baseBorder, getBHeight());
+        BWidth = (int) baseBorder.getWidth();
+        BHeight = (int) baseBorder.getHeight();
         borderView.setImage(baseBorder);
 
         AnchorPane.setLeftAnchor(cursorView, Double.valueOf(this.BWidth / 2
-                - this.menuItemWidth / 2 - 40));
-        AnchorPane.setTopAnchor(cursorView, Double.valueOf(0));
+                - this.menuItemWidth / 2 - 35));
+        AnchorPane.setTopAnchor(cursorView, Double.valueOf(-5));
         AnchorPane.setLeftAnchor(vBox, Double.valueOf(this.BWidth / 2
                 - this.menuItemWidth / 2));
-        AnchorPane.setTopAnchor(lineVBox, Double.valueOf(this.menuItemHeigth + 35));
-        AnchorPane.setLeftAnchor(lineVBox, Double.valueOf(this.BWidth / 2
-                - line.getWidth() / 2));
     }
 
     public void addItem(MenuItem menuItem) {
         menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));
         menuItem.setOnMouseExited(exitMouseEvent(menuItem, items.size() - 1));
-        //menuItem.setOnMousePressed(pressMouseEvent());
         items.add(menuItem);
         ImageView lineView = new ImageView(this.line);
 
-        Image baseBorder = borderView.getImage();
-        baseBorder = borderEditor.AddHeight(baseBorder, this.menuItemHeigth + 1);
-        borderView.setImage(baseBorder);
+        addBHeight(this.menuItemHeigth);
         if (items.size() == 1) {
-            vBox.getChildren().add(items.get(0));
+            AnchorPane ap = new AnchorPane(items.get(0));
+            ap.setMinHeight(this.getMenuItemHeigth());
+            vBox.getChildren().add(ap);
         } else {
-            vBox.getChildren().add(items.get(items.size() - 1));
-            lineVBox.getChildren().add(lineView);
+            AnchorPane ap = new AnchorPane();
+            ap.getChildren().addAll(lineView, items.get(items.size() - 1));
+            AnchorPane.setTopAnchor(lineView, Double.valueOf(-4));
+            ap.setMinHeight(4 + this.getMenuItemHeigth());
+            vBox.getChildren().add(ap);
         }
 
     }
+    
+    protected  void addBHeight(int height){
+        Image baseBorder = borderView.getImage();
+        baseBorder = borderEditor.AddHeight(baseBorder, height);
+        BHeight = (int) baseBorder.getHeight();
+        borderView.setImage(baseBorder);
+    }
 
-    private EventHandler<MouseEvent> enterMouseEvent(MenuItem menuItem, int index) {
+    protected EventHandler<MouseEvent> enterMouseEvent(MenuItem menuItem, int index) {
         return new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent t) {
-                if(nowItemSelected != -1 && nowItemSelected != index){
+                if (nowItemSelected != -1 && nowItemSelected != index) {
                     items.get(nowItemSelected).setBackground(false);
                 }
                 menuItem.setBackground(true);
+                nowItemSelected = index;
                 changeCursorLocation(index);
             }
         };
     }
 
-    private EventHandler<MouseEvent> exitMouseEvent(MenuItem menuItem, int index) {
+    protected EventHandler<MouseEvent> exitMouseEvent(MenuItem menuItem, int index) {
         return new EventHandler<MouseEvent>() {
 
             @Override
@@ -144,9 +158,9 @@ public class BaseMenuBar extends Control {
         };
     }
 
-    private void changeCursorLocation(int index) {
+    protected void changeCursorLocation(int index) {
         AnchorPane.setTopAnchor(cursorView,
-                Double.valueOf(index * (menuItemHeigth + 5) + 10));
+                Double.valueOf(index * (menuItemHeigth + 4)));
     }
 
     public void DealKeyEvent(KeyCode t) {
@@ -168,9 +182,21 @@ public class BaseMenuBar extends Control {
                     nowItemSelected--;
                 }
             }
-            items.get(nowItemSelected).setBackground(true);
             changeCursorLocation(nowItemSelected);
+            items.get(nowItemSelected).setBackground(true);
         }
+    }
+
+    public void reset() {
+        if (nowItemSelected != -1) {
+            items.get(nowItemSelected).setBackground(false);
+            nowItemSelected = -1;
+            changeCursorLocation(0);
+        }
+    }
+
+    public int getSelectedItem() {
+        return nowItemSelected;
     }
 
     public void setSize(int width, int height) {
@@ -213,5 +239,19 @@ public class BaseMenuBar extends Control {
      */
     public AnchorPane getAnchorPane() {
         return anchorPane;
+    }
+
+    /**
+     * @return the menuItemHeigth
+     */
+    public int getMenuItemHeigth() {
+        return menuItemHeigth;
+    }
+
+    /**
+     * @return the menuItemWidth
+     */
+    public int getMenuItemWidth() {
+        return menuItemWidth;
     }
 }

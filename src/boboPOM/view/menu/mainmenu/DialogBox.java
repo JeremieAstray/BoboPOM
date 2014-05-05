@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boboPOM.view.menu;
+package boboPOM.view.menu.mainmenu;
 
 import boboPOM.config.Config;
+import boboPOM.view.menu.ImageEditor;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javafx.animation.AnimationTimer;
@@ -35,16 +36,20 @@ public class DialogBox extends Control {
 
     private StringBuilder tipContent;
     private String content;
-
     private int textIndex;
+    private int numOfChar = 109;
+    private boolean over = false;
+
     private Text text;
     private TextFlow textFlow;
     private ImageView borderView;
     private ImageEditor borderEditor;
     private ImageView subscriptView;
 
+    private Timeline tTimeline;
+
     public DialogBox() {
-        this(Config.SCREEN_WIDTH - 10, 100);
+        this(Config.SCREEN_WIDTH - 50, 140);
     }
 
     public DialogBox(int Width, int Height) {
@@ -57,11 +62,13 @@ public class DialogBox extends Control {
         textIndex = 4;
         tipContent = new StringBuilder();
         getContent();
-        text = new Text("　");
+        System.out.println(content.length());
+        text = new Text(tipContent.toString());
         text.setFill(Color.WHITE);
-        text.setFont(new Font(20));
+        text.setFont(new Font(25));
         textFlow = new TextFlow(text);
-        textFlow.setMaxWidth(this.Width - 10);
+        textFlow.setMaxWidth(this.Width - 20);
+        textFlow.setLineSpacing(10);
 
         Image border = Config.getMemuImages().get(3);
         Image subscript = Config.getMemuImages().get(2);
@@ -80,35 +87,35 @@ public class DialogBox extends Control {
         );
         sTimeline.play();
         setSubscript(false);
-        
-        Timeline tTimeline = new Timeline();
+
+        tTimeline = new Timeline();
 
         tTimeline.setCycleCount(Timeline.INDEFINITE);
-        tTimeline.getKeyFrames().add(new KeyFrame(new Duration(100),
+        tTimeline.getKeyFrames().add(new KeyFrame(new Duration(20),
                 new EventHandler<ActionEvent>() {
 
                     @Override
                     public void handle(ActionEvent t) {
-                        if (textIndex < content.length()) {
+                        if (textIndex < content.length() && textIndex < numOfChar) {
                             tipContent.append(content.charAt(textIndex));
                             text.setText(tipContent.toString());
                             textIndex++;
                         } else {
-                            tTimeline.stop();
+                            gettTimeline().stop();
                             setSubscript(true);
+                            if (textIndex >= content.length()) {
+                                over = true;
+                            }
                         }
                     }
-                },
-                new KeyValue(textFlow.translateXProperty(), 0),
-                new KeyValue(textFlow.translateYProperty(), 0)));
-        tTimeline.play();
-        //timer.start();
+                })
+        );
 
         upDateUI();
 
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.getChildren().addAll(borderView, subscriptView, textFlow);
-        AnchorPane.setTopAnchor(subscriptView, Double.valueOf(this.Height - 5));
+        AnchorPane.setTopAnchor(subscriptView, Double.valueOf(this.Height - 10));
         AnchorPane.setLeftAnchor(subscriptView, Double.valueOf(this.Width / 2
                 - subscript.getWidth() / 2));
         AnchorPane.setTopAnchor(textFlow, Double.valueOf(10));
@@ -140,4 +147,51 @@ public class DialogBox extends Control {
         this.subscriptView.setVisible(appear);
     }
 
+    public void nextContent() {
+        if (textIndex < content.length() && textIndex >= numOfChar) {
+            tipContent.delete(0, tipContent.length());
+            tTimeline.play();
+            subscriptView.setVisible(false);
+            numOfChar += numOfChar;
+        } else if (textIndex >= content.length()) {
+            over = true;
+        }
+    }
+
+    public void clearContent() {
+        over = false;
+        tipContent.delete(0, tipContent.length());
+        text.setText("");
+        subscriptView.setVisible(false);
+        textIndex = 4;
+        numOfChar = 109;
+    }
+
+    /**
+     * @return the Width
+     */
+    public int getDWidth() {
+        return Width;
+    }
+
+    /**
+     * @return the Height
+     */
+    public int getDHeight() {
+        return Height;
+    }
+
+    /**
+     * @return the over
+     */
+    public boolean isOver() {
+        return over;
+    }
+
+    /**
+     * @return the tTimeline
+     */
+    public Timeline gettTimeline() {
+        return tTimeline;
+    }
 }

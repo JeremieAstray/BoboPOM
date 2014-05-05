@@ -5,18 +5,8 @@
  */
 package boboPOM.view.menu;
 
-import boboPOM.config.Config;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -25,7 +15,6 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 /**
  *
@@ -36,24 +25,26 @@ public class MenuItem extends Parent {
     private boolean selected;
     private int IHeigth;
     private int IWidth;
-    private Rectangle rectangle;
-    private Text text;
+    protected Rectangle rectangle;
+    protected Text text;
     private LinearGradient linearGradient;
-    private ImageView cursorView;
-    private StackPane stackPane;
+    protected StackPane stackPane;
 
     public MenuItem(String name, int width, int height) {
-        this.text = new Text(name);
         this.IWidth = width;
         this.IHeigth = height;
+        this.text = new Text(name);
         init();
+    }
 
+    public MenuItem(int width, int height) {
+        this("test", width, height);
+    }
+
+    public MenuItem() {
     }
 
     private void init() {
-        Image cursor = Config.getMemuImages().get(0);
-        cursorView = new ImageView(cursor);
-        
 
         Stop[] stops = new Stop[]{new Stop(0, Color.web("#00BFFF", 0.1)),
             new Stop(0.3, Color.web("#00BFFF", 0.5)),
@@ -86,7 +77,6 @@ public class MenuItem extends Parent {
             this.rectangle.setFill(Color.web("#00BFFF", 0));
         }
     }
-
 
     /**
      * @return the rectangle
@@ -135,5 +125,12 @@ public class MenuItem extends Parent {
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    /**
+     * @return the selected
+     */
+    public boolean isSelected() {
+        return selected;
     }
 }

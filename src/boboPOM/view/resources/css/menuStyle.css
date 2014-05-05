@@ -2,16 +2,3 @@
     -fx-background-image: url("../images/background/main.png");
     -fx-background-repeat: round;
 }
-
-.menubar{
-    -fx-translate-x: 100;
-    -fx-translate-y: 50;
-}
-
-.dialogbox{
-    -fx-translate-x: 0;
-    -fx-translate-y: 400;
-}
-
-
-
