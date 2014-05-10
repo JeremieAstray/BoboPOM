@@ -84,8 +84,10 @@ public class SocketLink implements RunnableFuture {
                 this.waitMsg();
             }
         }catch (IOException e) {
-            e.printStackTrace();
-            status.send("端口被占用");
+            if(!"socket closed".equals(e.getMessage())) {
+                e.printStackTrace();
+                status.send("端口被占用");
+            }
         }
     }
 
@@ -144,7 +146,7 @@ public class SocketLink implements RunnableFuture {
             }else{
                 if (isServer) {
                     server.setSoTimeout(0);
-                    Thread.sleep(50);
+                    Thread.sleep(200);
                     server.close();
                 }
 
@@ -166,6 +168,10 @@ public class SocketLink implements RunnableFuture {
      */
     public void setServer(boolean isServer) {
         this.isServer = isServer;
+    }
+
+    public boolean isServer() {
+        return isServer;
     }
 
     @Override

@@ -270,7 +270,7 @@ public class MenuController implements Initializable {
     }
 
     private void ConnectServerReturn() {
-        if(currentStatus != null)
+        if(currentStatus != null && !socketLink.isServer())
             socketLink.close();
         broadcastSession.setRun(false);
         broadcastListenerTimeline.stop();
