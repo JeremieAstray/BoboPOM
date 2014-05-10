@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boboPOM.view.menu;
+package boboPOM.code.prepareContainer;
 
 import java.util.Stack;
 
@@ -126,7 +126,7 @@ public class BoboProducer {
 
     public static void main(String[] args) {
         BoboProducer boboProducer = new BoboProducer();
-        boboProducer.BoboProduce(5);
+        boboProducer.BoboProduce(10);
     }
 
     public class Point {
