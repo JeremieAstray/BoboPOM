@@ -129,6 +129,10 @@ public class ConnectServerMenu extends MenuBar {
         return true;
     }
 
+    public String getSelectedItemIP(){
+        return ((NetMenuItem)this.items.get(nowItemSelected)).getIPText();
+    }
+
     @Override
     public void reset() {
         super.reset();

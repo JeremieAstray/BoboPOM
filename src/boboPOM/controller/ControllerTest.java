@@ -91,7 +91,7 @@ public class ControllerTest implements Initializable {
     private void click(KeyEvent event) throws IOException {
         //String get = event.getText();
         String get = event.getCode().getName();
-        if (socketLink != null && socketLink.isLinked()) {
+        if (socketLink != null) {
             socketLink.send(get);
         }
     }
@@ -105,14 +105,14 @@ public class ControllerTest implements Initializable {
      */
     @FXML
     private void openSocketServer(ActionEvent event) throws IOException, InterruptedException {
-        socketLink.setServer(true);
+        /*socketLink.setServer(true);
         tClient = null;
         tServer = new Thread(socketLink);
         tServer.start();
         broadcaseTimer = new Timer();
         broadcastSession = new BroadcastSession(Config.PORT, this.broadcaseMsg);
         broadcastSession.setServer(true);
-        broadcaseTimer.schedule(broadcastSession, 1000, 1000);
+        broadcaseTimer.schedule(broadcastSession, 1000, 1000);*/
 
     }
 
@@ -124,10 +124,10 @@ public class ControllerTest implements Initializable {
      */
     @FXML
     private void closeSocketServer(ActionEvent event) throws IOException {
-        broadcaseTimer.cancel();
+       /* broadcaseTimer.cancel();
         if (tServer != null)
             if (socketLink.cancel(true))
-                tServer.interrupt();
+                tServer.interrupt();*/
     }
 
     /**
@@ -137,14 +137,14 @@ public class ControllerTest implements Initializable {
      */
     @FXML
     private void connectSocket(ActionEvent event) {
-        broadcaseTimer.cancel();
+        /*broadcaseTimer.cancel();
         socketLink.setServer(false);
         if (socketLink.getIp() == null)
             socketLink.setIp("localhost");
         tServer = null;
         tClient = new Thread(socketLink);
         tClient.start();
-
+*/
     }
 
     /**
@@ -155,9 +155,9 @@ public class ControllerTest implements Initializable {
      */
     @FXML
     private void disConnectSocket(ActionEvent event) throws IOException {
-        if (tClient != null)
+       /* if (tClient != null)
             if (socketLink.cancel(true))
-                tClient.interrupt();
+                tClient.interrupt();*/
     }
 
     /**
@@ -212,7 +212,7 @@ public class ControllerTest implements Initializable {
 
         initializeModule();
         openClient.setDisable(true);
-
+/*
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
@@ -242,7 +242,7 @@ public class ControllerTest implements Initializable {
         msgQueue = new MsgQueue<String>();
         key = new MsgQueue<String>();
         broadcaseMsg = new MsgQueue<String>();
-        socketLink = new SocketLink(msgQueue, key, Config.PORT);
+        socketLink = new SocketLink(msgQueue, key, Config.PORT);*/
     }
 
     private void initializeModule() {

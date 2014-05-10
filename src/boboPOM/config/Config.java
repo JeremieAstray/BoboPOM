@@ -1,5 +1,6 @@
 package boboPOM.config;
 
+import boboPOM.net.SocketLink;
 import boboPOM.view.Main;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +19,8 @@ import java.util.logging.Logger;
  * Created by Jeremie on 14-3-4.
  */
 public final class Config {
+
+    public static SocketLink socketLink;
 
     private static ArrayList<ArrayList<Image>> bobosImages;
     private static ArrayList<Image> effects;

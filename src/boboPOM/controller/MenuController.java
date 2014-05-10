@@ -8,6 +8,7 @@ package boboPOM.controller;
 import boboPOM.config.Config;
 import boboPOM.net.BroadcastSession;
 import boboPOM.net.MsgQueue;
+import boboPOM.net.SocketLink;
 import boboPOM.view.menu.mainmenu.*;
 import boboPOM.view.menu.mainmenu.netmenu.ConnectServerMenu;
 import boboPOM.view.menu.mainmenu.netmenu.NetMenuBar;
@@ -36,6 +37,11 @@ public class MenuController implements Initializable {
 
     private BroadcastSession broadcastSession;
     private Timeline broadcastListenerTimeline;
+    private MsgQueue<String> status;
+    private MsgQueue<Object> gamesMsg;
+    private String currentStatus =null;
+    private boolean oppositeReady = false;
+    private SocketLink socketLink;
     @FXML
     private MainMenuBar mainMenuBar;
     @FXML
@@ -148,6 +154,7 @@ public class MenuController implements Initializable {
             case 0:
                 openServer();
                 socketMenu.setVisible(true);
+                SocketToNext();
                 break;
             case 1:
                 MsgQueue<String> broadcastmsgs = new MsgQueue<String>();
@@ -188,6 +195,11 @@ public class MenuController implements Initializable {
     }
 
     private String openServer() {
+        status = new MsgQueue<String>();
+        gamesMsg = new MsgQueue<>();
+        socketLink = new SocketLink(status,gamesMsg,Config.PORT);
+        Thread socketLinkThread = new Thread(socketLink);
+        socketLinkThread.start();
         broadcastSession = new BroadcastSession(Config.PORT);
         Thread broadcastSessionThread = new Thread(broadcastSession);
         broadcastSessionThread.start();
@@ -215,7 +227,7 @@ public class MenuController implements Initializable {
     @FXML
     private void ConnectServerToOtherInKey(KeyEvent e) {
         if (e.getCode() == KeyCode.K) {
-            ConnectServerToNext();
+            ConnectServerToNext(connectServerMenu.getSelectedItemIP());
         } else if (e.getCode() == KeyCode.J) {
             ConnectServerReturn();
         } else {
@@ -226,18 +238,40 @@ public class MenuController implements Initializable {
     @FXML
     private void ConnectServerToOtherInMouse(MouseEvent e) {
         if (e.isPrimaryButtonDown()) {
-            ConnectServerToNext();
+            ConnectServerToNext(connectServerMenu.getSelectedItemIP());
         } else if (e.isSecondaryButtonDown()) {
             ConnectServerReturn();
         }
     }
 
-    private void ConnectServerToNext() {
-        connectServerMenu.setVisible(false);
-        playerMenu.setVisible(true);
+    private void ConnectServerToNext(String ip) {
+        status = new MsgQueue<String>();
+        gamesMsg = new MsgQueue<>();
+        socketLink = new SocketLink(status,gamesMsg,Config.PORT,ip);
+        Thread socketLinkThread = new Thread(socketLink);
+        socketLinkThread.start();
+
+        Timeline ConnectServerListenerTimeline = new Timeline();
+        ConnectServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                if (!status.isEmpty()) {
+                    String recv = status.recv();
+                    if("连接成功".equals(recv)){
+                        connectServerMenu.setVisible(false);
+                        playerMenu.setVisible(true);
+                        currentStatus = recv;
+                    }
+                }
+            }
+        });
+        ConnectServerListenerTimeline.getKeyFrames().add(kf);
+        ConnectServerListenerTimeline.play();
     }
 
     private void ConnectServerReturn() {
+        if(currentStatus != null)
+            socketLink.close();
         broadcastSession.setRun(false);
         broadcastListenerTimeline.stop();
         connectServerMenu.setVisible(false);
@@ -249,8 +283,6 @@ public class MenuController implements Initializable {
     private void SocketToOtherInKey(KeyEvent e) {
         if (e.getCode() == KeyCode.J) {
             SocketReturn();
-        } else if (e.getCode() == KeyCode.K) {
-            SocketToNext();
         }
     }
 
@@ -258,24 +290,41 @@ public class MenuController implements Initializable {
     private void SocketToOtherInMouse(MouseEvent e) {
         if (e.isSecondaryButtonDown()) {
             SocketReturn();
-        } else if (e.isPrimaryButtonDown()) {
-            SocketToNext();
         }
     }
 
     private void SocketReturn() {
-        if (!socketMenu.isConnected()) {
-            socketMenu.setVisible(false);
-            netMenuBar.setVisible(true);
-        }
+        socketMenu.setVisible(false);
+        netMenuBar.setVisible(true);
         broadcastSession.setRun(false);
+        socketLink.close();
     }
 
     private void SocketToNext() {
-        if (socketMenu.isConnected()) {
-            socketMenu.setVisible(false);
-            playerMenu.setVisible(true);
-        }
+        Timeline ServerListenerTimeline = new Timeline();
+        ServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                if (!status.isEmpty()) {
+                    String recv = status.recv();
+                    if("连接成功".equals(recv)){
+                        currentStatus = recv;
+                        socketMenu.setVisible(false);
+                        playerMenu.setVisible(true);
+                    } else if("连接断开".equals(recv)){
+                        currentStatus = recv;
+                        playerMenu.setVisible(false);
+                        netMenuBar.setVisible(true);
+
+                    } else if("端口被占用".equals(recv)){
+                        currentStatus = recv;
+
+                    }
+                }
+            }
+        });
+        ServerListenerTimeline.getKeyFrames().add(kf);
+        ServerListenerTimeline.play();
     }
 
     @FXML
@@ -344,10 +393,13 @@ public class MenuController implements Initializable {
     }
 
     private void PlayerMenuToNext() {
-
+        socketLink.send("ready");
     }
 
     private void PlayerMenuReturn() {
+        broadcastSession.setRun(false);
+        socketLink.close();
+        broadcastListenerTimeline.stop();
         playerMenu.setVisible(false);
         playerMenu.reset();
         netMenuBar.setVisible(true);
