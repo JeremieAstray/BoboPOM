@@ -62,10 +62,9 @@ public class DialogBox extends Control {
         textIndex = 4;
         tipContent = new StringBuilder();
         getContent();
-        System.out.println(content.length());
         text = new Text(tipContent.toString());
         text.setFill(Color.WHITE);
-        text.setFont(new Font(25));
+        text.setFont(new Font("宋体",25));
         textFlow = new TextFlow(text);
         textFlow.setMaxWidth(this.Width - 20);
         textFlow.setLineSpacing(10);

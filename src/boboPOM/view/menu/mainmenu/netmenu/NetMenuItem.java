@@ -33,12 +33,17 @@ public class NetMenuItem extends MenuItem {
         new Text("可连接"), new Text("已连接")
     };
     private boolean connected;
+    private StackPane statusStackPane;
+
 
     public NetMenuItem(int width, int height, String IP, boolean connected) {
         super(width, height);
         this.connected = connected;
         IPText = new Text(IP);
         init();
+    }
+    public NetMenuItem(String IP, boolean connected){
+        this(300, 40, IP, connected);
     }
 
     public NetMenuItem() {
@@ -62,7 +67,7 @@ public class NetMenuItem extends MenuItem {
             index = 0;
         }
 
-        StackPane statusStackPane = new StackPane(StatusText[index]);
+        statusStackPane = new StackPane(StatusText[index]);
         statusStackPane.setAlignment(StatusText[index], Pos.CENTER_RIGHT);
         statusStackPane.setMinSize(80, this.getIHeigth());
         ImageEditor imageEditor = new ImageEditor(0, 0, 0, 0);
@@ -88,5 +93,18 @@ public class NetMenuItem extends MenuItem {
         //this.setBackground(true);
 
         this.getChildren().add(gridPane);
+    }
+    public void setConnected(boolean connected){
+        this.connected = connected;
+        statusStackPane.getChildren().remove(0);
+        statusStackPane.getChildren().add(StatusText[this.connected ? 0 : 1]);
+    }
+
+    public String getIPText() {
+        return IPText.getText();
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }

@@ -17,25 +17,27 @@ import java.util.concurrent.TimeoutException;
 public class SocketLink implements RunnableFuture {
 
 
+    private boolean run = true;
+    private boolean playgames = false;
     private int port;
     private String ip;
     private ServerSocket server;
     private Socket client;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private MsgQueue<String> msgQueue;
-    private MsgQueue<Object> key;
+    private MsgQueue<String> status;
+    private MsgQueue<Object> gamesMsg;
     private boolean isServer;
 
 
     /**
-     * @param msgQueue
-     * @param key
+     * @param status
+     * @param gamesMsg
      * @param port
      */
-    public SocketLink(MsgQueue msgQueue, MsgQueue key, int port) {
-        this.msgQueue = msgQueue;
-        this.key = key;
+    public SocketLink(MsgQueue status, MsgQueue gamesMsg, int port) {
+        this.status = status;
+        this.gamesMsg = gamesMsg;
         this.port = port;
         isServer = false;
     }
@@ -47,7 +49,7 @@ public class SocketLink implements RunnableFuture {
     public void run() {
         try {
             if (isServer) {
-                msgQueue.send("等待连接中");
+                status.send("等待连接中");
                 server = new ServerSocket(port);
                 client = server.accept();
                 System.out.println(server);
@@ -61,7 +63,7 @@ public class SocketLink implements RunnableFuture {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            msgQueue.send("端口被占用");
+            status.send("端口被占用");
             isServer = false;
         }
 
@@ -72,19 +74,26 @@ public class SocketLink implements RunnableFuture {
      */
     private void waitMsg() {
         try {
+            boolean flag = false;
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
-            msgQueue.send("连接成功");
-            while (true) {
-                Object o = null;
-                o = in.readObject();
-                if (o != null)
-                    key.send(o);
-                else {
-                    if (!client.isClosed())
-                        out.writeObject(null);
-                    in.close();
-                    msgQueue.send("连接断开");
+            status.send("连接成功");
+            while (run) {
+                while(playgames) {
+                    Object o = null;
+                    o = in.readObject();
+                    if (o != null)
+                        gamesMsg.send(o);
+                    else {
+                        if (!client.isClosed())
+                            out.writeObject(null);
+                        in.close();
+                        status.send("连接断开");
+                        flag = true;
+                        break;
+                    }
+                }
+                if(flag){
                     break;
                 }
             }
@@ -98,11 +107,11 @@ public class SocketLink implements RunnableFuture {
     /**
      * 向对方发送数据
      *
-     * @param key
+     * @param gamesMsg
      */
-    public void send(Object key) {
+    public void send(Object gamesMsg) {
         try {
-            out.writeObject(key);
+            out.writeObject(gamesMsg);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,7 +135,7 @@ public class SocketLink implements RunnableFuture {
                     server.close();
                 }
             }
-            msgQueue.send("连接断开");
+            status.send("连接断开");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,9 +149,8 @@ public class SocketLink implements RunnableFuture {
         return client != null && !client.isClosed();
     }
 
-
-    public MsgQueue<Object> getKey() {
-        return key;
+    public MsgQueue<Object> getGamesMsg() {
+        return gamesMsg;
     }
 
     /**

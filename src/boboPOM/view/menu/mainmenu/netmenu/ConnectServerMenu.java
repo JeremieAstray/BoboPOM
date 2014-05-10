@@ -84,23 +84,10 @@ public class ConnectServerMenu extends MenuBar {
         anchorPane.getChildren().remove(vBox);
         anchorPane.getChildren().remove(cursorView);
         anchorPane.getChildren().addAll(gridPane, scrollPane);
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());
 
     }
 
-//    @Override
+    //    @Override
 //    protected void changeCursorLocation(int index) {
 //        AnchorPane.setTopAnchor(cursorView,
 //                Double.valueOf(index * (this.getMenuItemHeigth() + 4)
@@ -108,22 +95,43 @@ public class ConnectServerMenu extends MenuBar {
 //    }
     @Override
     public void addItem(MenuItem menuItem) {
-        menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));
-        menuItem.setOnMouseExited(exitMouseEvent(menuItem, items.size() - 1));
-        items.add(menuItem);
-        ImageView lineView = new ImageView(this.line);
+        if (isAdd(menuItem)) {
+            menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));
+            menuItem.setOnMouseExited(exitMouseEvent(menuItem, items.size() - 1));
+            items.add(menuItem);
+            ImageView lineView = new ImageView(this.line);
 
-        if (items.size() == 1) {
-            AnchorPane ap = new AnchorPane(items.get(0));
-            ap.setMinHeight(this.getMenuItemHeigth());
-            vBox.getChildren().add(ap);
-        } else {
-            AnchorPane ap = new AnchorPane();
-            ap.getChildren().addAll(lineView, items.get(items.size() - 1));
-            AnchorPane.setTopAnchor(lineView, Double.valueOf(-4));
-            ap.setMinHeight(4 + this.getMenuItemHeigth());
-            vBox.getChildren().add(ap);
+            if (items.size() == 1) {
+                AnchorPane ap = new AnchorPane(items.get(0));
+                ap.setMinHeight(this.getMenuItemHeigth());
+                vBox.getChildren().add(ap);
+            } else {
+                AnchorPane ap = new AnchorPane();
+                ap.getChildren().addAll(lineView, items.get(items.size() - 1));
+                AnchorPane.setTopAnchor(lineView, Double.valueOf(-4));
+                ap.setMinHeight(4 + this.getMenuItemHeigth());
+                vBox.getChildren().add(ap);
+            }
         }
     }
 
+    private boolean isAdd(MenuItem netMenuItem) {
+        NetMenuItem menuItem = null;
+        NetMenuItem menuItem2 = (NetMenuItem) netMenuItem;
+        for (int i = 0; i < this.items.size(); i++) {
+            menuItem = (NetMenuItem) this.items.get(i);
+            if (menuItem.getIPText().equals(menuItem2.getIPText())) {
+                if (menuItem.isConnected() == menuItem2.isConnected()) {
+                    return false;
+                } else return true;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        this.items.clear();
+    }
 }

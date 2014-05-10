@@ -6,30 +6,36 @@
 package boboPOM.controller;
 
 import boboPOM.config.Config;
-import boboPOM.view.menu.mainmenu.DialogBox;
-import boboPOM.view.menu.mainmenu.GameSetting;
-import boboPOM.view.menu.mainmenu.MainMenuBar;
-import boboPOM.view.menu.mainmenu.PlayerMenu;
-import boboPOM.view.menu.mainmenu.SoloMenuBar;
+import boboPOM.net.BroadcastSession;
+import boboPOM.net.MsgQueue;
+import boboPOM.view.menu.mainmenu.*;
 import boboPOM.view.menu.mainmenu.netmenu.ConnectServerMenu;
 import boboPOM.view.menu.mainmenu.netmenu.NetMenuBar;
 import boboPOM.view.menu.mainmenu.netmenu.NetMenuItem;
 import boboPOM.view.menu.mainmenu.netmenu.SocketMenu;
-
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ResourceBundle;
+
 /**
- *
  * @author:feng
  */
 public class MenuController implements Initializable {
 
+
+    private BroadcastSession broadcastSession;
+    private Timeline broadcastListenerTimeline;
     @FXML
     private MainMenuBar mainMenuBar;
     @FXML
@@ -137,15 +143,67 @@ public class MenuController implements Initializable {
     }
 
     private void NetToNext() {
+
         switch (netMenuBar.getSelectedItem()) {
             case 0:
+                openServer();
                 socketMenu.setVisible(true);
                 break;
             case 1:
+                MsgQueue<String> broadcastmsgs = new MsgQueue<String>();
+                connectServer(broadcastmsgs);
+                broadcastListenerTimeline = new Timeline();
+                broadcastListenerTimeline.setCycleCount(Timeline.INDEFINITE);
+                KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent event) {
+                        boolean flag = false;
+                        if (!broadcastmsgs.isEmpty()) {
+                            flag = true;
+                            String recv = broadcastmsgs.recv();
+                            String[] recvs = recv.split(" ");
+                            boolean connected = false;
+                            if (recvs.length != 2)
+                                flag = false;
+                            else if ("notconnected".equals(recvs[1]))
+                                connected = false;
+                            else if ("isconnected".equals(recvs[1]))
+                                connected = true;
+                            else
+                                flag = false;
+                            if (flag) {
+                                NetMenuItem netMenuItem = new NetMenuItem(recvs[0], connected);
+                                connectServerMenu.addItem(netMenuItem);
+                            }else{
+                                System.err.println(recv);
+                            }
+                        }
+                    }
+                });
+                broadcastListenerTimeline.getKeyFrames().add(kf);
+                broadcastListenerTimeline.play();
                 connectServerMenu.setVisible(true);
                 break;
         }
         netMenuBar.setVisible(false);
+    }
+
+    private String openServer() {
+        broadcastSession = new BroadcastSession(Config.PORT);
+        Thread broadcastSessionThread = new Thread(broadcastSession);
+        broadcastSessionThread.start();
+        String ip = null;
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return ip;
+    }
+
+    private void connectServer(MsgQueue<String> broadcastmsgs) {
+        broadcastSession = new BroadcastSession(Config.PORT, broadcastmsgs);
+        Thread broadcastSessionThread = new Thread(broadcastSession);
+        broadcastSessionThread.start();
     }
 
     private void NetReturn() {
@@ -180,41 +238,46 @@ public class MenuController implements Initializable {
     }
 
     private void ConnectServerReturn() {
+        broadcastSession.setRun(false);
+        broadcastListenerTimeline.stop();
         connectServerMenu.setVisible(false);
         connectServerMenu.reset();
         netMenuBar.setVisible(true);
     }
 
     @FXML
-    private void SocketToOtherInKey(KeyEvent e){
-        if(e.getCode() == KeyCode.J){
+    private void SocketToOtherInKey(KeyEvent e) {
+        if (e.getCode() == KeyCode.J) {
             SocketReturn();
-        } else if(e.getCode() == KeyCode.K){
+        } else if (e.getCode() == KeyCode.K) {
             SocketToNext();
         }
     }
-    @FXML 
-    private void SocketToOtherInMouse(MouseEvent e){
-        if(e.isSecondaryButtonDown()){
+
+    @FXML
+    private void SocketToOtherInMouse(MouseEvent e) {
+        if (e.isSecondaryButtonDown()) {
             SocketReturn();
-        } else if(e.isPrimaryButtonDown()){
+        } else if (e.isPrimaryButtonDown()) {
             SocketToNext();
         }
     }
-    
-    private void SocketReturn(){
-        if(!socketMenu.isConnected()){
+
+    private void SocketReturn() {
+        if (!socketMenu.isConnected()) {
             socketMenu.setVisible(false);
             netMenuBar.setVisible(true);
         }
+        broadcastSession.setRun(false);
     }
-    private void SocketToNext(){
-        if(socketMenu.isConnected()){
+
+    private void SocketToNext() {
+        if (socketMenu.isConnected()) {
             socketMenu.setVisible(false);
             playerMenu.setVisible(true);
         }
     }
-    
+
     @FXML
     private void DialogNextInKey(KeyEvent e) {
         if (e.getCode() == KeyCode.K) {
