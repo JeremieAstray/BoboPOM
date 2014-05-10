@@ -10,11 +10,11 @@
         <MainMenuBar onKeyPressed="#MainToNextInKey" onMousePressed="#MainToNextInMouse"   fx:id="mainMenuBar" />
         <SoloMenuBar  onKeyPressed="#SoloToOtherInKey" onMousePressed="#SoloToOtherInMouse"   fx:id="soloMenuBar" />
         <NetMenuBar  onKeyPressed="#NetToOtherInKey" onMousePressed="#NetToOtherInMouse"   fx:id="netMenuBar" />
-        <SocketMenu  fx:id="socketMenu"/>
-        <DialogBox onKeyPressed="#DialogNextInKey" onMousePressed="#DialogNextInMouse"   fx:id="dialogBox" />
-        <GameSetting fx:id="gameSetting"/>
         <ConnectServerMenu onKeyPressed="#ConnectServerToOtherInKey" onMousePressed="#ConnectServerToOtherInMouse"
-                           fx:id="connectServerMenu"/>
+                                   fx:id="connectServerMenu"/>
+        <SocketMenu onKeyPressed="#SocketToOtherInKey" onMousePressed="#SocketToOtherInMouse"  fx:id="socketMenu"/>
+        <DialogBox onKeyPressed="#DialogNextInKey" onMousePressed="#DialogNextInMouse"   fx:id="dialogBox" />
+        <GameSetting onKeyPressed="#PlayerMenuToOtherInKey" onMousePressed="#GameSettingReturnInMouse"  fx:id="gameSetting"/>
         <PlayerMenu onKeyPressed="#PlayerMenuToOtherInKey" onMousePressed="#PlayerMenuToOtherInMouse"   fx:id="playerMenu"/>
     </children>
 </AnchorPane>

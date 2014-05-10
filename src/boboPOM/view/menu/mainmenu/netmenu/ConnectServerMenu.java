@@ -72,7 +72,6 @@ public class ConnectServerMenu extends MenuBar {
         scrollPane.setStyle("-fx-background-color: transparent;-fx-border-color: transparent;");
         scrollPane.setMinSize(this.getMenuItemWidth() + 40, this.CHeight - 100);
 
-
         AnchorPane.setTopAnchor(gridPane, Double.valueOf(30));
         AnchorPane.setLeftAnchor(gridPane, Double.valueOf(this.getBWidth() / 2
                 - this.getMenuItemWidth() / 2));
@@ -94,9 +93,10 @@ public class ConnectServerMenu extends MenuBar {
         this.addItem(new NetMenuItem());
         this.addItem(new NetMenuItem());
         this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem());this.addItem(new NetMenuItem());this.addItem(new NetMenuItem());
         this.addItem(new NetMenuItem());
-
+        this.addItem(new NetMenuItem());
+        this.addItem(new NetMenuItem());
+        this.addItem(new NetMenuItem());
 
     }
 
@@ -106,7 +106,6 @@ public class ConnectServerMenu extends MenuBar {
 //                Double.valueOf(index * (this.getMenuItemHeigth() + 4)
 //                        + this.getMenuItemHeigth()));
 //    }
-
     @Override
     public void addItem(MenuItem menuItem) {
         menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));

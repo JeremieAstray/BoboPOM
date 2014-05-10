@@ -12,6 +12,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
+import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,7 +27,7 @@ import javafx.util.Duration;
  *
  * @author:feng
  */
-public class SocketMenu extends Parent {
+public class SocketMenu extends Control {
     private int SWidth;
     private int SHeight;
     
@@ -91,7 +92,7 @@ public class SocketMenu extends Parent {
 
                     @Override
                     public void handle(ActionEvent t) {
-                        if (!connected) {
+                        if (!isConnected()) {
                             if (spotTime < spotMaxTime) {
                                 wait.append('.');
                                 spotTime++;
@@ -144,5 +145,12 @@ public class SocketMenu extends Parent {
      */
     public int getSHeight() {
         return SHeight;
+    }
+
+    /**
+     * @return the connected
+     */
+    public boolean isConnected() {
+        return connected;
     }
 }

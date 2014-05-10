@@ -76,12 +76,44 @@ public class MenuController implements Initializable {
                 dialogBox.gettTimeline().play();
                 break;
             case 3:
+                gameSetting.setVisible(true);
                 break;
             case 4:
                 System.exit(1);
                 break;
         }
         mainMenuBar.setVisible(false);
+    }
+
+    @FXML
+    private void SoloToOtherInKey(KeyEvent e) {
+        if (e.getCode() == KeyCode.K) {
+            SoloToNext();
+        } else if (e.getCode() == KeyCode.J) {
+            SoloReturn();
+        } else {
+            soloMenuBar.DealKeyEvent(e.getCode());
+            soloMenuBar.Deal2PKeyEvent(e.getCode());
+        }
+    }
+
+    @FXML
+    private void SoloToOtherInMouse(MouseEvent e) {
+        if (e.isPrimaryButtonDown()) {
+            SoloToNext();
+        } else if (e.isSecondaryButtonDown()) {
+            SoloReturn();
+        }
+    }
+
+    private void SoloToNext() {
+
+    }
+
+    private void SoloReturn() {
+        soloMenuBar.setVisible(false);
+        soloMenuBar.reset();
+        mainMenuBar.setVisible(true);
     }
 
     @FXML
@@ -123,63 +155,6 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    private void DialogNextInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.K) {
-            dialogBox.nextContent();
-        } else if (e.getCode() == KeyCode.J) {
-            DialogReturn();
-        }
-    }
-
-    @FXML
-    private void DialogNextInMouse(MouseEvent e) {
-        if (e.isPrimaryButtonDown()) {
-            dialogBox.nextContent();
-        } else if (e.isSecondaryButtonDown()) {
-            DialogReturn();
-        }
-    }
-
-    private void DialogReturn() {
-        if (dialogBox.isOver()) {
-            dialogBox.setVisible(false);
-            dialogBox.clearContent();
-            mainMenuBar.setVisible(true);
-        }
-    }
-
-    @FXML
-    private void SoloToOtherInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.K) {
-            SoloToNext();
-        } else if (e.getCode() == KeyCode.J) {
-            SoloReturn();
-        } else {
-            soloMenuBar.DealKeyEvent(e.getCode());
-            soloMenuBar.Deal2PKeyEvent(e.getCode());
-        }
-    }
-
-    @FXML
-    private void SoloToOtherInMouse(MouseEvent e) {
-        if (e.isPrimaryButtonDown()) {
-            SoloToNext();
-        } else if (e.isSecondaryButtonDown()) {
-            SoloReturn();
-        }
-    }
-
-    private void SoloToNext() {
-
-    }
-
-    private void SoloReturn() {
-        soloMenuBar.setVisible(false);
-        soloMenuBar.reset();
-        mainMenuBar.setVisible(true);
-    }
-
-    @FXML
     private void ConnectServerToOtherInKey(KeyEvent e) {
         if (e.getCode() == KeyCode.K) {
             ConnectServerToNext();
@@ -209,31 +184,107 @@ public class MenuController implements Initializable {
         connectServerMenu.reset();
         netMenuBar.setVisible(true);
     }
+
+    @FXML
+    private void SocketToOtherInKey(KeyEvent e){
+        if(e.getCode() == KeyCode.J){
+            SocketReturn();
+        } else if(e.getCode() == KeyCode.K){
+            SocketToNext();
+        }
+    }
+    @FXML 
+    private void SocketToOtherInMouse(MouseEvent e){
+        if(e.isSecondaryButtonDown()){
+            SocketReturn();
+        } else if(e.isPrimaryButtonDown()){
+            SocketToNext();
+        }
+    }
+    
+    private void SocketReturn(){
+        if(!socketMenu.isConnected()){
+            socketMenu.setVisible(false);
+            netMenuBar.setVisible(true);
+        }
+    }
+    private void SocketToNext(){
+        if(socketMenu.isConnected()){
+            socketMenu.setVisible(false);
+            playerMenu.setVisible(true);
+        }
+    }
     
     @FXML
-    private void PlayerMenuToOtherInKey(KeyEvent e){
-        if(e.getCode() == KeyCode.K){
+    private void DialogNextInKey(KeyEvent e) {
+        if (e.getCode() == KeyCode.K) {
+            dialogBox.nextContent();
+        } else if (e.getCode() == KeyCode.J) {
+            DialogReturn();
+        }
+    }
+
+    @FXML
+    private void DialogNextInMouse(MouseEvent e) {
+        if (e.isPrimaryButtonDown()) {
+            dialogBox.nextContent();
+        } else if (e.isSecondaryButtonDown()) {
+            DialogReturn();
+        }
+    }
+
+    private void DialogReturn() {
+        if (dialogBox.isOver()) {
+            dialogBox.setVisible(false);
+            dialogBox.clearContent();
+            mainMenuBar.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void GameSettingReturnInKey(KeyEvent e) {
+        if (e.getCode() == KeyCode.J) {
+            GameSettingReturn();
+        }
+    }
+
+    @FXML
+    private void GameSettingReturnInMouse(MouseEvent e) {
+        if (e.isSecondaryButtonDown()) {
+            GameSettingReturn();
+        }
+    }
+
+    private void GameSettingReturn() {
+        gameSetting.setVisible(false);
+        mainMenuBar.setVisible(true);
+    }
+
+    @FXML
+    private void PlayerMenuToOtherInKey(KeyEvent e) {
+        if (e.getCode() == KeyCode.K) {
             PlayerMenuToNext();
-        } else if(e.getCode() == KeyCode.J){
+        } else if (e.getCode() == KeyCode.J) {
             PlayerMenuReturn();
-        } else{
+        } else {
             playerMenu.DealKeyEvent(e.getCode());
         }
     }
+
     @FXML
-    private void PlayerMenuToOtherInMouse(MouseEvent e){
-        if(e.isPrimaryButtonDown()){
+    private void PlayerMenuToOtherInMouse(MouseEvent e) {
+        if (e.isPrimaryButtonDown()) {
             PlayerMenuToNext();
-        } else if(e.isSecondaryButtonDown()){
+        } else if (e.isSecondaryButtonDown()) {
             PlayerMenuReturn();
         }
     }
-    
-    private void PlayerMenuToNext(){
-        
+
+    private void PlayerMenuToNext() {
+
     }
-    
-    private void PlayerMenuReturn(){
+
+    private void PlayerMenuReturn() {
         playerMenu.setVisible(false);
         playerMenu.reset();
         netMenuBar.setVisible(true);
@@ -248,6 +299,7 @@ public class MenuController implements Initializable {
         dialogBox.setVisible(false);
         gameSetting.setVisible(false);
         playerMenu.setVisible(false);
+        //mainMenuBar.setVisible(false);
 
         int width = Config.getSCREEN_WIDTH() / 2;
         int height = Config.getSCREEN_HEIGHT() / 2;
@@ -260,18 +312,18 @@ public class MenuController implements Initializable {
 
         netMenuBar.setTranslateX(width - netMenuBar.getBWidth() / 2);
         netMenuBar.setTranslateY(height - netMenuBar.getBHeight() / 2);
+
         socketMenu.setTranslateX(width - socketMenu.getSWidth() / 2);
         socketMenu.setTranslateY(height - socketMenu.getSHeight() / 2);
+
+        connectServerMenu.setTranslateX(width - connectServerMenu.getBWidth() / 2);
+        connectServerMenu.setTranslateY(height - connectServerMenu.getBHeight() / 2);
 
         dialogBox.setTranslateX(width - dialogBox.getDWidth() / 2);
         dialogBox.setTranslateY(height * 2 - dialogBox.getDHeight() - 30);
 
-        gameSetting.setTranslateX(100);
-        gameSetting.setTranslateY(100);
-
-        //mainMenuBar.setVisible(false);
-        connectServerMenu.setTranslateX(width - connectServerMenu.getBWidth() / 2);
-        connectServerMenu.setTranslateY(height - connectServerMenu.getBHeight() / 2);
+        gameSetting.setTranslateX(width - gameSetting.getGWidth() / 2);
+        gameSetting.setTranslateY(height - gameSetting.getGHeight() / 2);
 
         playerMenu.setTranslateX(width - playerMenu.getBWidth() / 2);
         playerMenu.setTranslateY(height - playerMenu.getBHeight() / 2);
