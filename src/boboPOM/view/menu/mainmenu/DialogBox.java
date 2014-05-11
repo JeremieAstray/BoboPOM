@@ -103,7 +103,7 @@ public class DialogBox extends Control {
                             gettTimeline().stop();
                             setSubscript(true);
                             if (textIndex >= content.length()) {
-                                over = true;
+                                setOver(true);
                             }
                         }
                     }
@@ -132,7 +132,7 @@ public class DialogBox extends Control {
     private void getContent() {
         content = null;
         try {
-            Scanner input = new Scanner(Config.getStateFile());
+            Scanner input = new Scanner(Config.getStateFile(), "utf-8");
             while (input.hasNext()) {
                 content += input.nextLine();
             }
@@ -192,5 +192,12 @@ public class DialogBox extends Control {
      */
     public Timeline gettTimeline() {
         return tTimeline;
+    }
+
+    /**
+     * @param over the over to set
+     */
+    public void setOver(boolean over) {
+        this.over = over;
     }
 }

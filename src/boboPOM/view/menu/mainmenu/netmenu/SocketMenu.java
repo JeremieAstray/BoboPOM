@@ -28,59 +28,60 @@ import javafx.util.Duration;
  * @author:feng
  */
 public class SocketMenu extends Control {
+
     private int SWidth;
     private int SHeight;
-    
+
     private ImageView borderView;
 
-    final private String waitString = "等待连接中";
+    protected String waitString;
     private StringBuilder wait;
     final private int spotMaxTime = 3;
     private int spotTime = 0;
-    private Text waitText;
-    private Timeline timeline;
+    protected Text waitText;
+    protected Timeline timeline;
 
     private Text connectText;
     private TextFlow textFlow;
 
     private boolean connected;
+    
+    protected AnchorPane anchorPane;
 
     public SocketMenu() {
-        connected = false;
+        this("等待连接中", 250, 100);
+    }   
 
+    public SocketMenu(String waitTip, int width, int height) {
+        this.waitString = waitTip;
+        this.SWidth = width;
+        this.SHeight = height;
+
+        connected = false;
         init();
         setStatus();
 
-        AnchorPane anchorPane = new AnchorPane(borderView, textFlow, waitText);
+        anchorPane = new AnchorPane(borderView, textFlow, waitText);
 
         AnchorPane.setTopAnchor(textFlow, Double.valueOf(45));
-        AnchorPane.setLeftAnchor(textFlow, Double.valueOf(this.SWidth / 2 
+        AnchorPane.setLeftAnchor(textFlow, Double.valueOf(this.SWidth / 2
                 - 6 * (connectText.getText().length() + 8)));
 
         AnchorPane.setTopAnchor(waitText, Double.valueOf(40));
-        AnchorPane.setLeftAnchor(waitText, Double.valueOf(this.SWidth / 2 
+        AnchorPane.setLeftAnchor(waitText, Double.valueOf(this.SWidth / 2
                 - 14 * waitString.length()));
 
         this.getChildren().add(anchorPane);
-
-        this.setOnMousePressed(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent t) {
-                setConnected("202.123.123");
-            }
-
-        });
     }
 
     private void init() {
         Image border = Config.getMemuImages().get(4);
         ImageEditor imageEditor = new ImageEditor(20, 30, 30, 30);
-        border = imageEditor.ChangeWidth(border, 250);
-        border = imageEditor.ChangeHeight(border, 100);
+        border = imageEditor.ChangeWidth(border, SWidth);
+        border = imageEditor.ChangeHeight(border, SHeight);
         borderView = new ImageView(border);
-        this.SWidth =(int)border.getWidth();
-        this.SHeight = (int)border.getHeight();
+//        this.SWidth = (int) border.getWidth();
+//        this.SHeight = (int) border.getHeight();
 
         wait = new StringBuilder(waitString);
         waitText = new Text(wait.toString());

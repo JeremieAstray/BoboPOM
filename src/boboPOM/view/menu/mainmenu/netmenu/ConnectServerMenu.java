@@ -13,9 +13,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -26,6 +28,10 @@ public class ConnectServerMenu extends MenuBar {
 
     private int CWidth;
     private int CHeight;
+    
+    private int scrollUp = 0;
+
+    private ScrollPane scrollPane;
 
     public ConnectServerMenu() {
         this(400, 410, 300);
@@ -67,16 +73,17 @@ public class ConnectServerMenu extends MenuBar {
         gridPane.add(statuStackPane, 2, 0);
         gridPane.add(lineImageView, 0, 1, 3, 1);
 
-        ScrollPane scrollPane = new ScrollPane(vBox);
+        scrollPane = new ScrollPane(vBox);
         scrollPane.setBlendMode(BlendMode.valueOf("DARKEN"));
         scrollPane.setStyle("-fx-background-color: transparent;-fx-border-color: transparent;");
-        scrollPane.setMinSize(this.getMenuItemWidth() + 40, this.CHeight - 100);
+        scrollPane.setMinSize(this.getMenuItemWidth() + 40, 
+                this.getMenuItemHeigth() * (items.size() - 1) < this.CHeight - 100 ?
+                this.getMenuItemHeigth() * (items.size() - 1) : this.CHeight - 100);
+        scrollPane.setMinWidth(this.getMenuItemWidth() + 40);
 
         AnchorPane.setTopAnchor(gridPane, Double.valueOf(30));
         AnchorPane.setLeftAnchor(gridPane, Double.valueOf(this.getBWidth() / 2
                 - this.getMenuItemWidth() / 2));
-//        AnchorPane.setTopAnchor(this.cursorView, Double.valueOf(this.getMenuItemHeigth()));
-//        AnchorPane.setLeftAnchor(this.cursorView, Double.valueOf(5));
         AnchorPane.setTopAnchor(scrollPane, Double.valueOf(35 + this.getMenuItemHeigth()));
         AnchorPane.setLeftAnchor(scrollPane, Double.valueOf(this.getBWidth() / 2
                 - this.getMenuItemWidth() / 2) - 15);
@@ -85,17 +92,38 @@ public class ConnectServerMenu extends MenuBar {
         anchorPane.getChildren().remove(cursorView);
         anchorPane.getChildren().addAll(gridPane, scrollPane);
 
+        this.addItem(new NetMenuItem());
+        this.addItem(new NetMenuItem("1.1.1", false));
+        this.addItem(new NetMenuItem("1.1.2", false));
+        this.addItem(new NetMenuItem("1.1.8", false));
+        this.addItem(new NetMenuItem("1.1.7", false));
+        
+//        this.addItem(new NetMenuItem("1.1.10", false));
+//        this.addItem(new NetMenuItem("1.1.9", false));
+//        this.addItem(new NetMenuItem("1.1.6", false));
+//        
+//        this.addItem(new NetMenuItem("1.1.11", false));
+//        this.addItem(new NetMenuItem("1.1.12", false));
+//        this.addItem(new NetMenuItem("1.1.13", false));
+//        
+//        this.addItem(new NetMenuItem("1.1.21", false));
+//        this.addItem(new NetMenuItem("1.1.22", false));
+//        this.addItem(new NetMenuItem("1.1.23", false));
+//        
+//        this.addItem(new NetMenuItem("1.1.31", false));
+//        this.addItem(new NetMenuItem("1.1.32", false));
+//        this.addItem(new NetMenuItem("1.1.33", false));
+
     }
 
-    //    @Override
-//    protected void changeCursorLocation(int index) {
-//        AnchorPane.setTopAnchor(cursorView,
-//                Double.valueOf(index * (this.getMenuItemHeigth() + 4)
-//                        + this.getMenuItemHeigth()));
-//    }
     @Override
     public void addItem(MenuItem menuItem) {
         if (isAdd(menuItem)) {
+            if (nowItemSelected == -1) {
+                nowItemSelected = 0;
+            }
+            scrollPane.setMinHeight((this.getMenuItemHeigth() + 4) * (items.size() +1) < this.CHeight - 100 ?
+                (this.getMenuItemHeigth() + 4) * (items.size() +1) : this.CHeight - 100);
             menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));
             menuItem.setOnMouseExited(exitMouseEvent(menuItem, items.size() - 1));
             items.add(menuItem);
@@ -123,19 +151,49 @@ public class ConnectServerMenu extends MenuBar {
             if (menuItem.getIPText().equals(menuItem2.getIPText())) {
                 if (menuItem.isConnected() == menuItem2.isConnected()) {
                     return false;
-                } else return true;
+                } else {
+                    return true;
+                }
             }
         }
         return true;
     }
 
-    public String getSelectedItemIP(){
-        return ((NetMenuItem)this.items.get(nowItemSelected)).getIPText();
+    public String getSelectedItemIP() {
+        return ((NetMenuItem) this.items.get(nowItemSelected)).getIPText();
     }
 
     @Override
     public void reset() {
         super.reset();
+        this.vBox.getChildren().clear();
         this.items.clear();
+        this.nowItemSelected = -1;
+    }
+
+    @Override
+    public void DealKeyEvent(KeyCode t) {
+        if (nowItemSelected != -1) {
+            super.DealKeyEvent(t);
+            int selected = this.getSelectedItem();
+            if (selected > scrollUp + 6) {
+                if (selected == this.items.size() - 1) {
+                    scrollUp = this.items.size() - 7;
+                }
+                scrollUp ++;
+                
+            } else if (selected < scrollUp) {
+                if (selected == 0) {
+                    scrollUp = 0;
+                } else {
+                    scrollUp--;
+                }
+            }
+            scrollPane.setVvalue(scrollUp * 1.0 / (this.items.size()-7));
+        }
+    }
+
+    public ScrollPane getScrollPane() {
+        return scrollPane;
     }
 }

@@ -5,14 +5,11 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  *
  * @author:feng
  */
-
 public class BGMMedia {
 
     private Media music;
@@ -21,19 +18,13 @@ public class BGMMedia {
     private int playingMusic = -1; //表示当前播放音乐，-1表示当前无音乐
 
     private String musicPath;
+    private File pathFile;
     private String[] musicNames;
 
     public BGMMedia(String path) {
         musicPath = path;
-        URI uri = null;
-        try {
-            uri = new URI(path);
-        } catch (URISyntaxException ex) {
-            ex.printStackTrace();
-        }
-        File filePath = new File(uri);
-
-        File[] files = filePath.listFiles();
+        pathFile = new File(path);
+        File[] files = pathFile.listFiles();
         musicNames = new String[files.length];
         for (int i = 0; i < files.length; i++) {
             musicNames[i] = files[i].getName();
@@ -50,7 +41,8 @@ public class BGMMedia {
         }
         if (playingMusic != num) {
             this.playingMusic = num;
-            this.music = new Media(musicPath + "/" + musicNames[num]);
+            this.music = new Media(pathFile.toURI() +  musicNames[num]);
+            System.out.println(this.music.getSource());
             this.musicPlayer = new MediaPlayer(this.music);
         }
         if (loop) {

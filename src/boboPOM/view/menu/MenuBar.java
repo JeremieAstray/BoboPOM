@@ -30,7 +30,7 @@ public class MenuBar extends Control {
 
     private int BWidth;
     private int BHeight;
-    protected int nowItemSelected = -1;
+    protected int nowItemSelected = 0;
     final private int menuItemHeigth = 40;
     private int menuItemWidth = 200;
 
@@ -190,7 +190,7 @@ public class MenuBar extends Control {
     public void reset() {
         if (nowItemSelected != -1) {
             items.get(nowItemSelected).setBackground(false);
-            nowItemSelected = -1;
+            nowItemSelected = 0;
             changeCursorLocation(0);
         }
     }

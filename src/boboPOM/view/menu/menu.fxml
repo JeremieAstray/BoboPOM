@@ -5,16 +5,18 @@
 <?import boboPOM.view.menu.*?>
 <?import boboPOM.view.menu.mainmenu.*?>
 <?import boboPOM.view.menu.mainmenu.netmenu.*?>
-<AnchorPane  prefHeight="540" prefWidth="960" styleClass="background" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.MenuController">
+<AnchorPane  prefHeight="540" prefWidth="960" 
+             onKeyPressed="#MenuInKeyEvent" onMousePressed="#MenuInMouseEvent" 
+             styleClass="background" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.MenuController">
     <children>
-        <MainMenuBar onKeyPressed="#MainToNextInKey" onMousePressed="#MainToNextInMouse"   fx:id="mainMenuBar" />
-        <SoloMenuBar  onKeyPressed="#SoloToOtherInKey" onMousePressed="#SoloToOtherInMouse"   fx:id="soloMenuBar" />
-        <NetMenuBar  onKeyPressed="#NetToOtherInKey" onMousePressed="#NetToOtherInMouse"   fx:id="netMenuBar" />
-        <ConnectServerMenu onKeyPressed="#ConnectServerToOtherInKey" onMousePressed="#ConnectServerToOtherInMouse"
-                                   fx:id="connectServerMenu"/>
-        <SocketMenu onKeyPressed="#SocketToOtherInKey" onMousePressed="#SocketToOtherInMouse"  fx:id="socketMenu"/>
-        <DialogBox onKeyPressed="#DialogNextInKey" onMousePressed="#DialogNextInMouse"   fx:id="dialogBox" />
-        <GameSetting onKeyPressed="#PlayerMenuToOtherInKey" onMousePressed="#GameSettingReturnInMouse"  fx:id="gameSetting"/>
-        <PlayerMenu onKeyPressed="#PlayerMenuToOtherInKey" onMousePressed="#PlayerMenuToOtherInMouse"   fx:id="playerMenu"/>
+        <MainMenuBar    fx:id="mainMenuBar" />
+        <SoloMenuBar     fx:id="soloMenuBar" />
+        <NetMenuBar     fx:id="netMenuBar" />
+        <ConnectServerMenu   fx:id="connectServerMenu"/>
+        <SocketMenu   fx:id="socketMenu"/>
+        <DialogBox   fx:id="dialogBox" />
+        <GameSetting   fx:id="gameSetting"/>
+        <PlayerMenu   fx:id="playerMenu"/>
+        <PrepareBar fx:id="prepareBar"/>
     </children>
 </AnchorPane>

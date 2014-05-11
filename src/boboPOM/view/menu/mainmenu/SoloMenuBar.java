@@ -7,8 +7,6 @@ package boboPOM.view.menu.mainmenu;
 
 import boboPOM.config.Config;
 import boboPOM.view.menu.ImageEditor;
-import boboPOM.view.menu.MenuBar;
-import boboPOM.view.menu.MenuItem;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -25,7 +23,7 @@ import javafx.util.Duration;
 public class SoloMenuBar extends PlayerMenu {
 
     private ImageView cursorView2P;
-    private int itemSelected2P = -1;
+    private int itemSelected2P = 0;
 
     public SoloMenuBar() {
         this(250, 70, 200);
@@ -79,6 +77,14 @@ public class SoloMenuBar extends PlayerMenu {
             change2PCursorLocation(itemSelected2P);
         }
     }
+    
+    @Override
+    public void DealKeyEvent(KeyCode t){
+        super.DealKeyEvent(t);
+        if(items.get(itemSelected2P).isSelected() == false){
+            items.get(itemSelected2P).setBackground(true);
+        }
+    }
 
     private void change2PCursorLocation(int index) {
         AnchorPane.setTopAnchor(cursorView2P,
@@ -89,9 +95,9 @@ public class SoloMenuBar extends PlayerMenu {
     @Override
     public void reset() {
         super.reset();
-        if (itemSelected2P != -1) {
+        if (itemSelected2P != 0) {
             items.get(itemSelected2P).setBackground(false);
-            itemSelected2P = -1;
+            itemSelected2P = 0;
             change2PCursorLocation(0);
         }
     }

@@ -16,15 +16,8 @@ public class EffectMedia {
     private String[] names;
     private int playing = -1;
     
-    public EffectMedia(String path) {
-        URI uri = null;
-        this.path = path;
-        try {
-            uri = new URI(path);
-        } catch (URISyntaxException ex) {
-           ex.printStackTrace();
-        }
-        File file = new File(uri);
+    public EffectMedia(File path) {
+        File file = path;
         File[] files = file.listFiles();
         names = new String[files.length];
         for (int i = 0; i < names.length; i++) {

@@ -34,14 +34,15 @@ import java.util.ResourceBundle;
  */
 public class MenuController implements Initializable {
 
-
     private BroadcastSession broadcastSession;
     private Timeline broadcastListenerTimeline;
     private MsgQueue<String> status;
     private MsgQueue<Object> gamesMsg;
-    private String currentStatus =null;
+    private String currentStatus = null;
     private boolean oppositeReady = false;
     private SocketLink socketLink;
+
+    private int menuMark = 0;
     @FXML
     private MainMenuBar mainMenuBar;
     @FXML
@@ -58,20 +59,146 @@ public class MenuController implements Initializable {
     private ConnectServerMenu connectServerMenu;
     @FXML
     private PlayerMenu playerMenu;
+    @FXML
+    private PrepareBar prepareBar;
 
     @FXML
-    private void MainToNextInKey(KeyEvent e) {
+    private void MenuInKeyEvent(KeyEvent e) {
         if (e.getCode() == KeyCode.K) {
-            MainToNext();
+            MenuToNext(true);
+        } else if (e.getCode() == KeyCode.J) {
+            MenuReturn();
         } else {
-            mainMenuBar.DealKeyEvent(e.getCode());
+            MenuOther(e.getCode());
         }
     }
 
     @FXML
-    private void MainToNextInMouse(MouseEvent e) {
+    private void MenuInMouseEvent(MouseEvent e) {
         if (e.isPrimaryButtonDown()) {
-            MainToNext();
+            MenuToNext(false);
+        } else if (e.isSecondaryButtonDown()) {
+            MenuReturn();
+        }
+    }
+
+    private void MenuToNext(boolean isKey) {
+        if (menuMark < 10) {
+            switch (menuMark) {
+                case 0:  //主菜单
+                    if (mainMenuBar.isHover() || isKey) {
+                        MainToNext();
+                        menuMark = menuMark * 10 + mainMenuBar.getSelectedItem() + 1;
+                    }
+                    break;
+                case 1:  //单机模式菜单
+                    if (soloMenuBar.isHover() || isKey) {
+                        SoloToNext();
+                    }
+                    break;
+                case 2:  //网络对战菜单
+                    if (netMenuBar.isHover() || isKey) {
+                        NetToNext();
+                        menuMark = menuMark * 10 + netMenuBar.getSelectedItem() + 1;
+                    }
+                    break;
+                case 3:  //游戏说明对话框
+                    dialogBox.nextContent();
+                    break;
+                case 4:  //游戏设置选项
+
+                    break;
+            }
+        } else if (menuMark > 10 && menuMark < 100) {
+            switch (menuMark) {
+                case 22:  //连接服务菜单
+                    if (connectServerMenu.getSelectedItem() != -1
+                            && (connectServerMenu.getScrollPane().isHover() || isKey)) {
+                        System.out.println("inConnectServerMenu");
+                        ConnectServerToNext(connectServerMenu.getSelectedItemIP());
+                        menuMark *= 10;
+                    }
+                    break;
+            }
+        } else if (menuMark > 100 && menuMark < 1000) {
+            switch (menuMark) {
+                case 210:
+                case 220:
+                    PlayerMenuToNext();
+                    menuMark *= 10;
+                    break;
+            }
+        }
+    }
+
+    private void MenuReturn() {
+        if (menuMark > 0 && menuMark < 10) {
+            switch (menuMark) {
+                case 1: //单机模式菜单
+                    SoloReturn();
+                    break;
+                case 2:  //网络对战菜单
+                    NetReturn();
+                    break;
+                case 3: //游戏说明对话框
+                    if (dialogBox.isOver()) {
+                        DialogReturn();
+                    }
+                    break;
+                case 4: //游戏设置选项
+                    GameSettingReturn();
+                    break;
+            }
+        } else if (menuMark > 10 && menuMark < 100) {
+            switch (menuMark) {
+                case 21: //开启服务面板
+                    SocketReturn();
+                    break;
+                case 22:  //连接服务菜单
+                    ConnectServerReturn();
+                    break;
+            }
+        } else if (menuMark > 100 && menuMark < 1000) {
+            switch (menuMark) { //游戏角色选择画面
+                case 210:
+                case 220:
+                    PlayerMenuReturn();
+                    break;
+            }
+            menuMark /= 10;
+        } else if (menuMark > 1000) {
+            PrepareBarReturn();
+        }
+        menuMark /= 10;
+    }
+
+    private void MenuOther(KeyCode keyCode) {
+        if (menuMark < 10) {
+            switch (menuMark) {
+                case 0:  //主菜单
+                    mainMenuBar.DealKeyEvent(keyCode);
+                    break;
+                case 1:  //单机模式菜单
+                    soloMenuBar.DealKeyEvent(keyCode);
+                    soloMenuBar.Deal2PKeyEvent(keyCode);
+                    break;
+                case 2:  //网络对战菜单
+                    netMenuBar.DealKeyEvent(keyCode);
+                    break;
+            }
+        } else if (menuMark > 10 && menuMark < 100) {
+            switch (menuMark) {
+                case 22:  //连接服务菜单
+                    connectServerMenu.DealKeyEvent(keyCode);
+                    break;
+            }
+        } else if (menuMark > 100 && menuMark < 1000) {
+            switch (menuMark) {
+                case 210:
+                case 220:
+                    playerMenu.DealKeyEvent(keyCode);
+                    break;
+            }
         }
     }
 
@@ -97,27 +224,6 @@ public class MenuController implements Initializable {
         mainMenuBar.setVisible(false);
     }
 
-    @FXML
-    private void SoloToOtherInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.K) {
-            SoloToNext();
-        } else if (e.getCode() == KeyCode.J) {
-            SoloReturn();
-        } else {
-            soloMenuBar.DealKeyEvent(e.getCode());
-            soloMenuBar.Deal2PKeyEvent(e.getCode());
-        }
-    }
-
-    @FXML
-    private void SoloToOtherInMouse(MouseEvent e) {
-        if (e.isPrimaryButtonDown()) {
-            SoloToNext();
-        } else if (e.isSecondaryButtonDown()) {
-            SoloReturn();
-        }
-    }
-
     private void SoloToNext() {
 
     }
@@ -126,26 +232,6 @@ public class MenuController implements Initializable {
         soloMenuBar.setVisible(false);
         soloMenuBar.reset();
         mainMenuBar.setVisible(true);
-    }
-
-    @FXML
-    private void NetToOtherInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.K) {
-            NetToNext();
-        } else if (e.getCode() == KeyCode.J) {
-            NetReturn();
-        } else {
-            netMenuBar.DealKeyEvent(e.getCode());
-        }
-    }
-
-    @FXML
-    private void NetToOtherInMouse(MouseEvent e) {
-        if (e.isPrimaryButtonDown()) {
-            NetToNext();
-        } else if (e.isSecondaryButtonDown()) {
-            NetReturn();
-        }
     }
 
     private void NetToNext() {
@@ -169,18 +255,19 @@ public class MenuController implements Initializable {
                             String recv = broadcastmsgs.recv();
                             String[] recvs = recv.split(" ");
                             boolean connected = false;
-                            if (recvs.length != 2)
+                            if (recvs.length != 2) {
                                 flag = false;
-                            else if ("notconnected".equals(recvs[1]))
+                            } else if ("notconnected".equals(recvs[1])) {
                                 connected = false;
-                            else if ("isconnected".equals(recvs[1]))
+                            } else if ("isconnected".equals(recvs[1])) {
                                 connected = true;
-                            else
+                            } else {
                                 flag = false;
+                            }
                             if (flag) {
                                 NetMenuItem netMenuItem = new NetMenuItem(recvs[0], connected);
                                 connectServerMenu.addItem(netMenuItem);
-                            }else{
+                            } else {
                                 System.err.println(recv);
                             }
                         }
@@ -197,7 +284,7 @@ public class MenuController implements Initializable {
     private String openServer() {
         status = new MsgQueue<String>();
         gamesMsg = new MsgQueue<>();
-        socketLink = new SocketLink(status,gamesMsg,Config.PORT);
+        socketLink = new SocketLink(status, gamesMsg, Config.PORT);
         Thread socketLinkThread = new Thread(socketLink);
         socketLinkThread.start();
         broadcastSession = new BroadcastSession(Config.PORT);
@@ -224,42 +311,24 @@ public class MenuController implements Initializable {
         mainMenuBar.setVisible(true);
     }
 
-    @FXML
-    private void ConnectServerToOtherInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.K) {
-            ConnectServerToNext(connectServerMenu.getSelectedItemIP());
-        } else if (e.getCode() == KeyCode.J) {
-            ConnectServerReturn();
-        } else {
-            connectServerMenu.DealKeyEvent(e.getCode());
-        }
-    }
-
-    @FXML
-    private void ConnectServerToOtherInMouse(MouseEvent e) {
-        if (e.isPrimaryButtonDown()) {
-            ConnectServerToNext(connectServerMenu.getSelectedItemIP());
-        } else if (e.isSecondaryButtonDown()) {
-            ConnectServerReturn();
-        }
-    }
-
     private void ConnectServerToNext(String ip) {
         status = new MsgQueue<String>();
         gamesMsg = new MsgQueue<>();
-        socketLink = new SocketLink(status,gamesMsg,Config.PORT,ip);
+        socketLink = new SocketLink(status, gamesMsg, Config.PORT, ip);
         Thread socketLinkThread = new Thread(socketLink);
         socketLinkThread.start();
 
         Timeline ConnectServerListenerTimeline = new Timeline();
         ConnectServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+            @Override
             public void handle(ActionEvent event) {
                 if (!status.isEmpty()) {
                     String recv = status.recv();
-                    if("连接成功".equals(recv)){
+                    if ("连接成功".equals(recv)) {
                         connectServerMenu.setVisible(false);
                         playerMenu.setVisible(true);
+                        ListenPeerPrepare();
                         currentStatus = recv;
                     }
                 }
@@ -270,27 +339,14 @@ public class MenuController implements Initializable {
     }
 
     private void ConnectServerReturn() {
-        if(currentStatus != null && !socketLink.isServer())
+        if (currentStatus != null && !socketLink.isServer()) {
             socketLink.close();
+        }
         broadcastSession.setRun(false);
         broadcastListenerTimeline.stop();
         connectServerMenu.setVisible(false);
         connectServerMenu.reset();
         netMenuBar.setVisible(true);
-    }
-
-    @FXML
-    private void SocketToOtherInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.J) {
-            SocketReturn();
-        }
-    }
-
-    @FXML
-    private void SocketToOtherInMouse(MouseEvent e) {
-        if (e.isSecondaryButtonDown()) {
-            SocketReturn();
-        }
     }
 
     private void SocketReturn() {
@@ -304,19 +360,22 @@ public class MenuController implements Initializable {
         Timeline ServerListenerTimeline = new Timeline();
         ServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+            @Override
             public void handle(ActionEvent event) {
                 if (!status.isEmpty()) {
                     String recv = status.recv();
-                    if("连接成功".equals(recv)){
+                    if ("连接成功".equals(recv)) {
                         currentStatus = recv;
+                        ListenPeerPrepare();
+                        menuMark *= 10;
                         socketMenu.setVisible(false);
                         playerMenu.setVisible(true);
-                    } else if("连接断开".equals(recv)){
+                    } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
                         playerMenu.setVisible(false);
                         netMenuBar.setVisible(true);
 
-                    } else if("端口被占用".equals(recv)){
+                    } else if ("端口被占用".equals(recv)) {
                         currentStatus = recv;
 
                     }
@@ -327,44 +386,11 @@ public class MenuController implements Initializable {
         ServerListenerTimeline.play();
     }
 
-    @FXML
-    private void DialogNextInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.K) {
-            dialogBox.nextContent();
-        } else if (e.getCode() == KeyCode.J) {
-            DialogReturn();
-        }
-    }
-
-    @FXML
-    private void DialogNextInMouse(MouseEvent e) {
-        if (e.isPrimaryButtonDown()) {
-            dialogBox.nextContent();
-        } else if (e.isSecondaryButtonDown()) {
-            DialogReturn();
-        }
-    }
-
     private void DialogReturn() {
-        if (dialogBox.isOver()) {
-            dialogBox.setVisible(false);
-            dialogBox.clearContent();
-            mainMenuBar.setVisible(true);
-        }
-    }
-
-    @FXML
-    private void GameSettingReturnInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.J) {
-            GameSettingReturn();
-        }
-    }
-
-    @FXML
-    private void GameSettingReturnInMouse(MouseEvent e) {
-        if (e.isSecondaryButtonDown()) {
-            GameSettingReturn();
-        }
+        dialogBox.setVisible(false);
+        dialogBox.clearContent();
+        dialogBox.setOver(false);
+        mainMenuBar.setVisible(true);
     }
 
     private void GameSettingReturn() {
@@ -372,28 +398,14 @@ public class MenuController implements Initializable {
         mainMenuBar.setVisible(true);
     }
 
-    @FXML
-    private void PlayerMenuToOtherInKey(KeyEvent e) {
-        if (e.getCode() == KeyCode.K) {
-            PlayerMenuToNext();
-        } else if (e.getCode() == KeyCode.J) {
-            PlayerMenuReturn();
-        } else {
-            playerMenu.DealKeyEvent(e.getCode());
-        }
-    }
-
-    @FXML
-    private void PlayerMenuToOtherInMouse(MouseEvent e) {
-        if (e.isPrimaryButtonDown()) {
-            PlayerMenuToNext();
-        } else if (e.isSecondaryButtonDown()) {
-            PlayerMenuReturn();
-        }
-    }
-
     private void PlayerMenuToNext() {
         socketLink.send("ready");
+        if (!prepareBar.isPeerPrepared()) {
+            prepareBar.setOwnPrepared(true);
+            playerMenu.setVisible(false);
+        } else {
+            GameStar();//开始游戏
+        }
     }
 
     private void PlayerMenuReturn() {
@@ -403,6 +415,45 @@ public class MenuController implements Initializable {
         playerMenu.setVisible(false);
         playerMenu.reset();
         netMenuBar.setVisible(true);
+    }
+
+    private void PrepareBarReturn() {
+        if (prepareBar.isOwnPrepared()) {
+            socketLink.send("noReady");
+            prepareBar.setOwnPrepared(false);
+            playerMenu.setVisible(true);
+        }
+    }
+
+    private void ListenPeerPrepare() {
+        Timeline PrepareListenerTimeline = new Timeline();
+        PrepareListenerTimeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (!gamesMsg.isEmpty()) {
+                    String recv = (String) gamesMsg.recv();
+                    System.out.println(recv);
+                    if ("ready".equals(recv)) {
+                        currentStatus = recv;
+                        if (!prepareBar.isOwnPrepared()) {
+                            prepareBar.setPeerPrepared(true);
+                        } else {
+                            GameStar();
+                        }
+                    } else if ("noReady".equals(recv)) {
+                        currentStatus = recv;
+                        prepareBar.setPeerPrepared(false);
+                    }
+                }
+            }
+        });
+        PrepareListenerTimeline.getKeyFrames().add(kf);
+        PrepareListenerTimeline.play();
+    }
+
+    private void GameStar() {
+        System.out.println("开始游戏");
     }
 
     @Override
