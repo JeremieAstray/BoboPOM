@@ -13,8 +13,8 @@ public class BoboFactory {
 
     public static QueueList<Brick> qp1 = new QueueList<>(), qp2 = new QueueList<>();
     public static QueueList<ArrayList<Bobo>> rp1 = new QueueList<>(), rp2 = new QueueList<>();
-
-    ;
+    public static BoboProducer bp = new BoboProducer();
+    public static int numOfLine_Produced = 10;
     
     public static void init() {
 //        qp1.clear();
@@ -37,13 +37,16 @@ public class BoboFactory {
     public static void makeBobos() {
         ArrayList<Bobo> rbobo1 = new ArrayList<>();
         ArrayList<Bobo> rbobo2 = new ArrayList<>();
+        int[][] rs = bp.BoboProduce(numOfLine_Produced);
         int r;
+        for(int k = 0 ; k < numOfLine_Produced; k++){
         for (int i = 0; i < 7; i++) {
-            r = (int) (Math.random() * 5);
+           r = rs[k][i];
            rbobo1.add(new Bobo(r, Bobo.STATE_RISING));
            rbobo2.add(new Bobo(r, Bobo.STATE_RISING));
         }
         rp1.add(rbobo1);
         rp2.add(rbobo2);
+        }
     }
 }

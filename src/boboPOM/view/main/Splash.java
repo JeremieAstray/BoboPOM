@@ -85,17 +85,17 @@ public class Splash {
                 }
 
                 if (state == Splash.VANISHING) {
-                    // lineUp
-                    timecounter++;
-                    lineUp();
-                    timecounter %= 1800;
+//                    // lineUp
+//                    timecounter++;
+//                    lineUp();
+//                    timecounter %= 1800;
                     vanishing();
                 }
                 if (state == Splash.DROPPING) {
-                    // lineUp
-                    timecounter++;
-                    lineUp();
-                    timecounter %= 1800;
+//                    // lineUp
+//                    timecounter++;
+//                    lineUp();
+//                    timecounter %= 1800;
                     dropping();
                 }
 

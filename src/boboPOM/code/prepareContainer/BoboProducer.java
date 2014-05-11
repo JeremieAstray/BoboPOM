@@ -22,7 +22,7 @@ public class BoboProducer {
     public BoboProducer() {
     }
 
-    public void BoboProduce(int numOfline) {
+    public int[][] BoboProduce(int numOfline) {
         bobo = new int[numOfline][7];
         for (int i = 0; i < bobo.length; i++) {
             for (int j = 0; j < bobo[i].length; j++) {
@@ -53,6 +53,7 @@ public class BoboProducer {
             }
             System.out.println("");
         }
+        return bobo;
     }
 
     private void setMark() {
