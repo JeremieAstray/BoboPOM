@@ -76,10 +76,7 @@ public class ConnectServerMenu extends MenuBar {
         scrollPane = new ScrollPane(vBox);
         scrollPane.setBlendMode(BlendMode.valueOf("DARKEN"));
         scrollPane.setStyle("-fx-background-color: transparent;-fx-border-color: transparent;");
-        scrollPane.setMinSize(this.getMenuItemWidth() + 40, 
-                this.getMenuItemHeigth() * (items.size() - 1) < this.CHeight - 100 ?
-                this.getMenuItemHeigth() * (items.size() - 1) : this.CHeight - 100);
-        scrollPane.setMinWidth(this.getMenuItemWidth() + 40);
+        scrollPane.setMinSize(this.getMenuItemWidth() + 40, this.CHeight - 100);
 
         AnchorPane.setTopAnchor(gridPane, Double.valueOf(30));
         AnchorPane.setLeftAnchor(gridPane, Double.valueOf(this.getBWidth() / 2
@@ -122,8 +119,6 @@ public class ConnectServerMenu extends MenuBar {
             if (nowItemSelected == -1) {
                 nowItemSelected = 0;
             }
-            scrollPane.setMinHeight((this.getMenuItemHeigth() + 4) * (items.size() +1) < this.CHeight - 100 ?
-                (this.getMenuItemHeigth() + 4) * (items.size() +1) : this.CHeight - 100);
             menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));
             menuItem.setOnMouseExited(exitMouseEvent(menuItem, items.size() - 1));
             items.add(menuItem);
@@ -195,5 +190,8 @@ public class ConnectServerMenu extends MenuBar {
 
     public ScrollPane getScrollPane() {
         return scrollPane;
+    }
+    public VBox getVBox(){
+        return this.vBox;
     }
 }

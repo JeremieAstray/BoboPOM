@@ -56,4 +56,10 @@ public class PrepareBar extends SocketMenu {
     public boolean isOwnPrepared() {
         return ownPrepared;
     }
+    
+    public void reset(){
+        this.setVisible(false);
+        this.ownPrepared = false;
+        this.peerPrepared = false;
+    }
 }

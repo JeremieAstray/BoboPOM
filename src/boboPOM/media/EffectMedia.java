@@ -13,18 +13,18 @@ public class EffectMedia {
 
     private AudioClip effect;
     private String path;
+    private File pathFile;
     private String[] names;
     private int playing = -1;
-    
-    public EffectMedia(File path) {
-        File file = path;
-        File[] files = file.listFiles();
+
+    public EffectMedia(String path) {
+        pathFile = new File(path);
+        File[] files = pathFile.listFiles();
         names = new String[files.length];
         for (int i = 0; i < names.length; i++) {
             names[i] = files[i].getName();
         }
     }
-
 
     public void stop() {
         effect.stop();
@@ -34,17 +34,18 @@ public class EffectMedia {
         if (playing >= 0 && playing < names.length) {
             if (this.playing != playing) {
                 this.playing = playing;
-                effect = new AudioClip(path + "/" + names[this.playing]);
+                effect = new AudioClip(pathFile.toURI() + names[this.playing]);
             }
             effect.play();
             return true;
         }
         return false;
     }
-    public boolean play(String name){
+
+    public boolean play(String name) {
         boolean isExist = false;
-        for(int i=0;i<names.length;i++){
-            if(names[i].equals(name)){
+        for (int i = 0; i < names.length; i++) {
+            if (names[i].equals(name)) {
                 isExist = true;
                 effect = new AudioClip(path + "/" + name);
                 effect.play();

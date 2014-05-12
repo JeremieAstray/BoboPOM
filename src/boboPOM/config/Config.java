@@ -1,5 +1,7 @@
 package boboPOM.config;
 
+import boboPOM.media.BGMMedia;
+import boboPOM.media.EffectMedia;
 import boboPOM.net.SocketLink;
 import boboPOM.view.Main;
 import java.io.File;
@@ -19,7 +21,9 @@ import java.util.logging.Logger;
  * Created by Jeremie on 14-3-4.
  */
 public final class Config {
-
+    public static BGMMedia bgmMedia;
+    public static EffectMedia effectMedia;
+    
     public static SocketLink socketLink;
 
     private static ArrayList<ArrayList<Image>> bobosImages;
@@ -105,6 +109,9 @@ public final class Config {
     }
 
     public static void init() {
+        //music
+        bgmMedia = new BGMMedia(Main.class.getResource("resources/BGM").getFile());
+        effectMedia = new EffectMedia(Main.class.getResource("resources/sound_effects").getFile());    
         //background
         backgrounds = new ArrayList<>();
         backgrounds.add(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));

@@ -80,7 +80,7 @@ public class MenuController implements Initializable {
             MenuToNext(false);
         } else if (e.isSecondaryButtonDown()) {
             MenuReturn();
-        } else{
+        } else {
             System.out.println("fuck3");
         }
         System.out.println("after " + menuMark);
@@ -117,7 +117,7 @@ public class MenuController implements Initializable {
             switch (menuMark) {
                 case 22:  //连接服务菜单
                     if (connectServerMenu.getSelectedItem() != -1
-                            && (connectServerMenu.getScrollPane().isHover() || isKey)) {
+                            && (connectServerMenu.getVBox().isHover() || isKey)) {
                         System.out.println("inConnectServerMenu");
                         ConnectServerToNext(connectServerMenu.getSelectedItemIP());
                     }
@@ -178,7 +178,7 @@ public class MenuController implements Initializable {
             menuMark /= 100;
         } else if (menuMark > 1000) {
             PrepareBarReturn();
-            menuMark /=10;
+            menuMark /= 10;
         }
     }
 
@@ -327,7 +327,7 @@ public class MenuController implements Initializable {
         socketLink = new SocketLink(status, gamesMsg, Config.PORT, ip);
         Thread socketLinkThread = new Thread(socketLink);
         socketLinkThread.start();
-        
+
         Timeline ConnectServerListenerTimeline = new Timeline();
         ConnectServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
@@ -336,18 +336,18 @@ public class MenuController implements Initializable {
                 if (!status.isEmpty()) {
                     String recv = status.recv();
                     if ("连接成功".equals(recv)) {
-                        System.out.println("sldfklsdf");
                         connectServerMenu.setVisible(false);
                         playerMenu.setVisible(true);
-                        ListenPeerPrepare();
                         menuMark *= 10;
                         currentStatus = recv;
+                        broadcastSession.setConnected(true);
                         broadcastListenerTimeline.stop();
                         broadcastSession.setRun(false);
+                        ListenPeerPrepare();
                     } else if ("连接断开".equals(recv)) {
-
                         currentStatus = recv;
                         ConnectServerReturn();
+                        prepareBar.reset();
                         playerMenu.setVisible(false);
                         menuMark = 2;
                         ConnectServerListenerTimeline.stop();
@@ -363,7 +363,7 @@ public class MenuController implements Initializable {
 
     //客户端返回
     private void ConnectServerReturn() {
-        if (currentStatus != null && !socketLink.isServer()&& socketLink.isRun()) {
+        if (currentStatus != null && !socketLink.isServer() && socketLink.isRun()) {
             socketLink.close();
         }
         broadcastSession.setRun(false);
@@ -378,11 +378,13 @@ public class MenuController implements Initializable {
         socketMenu.setVisible(false);
         netMenuBar.setVisible(true);
         broadcastSession.setRun(false);
-        if(!socketLink.isDone()||clientReturn)
-            if(clientReturn)
+        if (!socketLink.isDone() || clientReturn) {
+            if (clientReturn) {
                 socketLink.closeserver();
-            else
+            } else {
                 socketLink.close();
+            }
+        }
     }
 
     private void SocketToNext() {
@@ -402,6 +404,7 @@ public class MenuController implements Initializable {
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
                         SocketReturn(true);
+                        prepareBar.reset();
                         playerMenu.setVisible(false);
                         menuMark = 2;
                         ServerListenerTimeline.stop();
@@ -447,10 +450,13 @@ public class MenuController implements Initializable {
 
     private void PlayerMenuReturn() {
         broadcastSession.setRun(false);
-        if(broadcastListenerTimeline!=null)
+        if (broadcastListenerTimeline != null) {
             broadcastListenerTimeline.stop();
-        if(socketLink.isRun())
+        }
+        prepareBar.reset();
+        if (socketLink.isRun()) {
             socketLink.close();
+        }
         playerMenu.setVisible(false);
         playerMenu.reset();
         netMenuBar.setVisible(true);
@@ -504,7 +510,6 @@ public class MenuController implements Initializable {
         dialogBox.setVisible(false);
         gameSetting.setVisible(false);
         playerMenu.setVisible(false);
-        //mainMenuBar.setVisible(false);
 
         int width = Config.getSCREEN_WIDTH() / 2;
         int height = Config.getSCREEN_HEIGHT() / 2;
