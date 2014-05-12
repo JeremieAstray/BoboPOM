@@ -160,10 +160,12 @@ public class MenuController implements Initializable {
         } else if (menuMark > 10 && menuMark < 100) {
             switch (menuMark) {
                 case 21: //开启服务面板
-                    SocketReturn();
+                    SocketReturn(false);
+                    menuMark /= 10;
                     break;
                 case 22:  //连接服务菜单
                     ConnectServerReturn();
+                    menuMark /= 10;
                     break;
             }
         } else if (menuMark > 100 && menuMark < 1000) {
@@ -341,10 +343,12 @@ public class MenuController implements Initializable {
                         menuMark *= 10;
                         currentStatus = recv;
                     } else if ("连接断开".equals(recv)) {
+
                         currentStatus = recv;
                         ConnectServerReturn();
                         playerMenu.setVisible(false);
                         menuMark = 2;
+                        ConnectServerListenerTimeline.stop();
                     } else if ("端口被占用".equals(recv)) {
                         currentStatus = recv;
                     }
@@ -355,8 +359,9 @@ public class MenuController implements Initializable {
         ConnectServerListenerTimeline.play();
     }
 
+    //客户端返回
     private void ConnectServerReturn() {
-        if (currentStatus != null && !socketLink.isServer()) {
+        if (currentStatus != null && !socketLink.isServer()&& socketLink.isRun()) {
             socketLink.close();
         }
         broadcastSession.setRun(false);
@@ -366,11 +371,16 @@ public class MenuController implements Initializable {
         netMenuBar.setVisible(true);
     }
 
-    private void SocketReturn() {
+    //服务端返回
+    private void SocketReturn(boolean clientReturn) {
         socketMenu.setVisible(false);
         netMenuBar.setVisible(true);
         broadcastSession.setRun(false);
-        socketLink.close();
+        if(!socketLink.isDone()||clientReturn)
+            if(clientReturn)
+                socketLink.closeserver();
+            else
+                socketLink.close();
     }
 
     private void SocketToNext() {
@@ -384,19 +394,20 @@ public class MenuController implements Initializable {
                     if ("连接成功".equals(recv)) {
                         currentStatus = recv;
                         ListenPeerPrepare();
-                        menuMark *= 10;
+                        menuMark = menuMark * 10;
                         socketMenu.setVisible(false);
                         playerMenu.setVisible(true);
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
-                        SocketReturn();
+                        SocketReturn(true);
                         playerMenu.setVisible(false);
                         menuMark = 2;
+                        ServerListenerTimeline.stop();
                     } else if ("端口被占用".equals(recv)) {
                         currentStatus = recv;
                         if (socketMenu.isVisible()) {
                             menuMark /= 10;
-                            SocketReturn();
+                            SocketReturn(false);
                         }
                         System.out.println(recv);
                     } else if ("等待连接中".equals(recv)) {
@@ -434,8 +445,10 @@ public class MenuController implements Initializable {
 
     private void PlayerMenuReturn() {
         broadcastSession.setRun(false);
-        socketLink.close();
-        broadcastListenerTimeline.stop();
+        if(broadcastListenerTimeline!=null)
+            broadcastListenerTimeline.stop();
+        if(socketLink.isRun())
+            socketLink.close();
         playerMenu.setVisible(false);
         playerMenu.reset();
         netMenuBar.setVisible(true);

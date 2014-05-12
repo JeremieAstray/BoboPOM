@@ -6,8 +6,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.SocketException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +27,7 @@ public class SocketLink implements RunnableFuture {
     private MsgQueue<String> status;
     private MsgQueue<Object> gamesMsg;
     private boolean isServer;
+    private boolean isDone;
 
 
     /**
@@ -68,6 +67,7 @@ public class SocketLink implements RunnableFuture {
      */
     @Override
     public void run() {
+        this.isDone = false;
         try {
             if (isServer) {
                 status.send("等待连接中");
@@ -83,12 +83,17 @@ public class SocketLink implements RunnableFuture {
                 client = new Socket(ip, port);
                 this.waitMsg();
             }
-        }catch (IOException e) {
-            if(!"socket closed".equals(e.getMessage())) {
-                e.printStackTrace();
+        } catch (IOException e) {
+            if ("socket closed".equals(e.getMessage())) {
+                status.send("socket closed");
+            }else {
                 status.send("端口被占用");
+                e.printStackTrace();
             }
+        }finally {
+            this.isDone = true;
         }
+
     }
 
     /**
@@ -107,7 +112,9 @@ public class SocketLink implements RunnableFuture {
                 else {
                     if (!client.isClosed())
                         out.writeObject(null);
+                    this.run = false;
                     in.close();
+                    client.close();
                     status.send("连接断开");
                     break;
                 }
@@ -143,13 +150,13 @@ public class SocketLink implements RunnableFuture {
                 client.close();
                 if (isServer)
                     server.close();
-            }else{
+            } else {
                 if (isServer) {
-                    server.setSoTimeout(0);
-                    Thread.sleep(200);
-                    server.close();
+                    if(server!=null) {
+                        server.setSoTimeout(0);
+                        Thread.sleep(200);
+                    }
                 }
-
             }
             status.send("连接断开");
         } catch (IOException e) {
@@ -157,6 +164,26 @@ public class SocketLink implements RunnableFuture {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void closeserver(){
+        this.run = false;
+        try {
+            if(out!=null)
+                out.close();
+            if(client!=null)
+                client.close();
+            else if (isServer) {
+                server.setSoTimeout(0);
+                Thread.sleep(200);
+            }
+            server.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public MsgQueue<Object> getGamesMsg() {
@@ -186,7 +213,7 @@ public class SocketLink implements RunnableFuture {
 
     @Override
     public boolean isDone() {
-        return false;
+        return isDone;
     }
 
     @Override
@@ -201,5 +228,10 @@ public class SocketLink implements RunnableFuture {
 
     public String getIp() {
         return ip;
+    }
+
+
+    public boolean isRun() {
+        return run;
     }
 }
