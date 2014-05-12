@@ -86,14 +86,12 @@ public class SocketLink implements RunnableFuture {
         } catch (IOException e) {
             if ("socket closed".equals(e.getMessage())) {
                 status.send("socket closed");
+            }else if("Connection refused: connect".equals(e.getMessage())){
+                status.send("该服务器已被连接或不存在");
             }else {
                 status.send("端口被占用");
                 e.printStackTrace();
             }
-            if("Connection refused: connect".equals(e.getMessage())){
-                status.send("该服务器已被连接或不存在");
-            }
-            e.printStackTrace();
         }finally {
             this.isDone = true;
         }
