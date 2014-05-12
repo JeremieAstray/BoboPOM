@@ -342,6 +342,8 @@ public class MenuController implements Initializable {
                         ListenPeerPrepare();
                         menuMark *= 10;
                         currentStatus = recv;
+                        broadcastListenerTimeline.stop();
+                        broadcastSession.setRun(false);
                     } else if ("连接断开".equals(recv)) {
 
                         currentStatus = recv;

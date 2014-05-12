@@ -90,6 +90,10 @@ public class SocketLink implements RunnableFuture {
                 status.send("端口被占用");
                 e.printStackTrace();
             }
+            if("Connection refused: connect".equals(e.getMessage())){
+                status.send("该服务器已被连接或不存在");
+            }
+            e.printStackTrace();
         }finally {
             this.isDone = true;
         }
@@ -101,8 +105,8 @@ public class SocketLink implements RunnableFuture {
      */
     private void waitMsg() {
         try {
-            out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
+            out = new ObjectOutputStream(client.getOutputStream());
             status.send("连接成功");
             while (run) {
                 Object o = null;
