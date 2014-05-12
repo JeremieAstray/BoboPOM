@@ -75,11 +75,15 @@ public class MenuController implements Initializable {
 
     @FXML
     private void MenuInMouseEvent(MouseEvent e) {
+        System.out.println("pre " + menuMark);
         if (e.isPrimaryButtonDown()) {
             MenuToNext(false);
         } else if (e.isSecondaryButtonDown()) {
             MenuReturn();
+        } else{
+            System.out.println("fuck3");
         }
+        System.out.println("after " + menuMark);
     }
 
     private void MenuToNext(boolean isKey) {
@@ -99,10 +103,10 @@ public class MenuController implements Initializable {
                 case 2:  //网络对战菜单
                     if (netMenuBar.isHover() || isKey) {
                         NetToNext();
-                        menuMark = menuMark * 10 + netMenuBar.getSelectedItem() + 1;
                     }
                     break;
                 case 3:  //游戏说明对话框
+                    System.out.println("fuck");
                     dialogBox.nextContent();
                     break;
                 case 4:  //游戏设置选项
@@ -116,7 +120,6 @@ public class MenuController implements Initializable {
                             && (connectServerMenu.getScrollPane().isHover() || isKey)) {
                         System.out.println("inConnectServerMenu");
                         ConnectServerToNext(connectServerMenu.getSelectedItemIP());
-                        menuMark *= 10;
                     }
                     break;
             }
@@ -136,17 +139,22 @@ public class MenuController implements Initializable {
             switch (menuMark) {
                 case 1: //单机模式菜单
                     SoloReturn();
+                    menuMark /= 10;
                     break;
                 case 2:  //网络对战菜单
                     NetReturn();
+                    menuMark /= 10;
                     break;
                 case 3: //游戏说明对话框
+                    System.out.println("fuck2");
                     if (dialogBox.isOver()) {
                         DialogReturn();
+                        menuMark /= 10;
                     }
                     break;
                 case 4: //游戏设置选项
                     GameSettingReturn();
+                    menuMark /= 10;
                     break;
             }
         } else if (menuMark > 10 && menuMark < 100) {
@@ -165,11 +173,11 @@ public class MenuController implements Initializable {
                     PlayerMenuReturn();
                     break;
             }
-            menuMark /= 10;
+            menuMark /= 100;
         } else if (menuMark > 1000) {
             PrepareBarReturn();
+            menuMark /=10;
         }
-        menuMark /= 10;
     }
 
     private void MenuOther(KeyCode keyCode) {
@@ -239,10 +247,11 @@ public class MenuController implements Initializable {
         switch (netMenuBar.getSelectedItem()) {
             case 0:
                 openServer();
-                socketMenu.setVisible(true);
                 SocketToNext();
                 break;
             case 1:
+                connectServerMenu.setVisible(true);
+                menuMark = menuMark * 10 + 2;
                 MsgQueue<String> broadcastmsgs = new MsgQueue<String>();
                 connectServer(broadcastmsgs);
                 broadcastListenerTimeline = new Timeline();
@@ -275,7 +284,6 @@ public class MenuController implements Initializable {
                 });
                 broadcastListenerTimeline.getKeyFrames().add(kf);
                 broadcastListenerTimeline.play();
-                connectServerMenu.setVisible(true);
                 break;
         }
         netMenuBar.setVisible(false);
@@ -317,7 +325,7 @@ public class MenuController implements Initializable {
         socketLink = new SocketLink(status, gamesMsg, Config.PORT, ip);
         Thread socketLinkThread = new Thread(socketLink);
         socketLinkThread.start();
-
+        
         Timeline ConnectServerListenerTimeline = new Timeline();
         ConnectServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
@@ -326,9 +334,18 @@ public class MenuController implements Initializable {
                 if (!status.isEmpty()) {
                     String recv = status.recv();
                     if ("连接成功".equals(recv)) {
+                        System.out.println("sldfklsdf");
                         connectServerMenu.setVisible(false);
                         playerMenu.setVisible(true);
                         ListenPeerPrepare();
+                        menuMark *= 10;
+                        currentStatus = recv;
+                    } else if ("连接断开".equals(recv)) {
+                        currentStatus = recv;
+                        ConnectServerReturn();
+                        playerMenu.setVisible(false);
+                        menuMark = 2;
+                    } else if ("端口被占用".equals(recv)) {
                         currentStatus = recv;
                     }
                 }
@@ -372,12 +389,19 @@ public class MenuController implements Initializable {
                         playerMenu.setVisible(true);
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
+                        SocketReturn();
                         playerMenu.setVisible(false);
-                        netMenuBar.setVisible(true);
-
+                        menuMark = 2;
                     } else if ("端口被占用".equals(recv)) {
                         currentStatus = recv;
-
+                        if (socketMenu.isVisible()) {
+                            menuMark /= 10;
+                            SocketReturn();
+                        }
+                        System.out.println(recv);
+                    } else if ("等待连接中".equals(recv)) {
+                        socketMenu.setVisible(true);
+                        menuMark = menuMark * 10 + 1;
                     }
                 }
             }
