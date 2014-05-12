@@ -94,11 +94,13 @@ public class Bobo extends ImageView {
         if (newState == Bobo.STATE_JUMPING) {
             if ((state == Bobo.STATE_BRICK || state == Bobo.STATE_DROPPING)) {
                 this.state = newState;
+                Config.effectMedia.play(8);
                 stateAnimePlay(Bobo.STATE_DROPPING);
                 return;
             }
             if (state == Bobo.STATE_RISING) {
                 this.state = newState;
+                Config.effectMedia.play(8);
                 stateAnimePlay(Bobo.STATE_RISING);
                 return;
             }
@@ -116,6 +118,7 @@ public class Bobo extends ImageView {
         if (state == Bobo.STATE_NORMAL&&newState == Bobo.STATE_VANSHING) {
             this.state = newState;
             this.setView(7);
+            Config.effectMedia.play(9);
             stateAnimePlay(Bobo.STATE_VANSHING);
         }
         

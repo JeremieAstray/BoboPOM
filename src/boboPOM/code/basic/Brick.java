@@ -27,8 +27,9 @@ public class Brick {
     }
 
     public synchronized void swap() {
+        Config.effectMedia.play(7);
         animePlay();
-         double dy = d.getTranslateY();
+        double dy = d.getTranslateY();
          double uy = u.getTranslateY();
         Bobo t = u;
         t.getPlayerSide().deleteBobo(u.getIndexX(), u.getIndexY());

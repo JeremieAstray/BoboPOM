@@ -304,7 +304,8 @@ public void setSBurst(boolean sb){
     private void moveBrickL() {
         if (brick != null&&enable) {
             if (brick.getD().getLeft() != null && brick.getD().getLeft().isNull()) {
-                brick.moveL();
+                if(brick.moveL())
+                     Config.effectMedia.play(7);
             }
             this.pane.getShadow().setIndex(brick.getD().getIndexX());
         }
@@ -313,7 +314,8 @@ public void setSBurst(boolean sb){
     private void moveBrickR() {
         if (brick != null&&enable) {
             if (brick.getD().getRight() != null && brick.getD().getRight().isNull()) {
-                brick.moveR();
+                if(brick.moveR())
+                    Config.effectMedia.play(7);
             }
              this.pane.getShadow().setIndex(brick.getD().getIndexX());
         }
@@ -321,6 +323,7 @@ public void setSBurst(boolean sb){
 
     private void moveBrickD() {
         if (brick != null&&enable) {
+           Config.effectMedia.play(7);
            sp.setSpeed(16);
         }
     }
@@ -352,12 +355,14 @@ public void setSBurst(boolean sb){
         if (sDown&&counterSet.isShinning()) {
             this.sBurst = true;
             this.burstDef = true;
+            Config.effectMedia.play(16);
         }
     }
 
     private void burstSA() {
            //test
         if(sDown&&counterSet.isShinning()){
+            Config.effectMedia.play(15);
             this.mm.SAtt(!p1,this.counterSet.useCP());
         }
     }
@@ -384,9 +389,12 @@ public void setSBurst(boolean sb){
 
     public void setWin(boolean win) {
 //        controller.send(win);
+        Config.bgmMedia.stopMusic();
         if (win) {
+            Config.effectMedia.play(11);
             this.getPane().getWol().setImage(Config.getEffects().get(10));
         } else {
+            Config.effectMedia.play(12);
             this.getPane().getWol().setImage(Config.getEffects().get(11));
         }
         ImageView iv = this.getPane().getWol();

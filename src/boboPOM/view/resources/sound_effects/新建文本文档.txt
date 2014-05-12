@@ -1,0 +1,12 @@
+init 7
+
+S UP 9
+S DOWN 10
+MOS 1
+J 2
+v 3
+w 5
+l 6
+b up 4
+
+8?
