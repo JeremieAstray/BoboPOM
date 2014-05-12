@@ -103,8 +103,8 @@ public class SocketLink implements RunnableFuture {
      */
     private void waitMsg() {
         try {
-            in = new ObjectInputStream(client.getInputStream());
             out = new ObjectOutputStream(client.getOutputStream());
+            in = new ObjectInputStream(client.getInputStream());
             status.send("连接成功");
             while (run) {
                 Object o = null;
