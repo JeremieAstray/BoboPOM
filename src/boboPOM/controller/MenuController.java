@@ -14,22 +14,20 @@ import boboPOM.view.menu.mainmenu.netmenu.ConnectServerMenu;
 import boboPOM.view.menu.mainmenu.netmenu.NetMenuBar;
 import boboPOM.view.menu.mainmenu.netmenu.NetMenuItem;
 import boboPOM.view.menu.mainmenu.netmenu.SocketMenu;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ResourceBundle;
 
 /**
  * @author:feng
@@ -394,17 +392,20 @@ public class MenuController implements Initializable {
                         currentStatus = recv;
                         ListenPeerPrepare();
                         menuMark = menuMark * 10;
+                        broadcastSession.setConnected(true);
                         socketMenu.setVisible(false);
                         playerMenu.setVisible(true);
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
                         SocketReturn(true);
+                        broadcastSession.setConnected(false);
                         prepareBar.reset();
                         playerMenu.setVisible(false);
                         menuMark = 2;
                         ServerListenerTimeline.stop();
                     } else if ("端口被占用".equals(recv)) {
                         currentStatus = recv;
+                        broadcastSession.setConnected(false);
                         if (socketMenu.isVisible()) {
                             menuMark /= 10;
                             SocketReturn(false);
