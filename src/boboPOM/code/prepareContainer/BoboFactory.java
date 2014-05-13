@@ -39,9 +39,11 @@ public class BoboFactory {
         ArrayList<Bobo> rbobo2 = new ArrayList<>();
         int[][] rs = bp.BoboProduce(numOfLine_Produced);
         int r;
-        for(int k = 0 ; k < numOfLine_Produced; k++){
+       for(int k = 0 ; k < numOfLine_Produced; k++){
+         rbobo1.clear();
+         rbobo2.clear();
         for (int i = 0; i < 7; i++) {
-           r = rs[k][i];
+            r = rs[k][i];  
            rbobo1.add(new Bobo(r, Bobo.STATE_RISING));
            rbobo2.add(new Bobo(r, Bobo.STATE_RISING));
         }

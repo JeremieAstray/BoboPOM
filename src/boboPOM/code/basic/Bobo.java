@@ -118,8 +118,7 @@ public class Bobo extends ImageView {
         if (state == Bobo.STATE_NORMAL&&newState == Bobo.STATE_VANSHING) {
             this.state = newState;
             this.setView(7);
-            Config.effectMedia.play(9);
-            stateAnimePlay(Bobo.STATE_VANSHING);
+            stateAnimePlay(Bobo.STATE_VANSHING);       
         }
         
         if(newState == Bobo.STATE_RISING){
@@ -318,6 +317,7 @@ public class Bobo extends ImageView {
             }
 
             if (state == Bobo.STATE_VANSHING) {
+                 Config.effectMedia.play(9);
                 ScaleTransition newSt = newSt(Duration.millis(500), 1.2, false);
                 vanishEffect.setTranslateX(bo.getTranslateX());
                 vanishEffect.setTranslateY(bo.getTranslateY());

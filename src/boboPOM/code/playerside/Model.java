@@ -323,7 +323,6 @@ public void setSBurst(boolean sb){
 
     private void moveBrickD() {
         if (brick != null&&enable) {
-           Config.effectMedia.play(7);
            sp.setSpeed(16);
         }
     }

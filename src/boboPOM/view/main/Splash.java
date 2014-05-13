@@ -111,10 +111,10 @@ public class Splash {
             private void initing() {
                 if (arg == 0) {
                     start = new ImageView(Config.getEffects().get(0));
-                    Config.effectMedia.play(13);
-                    if(model.getMainModel().getP2().getPersonage() == Config.Campaleila)
-                    Config.bgmMedia.playMusic(1, true);
-                    else Config.bgmMedia.playMusic(0, true);
+               //     Config.effectMedia.play(13);
+             //       if(model.getMainModel().getP2().getPersonage() == Config.Campaleila)
+              //      Config.bgmMedia.playMusic(1, true);
+               //     else Config.bgmMedia.playMusic(0, true);
                     model.getPane().getChildren().add(start);
                     for (int i = 0; i < 4; i++) {
                         model.addLine();
