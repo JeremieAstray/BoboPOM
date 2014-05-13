@@ -14,6 +14,7 @@ public class BGMMedia {
 
     private Media music;
     private MediaPlayer musicPlayer;
+    private double volume = 1;
 
     private int playingMusic = -1; //表示当前播放音乐，-1表示当前无音乐
 
@@ -41,9 +42,9 @@ public class BGMMedia {
         }
         if (playingMusic != num) {
             this.playingMusic = num;
-            this.music = new Media(pathFile.toURI() +  musicNames[num]);
-            System.out.println(this.music.getSource());
+            this.music = new Media(pathFile.toURI() + musicNames[num]);
             this.musicPlayer = new MediaPlayer(this.music);
+            this.musicPlayer.setVolume(this.volume);
         }
         if (loop) {
             musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -77,6 +78,13 @@ public class BGMMedia {
 
     public Status getStatus() {
         return musicPlayer.getStatus();
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume * 1.0 / 5;
+        if(this.musicPlayer != null){
+            this.musicPlayer.setVolume(this.volume);
+        }
     }
 
 }

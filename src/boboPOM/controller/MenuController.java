@@ -82,8 +82,6 @@ public class MenuController implements Initializable {
             MenuToNext(false);
         } else if (e.isSecondaryButtonDown()) {
             MenuReturn();
-        } else {
-            System.out.println("fuck3");
         }
         System.out.println("after " + menuMark);
     }
@@ -108,8 +106,7 @@ public class MenuController implements Initializable {
                     }
                     break;
                 case 3:  //游戏说明对话框
-                    System.out.println("fuck");
-                    dialogBox.nextContent();
+                    DialogToNext();
                     break;
                 case 4:  //游戏设置选项
 
@@ -148,11 +145,7 @@ public class MenuController implements Initializable {
                     menuMark /= 10;
                     break;
                 case 3: //游戏说明对话框
-                    System.out.println("fuck2");
-                    if (dialogBox.isOver()) {
-                        DialogReturn();
-                        menuMark /= 10;
-                    }
+                    DialogToNext();
                     break;
                 case 4: //游戏设置选项
                     GameSettingReturn();
@@ -345,7 +338,6 @@ public class MenuController implements Initializable {
                         currentStatus = recv;
                         broadcastSession.setConnected(true);
                         broadcastListenerTimeline.stop();
-                        broadcastSession.setRun(false);
                         ListenPeerPrepare();
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
@@ -429,11 +421,16 @@ public class MenuController implements Initializable {
         ServerListenerTimeline.play();
     }
 
-    private void DialogReturn() {
-        dialogBox.setVisible(false);
-        dialogBox.clearContent();
-        dialogBox.setOver(false);
-        mainMenuBar.setVisible(true);
+    private void DialogToNext() {
+        if (dialogBox.isOver()) {
+            dialogBox.setVisible(false);
+            dialogBox.clearContent();
+            dialogBox.setOver(false);
+            mainMenuBar.setVisible(true);
+            menuMark /= 10;
+        } else {
+            dialogBox.nextContent();
+        }
     }
 
     private void GameSettingReturn() {
@@ -537,6 +534,7 @@ public class MenuController implements Initializable {
             @Override
             public void handle(ActionEvent t) {
                 if (connectServerMenu.ButtonActionDeal()) {
+                    Config.effectMedia.play(1);
                     ConnectServerToNext(connectServerMenu.getTextFieldIP());
                 }
             }
@@ -550,6 +548,8 @@ public class MenuController implements Initializable {
 
         playerMenu.setTranslateX(width - playerMenu.getBWidth() / 2);
         playerMenu.setTranslateY(height - playerMenu.getBHeight() / 2);
+        
+        Config.bgmMedia.playMusic(2, true);
     }
 
 }

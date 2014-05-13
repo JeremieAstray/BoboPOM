@@ -7,12 +7,15 @@ package boboPOM.view.menu.mainmenu;
 
 import boboPOM.config.Config;
 import boboPOM.view.menu.ImageEditor;
+import boboPOM.view.menu.MenuItem;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -47,7 +50,7 @@ public class SoloMenuBar extends PlayerMenu {
                         new KeyValue(cursorView2P.translateYProperty(), 10))
         );
         timeline.play();
-
+        
         anchorPane.getChildren().add(cursorView2P);
         AnchorPane.setLeftAnchor(cursorView2P, Double.valueOf(this.getBWidth() / 2
                 + this.getMenuItemWidth() / 2));
@@ -75,6 +78,7 @@ public class SoloMenuBar extends PlayerMenu {
             }
             items.get(itemSelected2P).setBackground(true);
             change2PCursorLocation(itemSelected2P);
+            Config.effectMedia.play(3);
         }
     }
     
@@ -84,6 +88,15 @@ public class SoloMenuBar extends PlayerMenu {
         if(items.get(itemSelected2P).isSelected() == false){
             items.get(itemSelected2P).setBackground(true);
         }
+    }
+    
+    @Override
+    protected EventHandler<MouseEvent> enterMouseEvent(MenuItem menuItem, int index){
+        EventHandler<MouseEvent> eventHandler = super.enterMouseEvent(menuItem, index);
+        if(items.size() >0 && items.get(itemSelected2P).isSelected() == false){
+            items.get(itemSelected2P).setBackground(true);
+        }
+        return eventHandler;
     }
 
     private void change2PCursorLocation(int index) {

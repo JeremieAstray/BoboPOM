@@ -113,6 +113,7 @@ public class MenuBar extends Control {
 
         addBHeight(this.menuItemHeigth);
         if (items.size() == 1) {
+            items.get(0).setBackground(true);
             AnchorPane ap = new AnchorPane(items.get(0));
             ap.setMinHeight(this.getMenuItemHeigth());
             vBox.getChildren().add(ap);
@@ -125,8 +126,8 @@ public class MenuBar extends Control {
         }
 
     }
-    
-    protected  void addBHeight(int height){
+
+    protected void addBHeight(int height) {
         Image baseBorder = borderView.getImage();
         baseBorder = borderEditor.AddHeight(baseBorder, height);
         BHeight = (int) baseBorder.getHeight();
@@ -144,6 +145,7 @@ public class MenuBar extends Control {
                 menuItem.setBackground(true);
                 nowItemSelected = index;
                 changeCursorLocation(index);
+                Config.effectMedia.play(3);
             }
         };
     }
@@ -153,7 +155,9 @@ public class MenuBar extends Control {
 
             @Override
             public void handle(MouseEvent t) {
-                menuItem.setBackground(false);
+                if (vBox.isHover()) {
+                    menuItem.setBackground(false);
+                }
             }
         };
     }
@@ -184,6 +188,7 @@ public class MenuBar extends Control {
             }
             changeCursorLocation(nowItemSelected);
             items.get(nowItemSelected).setBackground(true);
+            Config.effectMedia.play(3);
         }
     }
 
