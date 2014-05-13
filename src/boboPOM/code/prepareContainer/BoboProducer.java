@@ -27,9 +27,7 @@ public class BoboProducer {
         for (int i = 0; i < bobo.length; i++) {
             for (int j = 0; j < bobo[i].length; j++) {
                 bobo[i][j] = CreateBobo();
-                System.out.print(bobo[i][j] + " ");
             }
-            System.out.println("");
         }
         mark = new int[bobo.length][bobo[0].length];
         mark2 = new int[bobo.length][bobo[0].length];
@@ -41,17 +39,9 @@ public class BoboProducer {
                     setZero(mark);
                     stack.clear();
                     isSame(i, j, i, j);
-                    //System.out.println(stack.size());
                     setMark();
                 }
             }
-        }
-        System.out.println("");
-        for (int i = 0; i < bobo.length; i++) {
-            for (int j = 0; j < bobo[i].length; j++) {
-                System.out.print(bobo[i][j] + " ");
-            }
-            System.out.println("");
         }
         return bobo;
     }

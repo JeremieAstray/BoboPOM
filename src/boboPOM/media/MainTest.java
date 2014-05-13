@@ -30,7 +30,7 @@ public class MainTest extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-               Config.effectMedia.play(9);
+               Config.effectMedia.play(13);
             }
         });
         

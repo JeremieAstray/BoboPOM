@@ -14,20 +14,22 @@ import boboPOM.view.menu.mainmenu.netmenu.ConnectServerMenu;
 import boboPOM.view.menu.mainmenu.netmenu.NetMenuBar;
 import boboPOM.view.menu.mainmenu.netmenu.NetMenuItem;
 import boboPOM.view.menu.mainmenu.netmenu.SocketMenu;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ResourceBundle;
 
 /**
  * @author:feng
@@ -253,6 +255,7 @@ public class MenuController implements Initializable {
                 break;
             case 1:
                 connectServerMenu.setVisible(true);
+                connectServerMenu.getListenSocketTimeTimeline().play();
                 menuMark = menuMark * 10 + 2;
                 MsgQueue<String> broadcastmsgs = new MsgQueue<String>();
                 connectServer(broadcastmsgs);
@@ -528,6 +531,16 @@ public class MenuController implements Initializable {
 
         connectServerMenu.setTranslateX(width - connectServerMenu.getBWidth() / 2);
         connectServerMenu.setTranslateY(height - connectServerMenu.getBHeight() / 2);
+
+        connectServerMenu.getButton().setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                if (connectServerMenu.ButtonActionDeal()) {
+                    ConnectServerToNext(connectServerMenu.getTextFieldIP());
+                }
+            }
+        });
 
         dialogBox.setTranslateX(width - dialogBox.getDWidth() / 2);
         dialogBox.setTranslateY(height * 2 - dialogBox.getDHeight() - 30);

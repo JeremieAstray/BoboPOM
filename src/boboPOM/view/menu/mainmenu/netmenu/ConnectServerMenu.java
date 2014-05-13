@@ -5,11 +5,18 @@
  */
 package boboPOM.view.menu.mainmenu.netmenu;
 
+import boboPOM.config.Config;
 import boboPOM.view.menu.ImageEditor;
 import boboPOM.view.menu.MenuBar;
 import boboPOM.view.menu.MenuItem;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,8 +25,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 /**
  * @author:feng
@@ -28,13 +37,19 @@ public class ConnectServerMenu extends MenuBar {
 
     private int CWidth;
     private int CHeight;
-    
+
     private int scrollUp = 0;
 
     private ScrollPane scrollPane;
+    private TextField textField;
+    private Button button;
+    private Timeline textFieldTimeline;
+    private Text tipText;
+
+    private Timeline listenSocketTimeTimeline;
 
     public ConnectServerMenu() {
-        this(400, 410, 300);
+        this(400, 430, 300);
     }
 
     public ConnectServerMenu(int CWidth, int CHeight, int itemWidth) {
@@ -51,10 +66,12 @@ public class ConnectServerMenu extends MenuBar {
         IPText.setFont(font);
         statusText.setFont(font);
 
+        this.nowItemSelected = -1;
+
         StackPane IPStackPane = new StackPane(IPText);
         StackPane statuStackPane = new StackPane(statusText);
         IPStackPane.setAlignment(IPText, Pos.CENTER_LEFT);
-        IPStackPane.setMinSize(this.getMenuItemWidth() - 90,
+        IPStackPane.setMinSize(this.getMenuItemWidth() - 75,
                 this.getMenuItemHeigth());
         statuStackPane.setAlignment(statusText, Pos.CENTER_RIGHT);
         statuStackPane.setMinSize(80, this.getMenuItemHeigth());
@@ -67,7 +84,6 @@ public class ConnectServerMenu extends MenuBar {
         ImageView lineImageView = new ImageView(this.line);
 
         GridPane gridPane = new GridPane();
-
         gridPane.add(IPStackPane, 0, 0);
         gridPane.add(VlineImageView, 1, 0);
         gridPane.add(statuStackPane, 2, 0);
@@ -76,41 +92,74 @@ public class ConnectServerMenu extends MenuBar {
         scrollPane = new ScrollPane(vBox);
         scrollPane.setBlendMode(BlendMode.valueOf("DARKEN"));
         scrollPane.setStyle("-fx-background-color: transparent;-fx-border-color: transparent;");
-        scrollPane.setMinSize(this.getMenuItemWidth() + 40, this.CHeight - 100);
+        scrollPane.setMinSize(this.getMenuItemWidth() + 30, this.CHeight - 130
+                - this.getMenuItemHeigth());
+        gridPane.add(scrollPane, 0, 2, 4, 2);
 
-        AnchorPane.setTopAnchor(gridPane, Double.valueOf(30));
-        AnchorPane.setLeftAnchor(gridPane, Double.valueOf(this.getBWidth() / 2
-                - this.getMenuItemWidth() / 2));
-        AnchorPane.setTopAnchor(scrollPane, Double.valueOf(35 + this.getMenuItemHeigth()));
-        AnchorPane.setLeftAnchor(scrollPane, Double.valueOf(this.getBWidth() / 2
+        StackPane IPEnterStackPane = new StackPane();
+        textField = new TextField();
+        textField.setMinHeight(30);
+        textField.setPromptText("输入服务IP");
+        textField.setMinSize(this.getMenuItemWidth() - 30, 30);
+
+        button = new Button("连接服务");
+        button.setMinHeight(30);
+        button.setId("button");
+
+        IPEnterStackPane.getChildren().addAll(textField, button);
+        IPEnterStackPane.setAlignment(textField, Pos.CENTER_LEFT);
+        IPEnterStackPane.setAlignment(button, Pos.CENTER_RIGHT);
+
+        tipText = new Text("请输入正确的IP地址");
+        tipText.setFill(Color.RED);
+        tipText.setFont(new Font(12));
+        tipText.setVisible(false);
+
+        GridPane mainPane = new GridPane();
+        mainPane.setVgap(5);
+
+        mainPane.add(gridPane, 0, 1, 4, 1);
+        mainPane.add(IPEnterStackPane, 0, 3, 4, 3);
+        mainPane.add(tipText, 0, 6);
+
+        textFieldTimeline = new Timeline();
+        textFieldTimeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (textField.isPressed()) {
+                    tipText.setVisible(false);
+                    textFieldTimeline.stop();
+                }
+            }
+        });
+        textFieldTimeline.getKeyFrames().add(kf);
+
+        ListenSocketTime();
+
+        AnchorPane.setTopAnchor(mainPane, Double.valueOf(30));
+        AnchorPane.setLeftAnchor(mainPane, Double.valueOf(this.getBWidth() / 2
                 - this.getMenuItemWidth() / 2) - 15);
 
         anchorPane.getChildren().remove(vBox);
         anchorPane.getChildren().remove(cursorView);
-        anchorPane.getChildren().addAll(gridPane, scrollPane);
+        anchorPane.getChildren().addAll(mainPane);
+    }
 
-        this.addItem(new NetMenuItem());
-        this.addItem(new NetMenuItem("1.1.1", false));
-        this.addItem(new NetMenuItem("1.1.2", false));
-        this.addItem(new NetMenuItem("1.1.8", false));
-        this.addItem(new NetMenuItem("1.1.7", false));
-        
-//        this.addItem(new NetMenuItem("1.1.10", false));
-//        this.addItem(new NetMenuItem("1.1.9", false));
-//        this.addItem(new NetMenuItem("1.1.6", false));
-//        
-//        this.addItem(new NetMenuItem("1.1.11", false));
-//        this.addItem(new NetMenuItem("1.1.12", false));
-//        this.addItem(new NetMenuItem("1.1.13", false));
-//        
-//        this.addItem(new NetMenuItem("1.1.21", false));
-//        this.addItem(new NetMenuItem("1.1.22", false));
-//        this.addItem(new NetMenuItem("1.1.23", false));
-//        
-//        this.addItem(new NetMenuItem("1.1.31", false));
-//        this.addItem(new NetMenuItem("1.1.32", false));
-//        this.addItem(new NetMenuItem("1.1.33", false));
+    //监听已检测到的未连接socket的存在时间，若时间超过一分钟，则将之清除
+    private void ListenSocketTime() {
+        listenSocketTimeTimeline = new Timeline();
+        listenSocketTimeTimeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame kf = new KeyFrame(new Duration(60000), new EventHandler<ActionEvent>() {
 
+            @Override
+            public void handle(ActionEvent t) {
+                vBox.getChildren().clear();
+                items.clear();
+                nowItemSelected = -1;
+            }
+        });
+        listenSocketTimeTimeline.getKeyFrames().add(kf);
     }
 
     @Override
@@ -154,6 +203,24 @@ public class ConnectServerMenu extends MenuBar {
         return true;
     }
 
+    public boolean ButtonActionDeal() {
+        String text = textField.getText();
+        if (text != null && !text.trim().equals("")) {
+            if (isCorrectIP(text)) {
+                return true;
+            } else {
+                tipText.setVisible(true);
+                textFieldTimeline.play();
+            }
+        }
+        return false;
+    }
+
+    private boolean isCorrectIP(String IP) {
+        String regx = "((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
+        return IP.matches(regx);
+    }
+
     public String getSelectedItemIP() {
         return ((NetMenuItem) this.items.get(nowItemSelected)).getIPText();
     }
@@ -161,6 +228,7 @@ public class ConnectServerMenu extends MenuBar {
     @Override
     public void reset() {
         super.reset();
+        this.textFieldTimeline.stop();
         this.vBox.getChildren().clear();
         this.items.clear();
         this.nowItemSelected = -1;
@@ -171,12 +239,12 @@ public class ConnectServerMenu extends MenuBar {
         if (nowItemSelected != -1) {
             super.DealKeyEvent(t);
             int selected = this.getSelectedItem();
-            if (selected > scrollUp + 6) {
+            if (selected > scrollUp + 5) {
                 if (selected == this.items.size() - 1) {
-                    scrollUp = this.items.size() - 7;
+                    scrollUp = this.items.size() - 6;
                 }
-                scrollUp ++;
-                
+                scrollUp++;
+
             } else if (selected < scrollUp) {
                 if (selected == 0) {
                     scrollUp = 0;
@@ -184,14 +252,33 @@ public class ConnectServerMenu extends MenuBar {
                     scrollUp--;
                 }
             }
-            scrollPane.setVvalue(scrollUp * 1.0 / (this.items.size()-7));
+            scrollPane.setVvalue(scrollUp * 1.0 / (this.items.size() - 6));
         }
     }
 
     public ScrollPane getScrollPane() {
         return scrollPane;
     }
-    public VBox getVBox(){
+
+    public VBox getVBox() {
         return this.vBox;
+    }
+
+    /**
+     * @return the button
+     */
+    public Button getButton() {
+        return button;
+    }
+
+    public String getTextFieldIP() {
+        return textField.getText();
+    }
+
+    /**
+     * @return the listenSocketTimeTimeline
+     */
+    public Timeline getListenSocketTimeTimeline() {
+        return listenSocketTimeTimeline;
     }
 }
