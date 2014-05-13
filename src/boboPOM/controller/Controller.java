@@ -3,6 +3,7 @@ package boboPOM.controller;
 import boboPOM.config.Config;
 import boboPOM.net.MsgQueue;
 import boboPOM.view.MainView;
+import boboPOM.view.MenuView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -24,7 +25,8 @@ public class Controller implements Initializable {
 
     @FXML
     private MainView mainView;
-
+    @FXML
+    private MenuView menuView;
     private ArrayList<KeyCode> c1, c2;
     private ArrayList<EventHandler> handlerList;
     private MsgQueue<Object> message;
@@ -65,6 +67,7 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         handlerList = new ArrayList<EventHandler>();
         Config.p1Controller = new ArrayList<>();
         c1 = Config.p1Controller;
@@ -87,10 +90,17 @@ public class Controller implements Initializable {
         c2.add(KeyCode.NUMPAD5);
         c2.add(KeyCode.NUMPAD6);
         c2.add(KeyCode.NUMPAD0);
+        Config.controller = this;
+    }
+
+    public void initGames(int p1,int p2){
+        menuView.setVisible(false);
+        mainView.init();
+        mainView.setFocusTraversable(true);
+        mainView.requestFocus();
+        mainView.setPersonages(p1,p2);
         this.addHandler(mainView.getMainFrame().getP1());
         this.addHandler(mainView.getMainFrame().getP2());
-
-        mainView.getMainFrame().getP1().setController(this);
         if(Config.network) {
             message = new MsgQueue<>();
             Timeline timeline = new Timeline();

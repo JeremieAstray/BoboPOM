@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import boboPOM.view.menu.*?>
 <?import boboPOM.view.menu.mainmenu.*?>
-<?import boboPOM.view.menu.mainmenu.netmenu.*?>
-<AnchorPane  prefHeight="540" prefWidth="960" 
+<?import boboPOM.view.menu.mainmenu.netmenu.ConnectServerMenu?>
+<?import boboPOM.view.menu.mainmenu.netmenu.NetMenuBar?>
+<?import boboPOM.view.menu.mainmenu.netmenu.SocketMenu?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane  prefHeight="540" prefWidth="960"
              onKeyPressed="#MenuInKeyEvent" onMousePressed="#MenuInMouseEvent" 
              styleClass="background" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.MenuController">
     <children>

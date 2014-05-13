@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private static final String AppCss = Main.class.getResource("resources/css/style.css").toExternalForm();
     /**
      * 主程序
      *
@@ -19,6 +18,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Config.init();
         Parent root = FXMLLoader.load(getClass().getResource("BoboPom.fxml"));
         primaryStage.setMaxHeight(Config.SCREEN_HEIGHT + 28);
         primaryStage.setMaxWidth(Config.SCREEN_WIDTH + 6);
@@ -27,7 +27,6 @@ public class Main extends Application {
         primaryStage.setTitle("BoboPom!");
         primaryStage.getIcons().add(new Image(Main.class.getResource("resources/images/title.png").toExternalForm()));
         primaryStage.setScene(scene);
-        scene.getStylesheets().add(AppCss);
         primaryStage.show();
 
     }

@@ -1,26 +1,23 @@
 package boboPOM.config;
 
+import boboPOM.controller.Controller;
 import boboPOM.media.BGMMedia;
 import boboPOM.media.EffectMedia;
 import boboPOM.net.SocketLink;
 import boboPOM.view.Main;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Jeremie on 14-3-4.
  */
 public final class Config {
+    public static Controller controller;
     public static BGMMedia bgmMedia;
     public static EffectMedia effectMedia;
     

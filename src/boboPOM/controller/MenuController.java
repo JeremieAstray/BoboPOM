@@ -95,7 +95,7 @@ public class MenuController implements Initializable {
                     break;
                 case 1:  //单机模式菜单
                     if (soloMenuBar.isHover() || isKey) {
-                        SoloToNext();
+                        SoloToNext(soloMenuBar.getSelectedItem(), soloMenuBar.getItemSelected2P());
                     }
                     break;
                 case 2:  //网络对战菜单
@@ -227,8 +227,9 @@ public class MenuController implements Initializable {
         mainMenuBar.setVisible(false);
     }
 
-    private void SoloToNext() {
-
+    private void SoloToNext(int p1,int p2) {
+        Config.bgmMedia.stopMusic();
+        Config.controller.initGames(p1,p2);
     }
 
     private void SoloReturn() {

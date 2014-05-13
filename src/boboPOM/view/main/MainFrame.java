@@ -4,13 +4,14 @@ import boboPOM.code.counters.CounterSet;
 import boboPOM.code.playerside.Model;
 import boboPOM.config.Config;
 import boboPOM.view.Main;
-import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -30,7 +31,7 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
         cs.regCounters(this);
     }
 
-    private void init(MainModel model) {
+    private void init(MainModel model ) {
         this.model = model;
         this.p1 = model.getP1();
         this.p2 = model.getP2();

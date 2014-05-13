@@ -1,8 +1,6 @@
 
 package boboPOM.view.main;
 
-import boboPOM.code.basic.Brick;
-import boboPOM.code.basic.Bobo;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventType;

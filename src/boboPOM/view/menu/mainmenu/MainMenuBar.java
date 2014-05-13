@@ -8,8 +8,6 @@ package boboPOM.view.menu.mainmenu;
 import boboPOM.view.menu.MenuBar;
 import boboPOM.view.menu.MenuItem;
 
-import javafx.scene.control.Control;
-
 /**
  *
  * @author:feng

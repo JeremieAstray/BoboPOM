@@ -1,25 +1,24 @@
 
 package boboPOM.code.playerside;
 
+import boboPOM.code.basic.Bobo;
+import boboPOM.code.basic.Brick;
+import boboPOM.code.counters.CounterSet;
+import boboPOM.code.prepareContainer.PrepareSet;
 import boboPOM.config.Config;
-import boboPOM.controller.Controller;
+import boboPOM.controller.OpEvent;
 import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.MainModel;
 import boboPOM.view.main.Splash;
-import boboPOM.code.basic.Bobo;
-import boboPOM.code.basic.Brick;
-import boboPOM.controller.OpEvent;
-import boboPOM.code.counters.CounterSet;
-import boboPOM.code.prepareContainer.PrepareSet;
 import boboPOM.view.main.UpdataEvent;
-import java.util.ArrayList;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 
 /**
  *
@@ -405,13 +404,6 @@ public void setSBurst(boolean sb){
         if(!win)
         this.getMainModel().winner(!p1);
     }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
-    private Controller controller;
-
    
     //这是一个发出信息的示例
         public void send(){
@@ -432,7 +424,7 @@ public void setSBurst(boolean sb){
             }
             comf.removeAll(temp);
             comf.remove(this.pane);
-            controller.send(new UpdataEvent(p1,cops,comf));
+            Config.controller.send(new UpdataEvent(p1,cops,comf));
         }
      
 

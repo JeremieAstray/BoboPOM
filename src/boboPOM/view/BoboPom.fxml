@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import boboPOM.view.MainView?>
+<?import boboPOM.view.MenuView?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane  styleClass="" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.Controller">
     <children>
+        <MenuView fx:id="menuView" />
         <MainView onKeyReleased="#keyRelease" onKeyPressed="#keyPressed" fx:id="mainView" />
     </children>
 </AnchorPane>
