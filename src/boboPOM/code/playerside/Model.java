@@ -305,7 +305,7 @@ public void setSBurst(boolean sb){
         if (brick != null&&enable) {
             if (brick.getD().getLeft() != null && brick.getD().getLeft().isNull()) {
                 if(brick.moveL())
-                     Config.effectMedia.play(7);
+                     Config.effectMedia.play(0);
             }
             this.pane.getShadow().setIndex(brick.getD().getIndexX());
         }
@@ -315,7 +315,7 @@ public void setSBurst(boolean sb){
         if (brick != null&&enable) {
             if (brick.getD().getRight() != null && brick.getD().getRight().isNull()) {
                 if(brick.moveR())
-                    Config.effectMedia.play(7);
+                    Config.effectMedia.play(0);
             }
              this.pane.getShadow().setIndex(brick.getD().getIndexX());
         }

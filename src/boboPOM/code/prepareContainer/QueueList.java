@@ -10,12 +10,12 @@ import java.util.LinkedList;
 public class QueueList<T> extends LinkedList<T> {
 
     public T take() {
-        T t = super.get(0);
-        super.remove(0);
+        T t = super.getFirst();
+        super.removeFirst();
         return t;
     }
 
     public T look() {
-        return super.get(0);
+        return  super.getFirst();
     }
 }

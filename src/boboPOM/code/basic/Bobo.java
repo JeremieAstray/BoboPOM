@@ -94,13 +94,13 @@ public class Bobo extends ImageView {
         if (newState == Bobo.STATE_JUMPING) {
             if ((state == Bobo.STATE_BRICK || state == Bobo.STATE_DROPPING)) {
                 this.state = newState;
-                Config.effectMedia.play(8);
+                Config.effectMedia.play(7);
                 stateAnimePlay(Bobo.STATE_DROPPING);
                 return;
             }
             if (state == Bobo.STATE_RISING) {
                 this.state = newState;
-                Config.effectMedia.play(8);
+                Config.effectMedia.play(7);
                 stateAnimePlay(Bobo.STATE_RISING);
                 return;
             }
@@ -317,7 +317,7 @@ public class Bobo extends ImageView {
             }
 
             if (state == Bobo.STATE_VANSHING) {
-                 Config.effectMedia.play(9);
+                 Config.effectMedia.play(8);
                 ScaleTransition newSt = newSt(Duration.millis(500), 1.2, false);
                 vanishEffect.setTranslateX(bo.getTranslateX());
                 vanishEffect.setTranslateY(bo.getTranslateY());

@@ -35,7 +35,7 @@ public class PlayerSide extends StackPane {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 16; j++) {
                 this.getChildren().add(new Bobo(this));
-                addBobo(new Bobo(this), i, j);
+                 addBobo(new Bobo(this), i, j);
             }
         }
         if (p1) {
