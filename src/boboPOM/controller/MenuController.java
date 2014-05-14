@@ -551,6 +551,7 @@ public class MenuController implements Initializable {
     }
 
     private void GameStar(int p1) {
+        broadcastSession.setRun(false);
         if(broadcastListenerTimeline!=null)
             broadcastListenerTimeline.stop();
         if(ConnectServerListenerTimeline!=null)

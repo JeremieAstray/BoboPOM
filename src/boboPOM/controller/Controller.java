@@ -6,7 +6,6 @@ import boboPOM.net.SocketLink;
 import boboPOM.view.MainView;
 import boboPOM.view.MenuView;
 import boboPOM.view.main.UpdataEvent;
-import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,8 +32,6 @@ public class Controller implements Initializable {
     private ArrayList<EventHandler> handlerList;
     private MsgQueue<Object> gameMsg;
     private SocketLink socketLink;
-    private Timeline timeline;
-    private boolean run = false;
     private boolean getp2 = false;
 
     @FXML
@@ -76,24 +73,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Timer t = new Timer(true);
-        t.schedule(new TimerTask(){
 
-            @Override
-            public void run() {
-                if (run) {
-                    if (!gameMsg.isEmpty()) {
-                        Object o = gameMsg.recv();
-                        if (o instanceof Integer) {
-                            p2 = (Integer) o;
-                            System.out.println("***************" + p2);
-                            getp2 = true;
-                        } else if (o instanceof UpdataEvent)
-                            mainView.getMainFrame().getP2().recv(o);
-                    }
-                }
-            }
-        },0,40);
         handlerList = new ArrayList<EventHandler>();
         Config.p1Controller = new ArrayList<>();
         c1 = Config.p1Controller;
@@ -133,14 +113,27 @@ public class Controller implements Initializable {
 
     public void initNetGames(int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
         socketLink.send(new Integer(p1));
-        this.run = true;
         this.socketLink = socketLink;
         this.gameMsg = regamesMsg;
+        Timer t = new Timer(true);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!gameMsg.isEmpty()) {
+                    Object o = gameMsg.recv();
+                    if (o instanceof Integer) {
+                        p2 = (Integer) o;
+                        getp2 = true;
+                    } else if (o instanceof UpdataEvent)
+                        mainView.getMainFrame().getP2().recv(o);
+                }
+            }
+        }, 0, 40);
         menuView.setVisible(false);
         mainView.init(Config.network);
         mainView.setFocusTraversable(true);
         mainView.requestFocus();
-        while(!getp2) {
+        while (!getp2) {
         }
         mainView.setPersonages(p1, p2);
         this.addHandler(mainView.getMainFrame().getP1());

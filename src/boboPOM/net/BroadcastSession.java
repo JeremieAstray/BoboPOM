@@ -15,7 +15,7 @@ public class BroadcastSession extends TimerTask {
     private MsgQueue<String> broadcaseMsg;
     private boolean connected = false;
 
-    public BroadcastSession(int port){
+    public BroadcastSession(int port) {
         isServer = true;
         this.port = port;
     }
@@ -28,7 +28,7 @@ public class BroadcastSession extends TimerTask {
 
     @Override
     public void run() {
-        while (run){
+        while (run) {
             if (isServer) {
                 try {
                     sendBroadcast();
@@ -50,7 +50,7 @@ public class BroadcastSession extends TimerTask {
 
     private void sendBroadcast() {
         try {
-            String msg = "bobopomGames:" + (connected ? "isconnected":"notconnected");
+            String msg = "bobopomGames:" + (connected ? "isconnected" : "notconnected");
             DatagramSocket ds = new DatagramSocket();
             InetAddress inetAddress = InetAddress.getByName("255.255.255.255");
             DatagramPacket datagramPacket = new DatagramPacket(
@@ -77,9 +77,9 @@ public class BroadcastSession extends TimerTask {
             ds.receive(dp);
             String recv = new String(dp.getData(), 0, dp.getLength());
             String[] recvs = recv.split(":");
-            if(recvs.length == 2 && "bobopomGames".equals(recvs[0])) {
-                strRecv = new String(dp.getAddress().getHostAddress() + " " + recvs[1] );
-            }else {
+            if (recvs.length == 2 && "bobopomGames".equals(recvs[0])) {
+                strRecv = new String(dp.getAddress().getHostAddress() + " " + recvs[1]);
+            } else {
                 strRecv = "error message!";
             }
             ds.close();
