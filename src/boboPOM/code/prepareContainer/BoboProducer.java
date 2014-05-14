@@ -47,12 +47,19 @@ public class BoboProducer {
     }
 
     private void setMark() {
-        while (!stack.empty()) {
-            point = stack.pop();
-            if (stack.size() >= 2) {
-                reSet(point.getX(), point.getY());
+        if (stack.size() > 2) {
+            while (!stack.empty()) {
+                point = stack.pop();
+                if (stack.size() >= 1) {
+                    reSet(point.getX(), point.getY());
+                }
+                mark2[point.getX()][point.getY()] = 1;
             }
-            mark2[point.getX()][point.getY()] = 1;
+        } else{
+            while(!stack.empty()){
+                point = stack.pop();
+                mark2[point.getX()][point.getY()] = 1;
+            }
         }
     }
 
@@ -79,10 +86,20 @@ public class BoboProducer {
             signal[bobo[i][j + 1]] = 1;
         }
 
-        for (int k = 0; k < signal.length - 1; k++) {
-            if (signal[k] == 0) {
-                bobo[i][j] = k;
-                break;
+        int add = (int) (Math.random() * 2);
+        if (add == 0) {
+            for (int k = 0; k < signal.length - 1; k++) {
+                if (signal[k] == 0) {
+                    bobo[i][j] = k;
+                    break;
+                }
+            }
+        } else {
+            for (int k = signal.length - 2; k >= 0; k--) {
+                if (signal[k] == 0) {
+                    bobo[i][j] = k;
+                    break;
+                }
             }
         }
     }
@@ -93,7 +110,6 @@ public class BoboProducer {
         } else {
             if (mark[xc][yc] == 0 && bobo[xc][yc] == bobo[xo][yo]) {
                 point = new Point(xc, yc);
-                //System.out.println(xc + " " + yc);
                 mark[xc][yc] = 1;
                 stack.push(point);
                 isSame(xo, yo, xc - 1, yc);
