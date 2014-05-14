@@ -18,5 +18,6 @@
         <GameSetting   fx:id="gameSetting"/>
         <PlayerMenu   fx:id="playerMenu"/>
         <PrepareBar fx:id="prepareBar"/>
+        <SoloPrepareBar fx:id="soloPrepareBar"/>
     </children>
 </AnchorPane>

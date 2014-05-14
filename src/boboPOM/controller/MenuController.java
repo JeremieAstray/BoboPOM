@@ -43,6 +43,7 @@ public class MenuController implements Initializable {
     private SocketLink socketLink;
 
     private int menuMark = 0;
+    
     @FXML
     private MainMenuBar mainMenuBar;
     @FXML
@@ -61,6 +62,8 @@ public class MenuController implements Initializable {
     private PlayerMenu playerMenu;
     @FXML
     private PrepareBar prepareBar;
+    @FXML
+    private SoloPrepareBar soloPrepareBar;
 
     @FXML
     private void MenuInKeyEvent(KeyEvent e) {
@@ -75,31 +78,40 @@ public class MenuController implements Initializable {
 
     @FXML
     private void MenuInMouseEvent(MouseEvent e) {
-        System.out.println("pre " + menuMark);
         if (e.isPrimaryButtonDown()) {
             MenuToNext(false);
         } else if (e.isSecondaryButtonDown()) {
             MenuReturn();
         }
-        System.out.println("after " + menuMark);
     }
 
     private void MenuToNext(boolean isKey) {
+        if(menuMark != 3 && menuMark != 1){
+            Config.effectMedia.play(1);
+        }
         if (menuMark < 10) {
             switch (menuMark) {
                 case 0:  //主菜单
-                    if (mainMenuBar.isHover() || isKey) {
+                    if (mainMenuBar.getvBox().isHover() || isKey) {
                         MainToNext();
                         menuMark = menuMark * 10 + mainMenuBar.getSelectedItem() + 1;
                     }
                     break;
                 case 1:  //单机模式菜单
-                    if (soloMenuBar.isHover() || isKey) {
-                        SoloToNext(soloMenuBar.getSelectedItem(), soloMenuBar.getItemSelected2P());
+                    if (soloMenuBar.getvBox().isHover() || isKey) {
+                        if (soloPrepareBar.isPrepared() != 0) {
+                            Config.effectMedia.play(1);
+                            soloPrepareBar.set1PPrepared(true);
+                            soloMenuBar.setMouseEffect(false);
+                            if (soloPrepareBar.isPrepared() == 2) {
+                                SoloToNext(soloMenuBar.getSelectedItem(), 
+                                        soloMenuBar.getItemSelected2P());
+                            }
+                        }
                     }
                     break;
                 case 2:  //网络对战菜单
-                    if (netMenuBar.isHover() || isKey) {
+                    if (netMenuBar.getvBox().isHover() || isKey) {
                         NetToNext();
                     }
                     break;
@@ -114,9 +126,13 @@ public class MenuController implements Initializable {
             switch (menuMark) {
                 case 22:  //连接服务菜单
                     if (connectServerMenu.getSelectedItem() != -1
-                            && (connectServerMenu.getVBox().isHover() || isKey)) {
-                        System.out.println("inConnectServerMenu");
-                        ConnectServerToNext(connectServerMenu.getSelectedItemIP());
+                            && (connectServerMenu.getvBox().isHover() || isKey)) {
+                        NetMenuItem netMenuItem = connectServerMenu.getSelectedMenuItem();
+                        if (!netMenuItem.isConnected()) {
+                            ConnectServerToNext(netMenuItem.getIPText());
+                        } else {
+                            System.out.println("已连接");
+                        }
                     }
                     break;
             }
@@ -124,19 +140,29 @@ public class MenuController implements Initializable {
             switch (menuMark) {
                 case 210:
                 case 220:
-                    PlayerMenuToNext();
-                    menuMark *= 10;
+                    if (playerMenu.getvBox().isHover() || isKey) {
+                        PlayerMenuToNext();
+                        menuMark *= 10;
+                    }
                     break;
             }
         }
     }
 
     private void MenuReturn() {
+        if(menuMark != 3){
+            Config.effectMedia.play(2);
+        }
         if (menuMark > 0 && menuMark < 10) {
             switch (menuMark) {
                 case 1: //单机模式菜单
-                    SoloReturn();
-                    menuMark /= 10;
+                    if (soloPrepareBar.isPrepared() == 0) {
+                        soloPrepareBar.set1PPrepared(false);
+                        soloMenuBar.setMouseEffect(true);
+                    } else {
+                        SoloReturn();
+                        menuMark /= 10;
+                    }
                     break;
                 case 2:  //网络对战菜单
                     NetReturn();
@@ -182,8 +208,27 @@ public class MenuController implements Initializable {
                     mainMenuBar.DealKeyEvent(keyCode);
                     break;
                 case 1:  //单机模式菜单
-                    soloMenuBar.DealKeyEvent(keyCode);
-                    soloMenuBar.Deal2PKeyEvent(keyCode);
+                    int prepare = soloPrepareBar.isPrepared();
+                    if (keyCode == keyCode.NUMPAD2) {
+                        if (prepare != 1) {
+                            soloPrepareBar.set2PPrepared(true);
+                            Config.effectMedia.play(1);
+                            if (soloPrepareBar.isPrepared() == 2) {
+                                SoloToNext(soloMenuBar.getSelectedItem(),
+                                        soloMenuBar.getItemSelected2P());
+                            }
+                        }
+                    } else if (keyCode == keyCode.NUMPAD1 && prepare == 1) {
+                        soloPrepareBar.set2PPrepared(false);
+                        Config.effectMedia.play(2);
+                    } else {
+                        if (prepare != 0) {
+                            soloMenuBar.DealKeyEvent(keyCode);
+                        }
+                        if (prepare != 1) {
+                            soloMenuBar.Deal2PKeyEvent(keyCode);
+                        }
+                    }
                     break;
                 case 2:  //网络对战菜单
                     netMenuBar.DealKeyEvent(keyCode);
@@ -227,14 +272,15 @@ public class MenuController implements Initializable {
         mainMenuBar.setVisible(false);
     }
 
-    private void SoloToNext(int p1,int p2) {
+    private void SoloToNext(int p1, int p2) {
         Config.bgmMedia.stopMusic();
-        Config.controller.initGames(p1,p2);
+        Config.controller.initGames(p1, p2);
     }
 
     private void SoloReturn() {
         soloMenuBar.setVisible(false);
         soloMenuBar.reset();
+        soloPrepareBar.reset();
         mainMenuBar.setVisible(true);
     }
 
@@ -550,7 +596,7 @@ public class MenuController implements Initializable {
 
         playerMenu.setTranslateX(width - playerMenu.getBWidth() / 2);
         playerMenu.setTranslateY(height - playerMenu.getBHeight() / 2);
-        
+
         Config.bgmMedia.playMusic(2, true);
     }
 

@@ -17,11 +17,18 @@ public class PrepareBar extends SocketMenu {
     private boolean peerPrepared = false;
     private boolean ownPrepared = false;
     
-    private final String prepared = "对方已做好准备";
+    private String prepared = "对方已做好准备";
     
-    public PrepareBar() {
-        super("等待对方做好准备", 260, 75);
+    
+    public PrepareBar(){
+        this("等待对方做好准备", "对方已做好准备");
+    }
+    
+    public PrepareBar(String prepare1, String prepare2) {
+        super(prepare1, 260, 75);
+        this.prepared = prepare2;
         this.setVisible(false);
+        this.timeline.stop();
         AnchorPane.setTopAnchor(this.waitText, Double.valueOf(26));
     }
     

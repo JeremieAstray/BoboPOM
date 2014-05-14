@@ -27,6 +27,7 @@ public class SoloMenuBar extends PlayerMenu {
 
     private ImageView cursorView2P;
     private int itemSelected2P = 0;
+    private boolean mouseEffect = true;
 
     public SoloMenuBar() {
         this(250, 70, 200);
@@ -50,8 +51,8 @@ public class SoloMenuBar extends PlayerMenu {
                         new KeyValue(cursorView2P.translateYProperty(), 10))
         );
         timeline.play();
-        
-        anchorPane.getChildren().add(cursorView2P);
+
+        anchorPane.getChildren().addAll(cursorView2P);
         AnchorPane.setLeftAnchor(cursorView2P, Double.valueOf(this.getBWidth() / 2
                 + this.getMenuItemWidth() / 2));
         AnchorPane.setTopAnchor(cursorView2P, Double.valueOf(this.getMenuItemHeigth()));
@@ -81,22 +82,56 @@ public class SoloMenuBar extends PlayerMenu {
             Config.effectMedia.play(3);
         }
     }
-    
+
     @Override
-    public void DealKeyEvent(KeyCode t){
+    public void DealKeyEvent(KeyCode t) {
         super.DealKeyEvent(t);
-        if(items.get(itemSelected2P).isSelected() == false){
+        if (items.get(itemSelected2P).isSelected() == false) {
             items.get(itemSelected2P).setBackground(true);
         }
     }
-    
+
     @Override
-    protected EventHandler<MouseEvent> enterMouseEvent(MenuItem menuItem, int index){
-        EventHandler<MouseEvent> eventHandler = super.enterMouseEvent(menuItem, index);
-        if(items.size() >0 && items.get(itemSelected2P).isSelected() == false){
-            items.get(itemSelected2P).setBackground(true);
-        }
-        return eventHandler;
+    public void addItem(MenuItem menuItem) {
+        super.addItem(menuItem);
+        //menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size() - 1));
+    }
+
+    @Override
+    protected EventHandler<MouseEvent> enterMouseEvent(MenuItem menuItem, int index) {
+        return new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                if (mouseEffect) {
+                    if (nowItemSelected != -1 && nowItemSelected != index) {
+                        items.get(nowItemSelected).setBackground(false);
+                    }
+                    if (items.size() > 0 && items.get(itemSelected2P).isSelected() == false) {
+                        items.get(itemSelected2P).setBackground(true);
+                    }
+                    menuItem.setBackground(true);
+                    nowItemSelected = index;
+                    changeCursorLocation(index);
+                    Config.effectMedia.play(3);
+                }
+            }
+        };
+    }
+
+    @Override
+    protected EventHandler<MouseEvent> exitMouseEvent(MenuItem menuItem) {
+        return new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                if (mouseEffect) {
+                    if (getvBox().isHover()) {
+                        menuItem.setBackground(false);
+                    }
+                }
+            }
+        };
     }
 
     private void change2PCursorLocation(int index) {
@@ -120,5 +155,12 @@ public class SoloMenuBar extends PlayerMenu {
      */
     public int getItemSelected2P() {
         return itemSelected2P;
+    }
+
+    /**
+     * @param mouseEffect the mouseEffect to set
+     */
+    public void setMouseEffect(boolean mouseEffect) {
+        this.mouseEffect = mouseEffect;
     }
 }

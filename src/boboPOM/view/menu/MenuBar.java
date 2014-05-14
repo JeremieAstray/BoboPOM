@@ -39,7 +39,7 @@ public class MenuBar extends Control {
     protected Image line;
     private ImageEditor borderEditor;
     private ImageEditor lineEditor;
-    protected VBox vBox;
+    private VBox vBox;
 
     protected KeyFrame keyFrameStar;
     protected KeyFrame keyFrameEnd;
@@ -107,7 +107,7 @@ public class MenuBar extends Control {
 
     public void addItem(MenuItem menuItem) {
         menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));
-        menuItem.setOnMouseExited(exitMouseEvent(menuItem, items.size() - 1));
+        menuItem.setOnMouseExited(exitMouseEvent(menuItem));
         items.add(menuItem);
         ImageView lineView = new ImageView(this.line);
 
@@ -150,12 +150,12 @@ public class MenuBar extends Control {
         };
     }
 
-    protected EventHandler<MouseEvent> exitMouseEvent(MenuItem menuItem, int index) {
+    protected EventHandler<MouseEvent> exitMouseEvent(MenuItem menuItem) {
         return new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent t) {
-                if (vBox.isHover()) {
+                if (getvBox().isHover()) {
                     menuItem.setBackground(false);
                 }
             }
@@ -258,5 +258,12 @@ public class MenuBar extends Control {
      */
     public int getMenuItemWidth() {
         return menuItemWidth;
+    }
+
+    /**
+     * @return the vBox
+     */
+    public VBox getvBox() {
+        return vBox;
     }
 }

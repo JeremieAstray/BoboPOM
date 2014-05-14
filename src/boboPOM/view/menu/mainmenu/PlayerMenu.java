@@ -50,7 +50,7 @@ public class PlayerMenu extends MenuBar {
         anchorPane.getChildren().add(stackPane);
         AnchorPane.setTopAnchor(stackPane, Double.valueOf(30));
         AnchorPane.setTopAnchor(cursorView, Double.valueOf(this.getMenuItemHeigth()));
-        AnchorPane.setTopAnchor(vBox, Double.valueOf(30 + this.getMenuItemHeigth()));
+        AnchorPane.setTopAnchor(getvBox(), Double.valueOf(30 + this.getMenuItemHeigth()));
     }
 
     @Override
