@@ -17,12 +17,12 @@ public class BroadcastSession extends TimerTask {
 
     public BroadcastSession(int port){
         isServer = true;
-        this.port = 7003;
+        this.port = port;
     }
 
     public BroadcastSession(int port, MsgQueue<String> broadcaseMsg) {
         isServer = false;
-        this.port = 7003;
+        this.port = port;
         this.broadcaseMsg = broadcaseMsg;
     }
 
@@ -54,7 +54,7 @@ public class BroadcastSession extends TimerTask {
             DatagramSocket ds = new DatagramSocket();
             InetAddress inetAddress = InetAddress.getByName("255.255.255.255");
             DatagramPacket datagramPacket = new DatagramPacket(
-                    msg.getBytes(), msg.length(), inetAddress, 7001);
+                    msg.getBytes(), msg.length(), inetAddress, port);
             ds.send(datagramPacket);
             ds.close();
         } catch (UnknownHostException e) {
@@ -70,7 +70,7 @@ public class BroadcastSession extends TimerTask {
         String strRecv = null;
         DatagramSocket ds = null;
         try {
-            ds = new DatagramSocket(7001);// 创建接收数据报套接字并将其绑定到本地主机上的指定端口
+            ds = new DatagramSocket(port);// 创建接收数据报套接字并将其绑定到本地主机上的指定端口
             ds.setSoTimeout(1000);
             byte[] buf = new byte[128];
             DatagramPacket dp = new DatagramPacket(buf, buf.length);
