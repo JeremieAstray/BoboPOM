@@ -431,7 +431,7 @@ public void setSBurst(boolean sb){
     public void recv(Object o){
         //这个是被调用的，每次被调用就会接收到对方发出的对象
         //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
-        UpdataEvent ue = (UpdataEvent)o;
+        UpdataEvent ue = (UpdataEvent) o;
         this.getMainModel().upData(ue);
     }
 

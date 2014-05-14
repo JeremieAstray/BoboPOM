@@ -149,7 +149,7 @@ public final class Config {
 
         //personage
         personages = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             personages.add(new Image(Main.class.getResourceAsStream("resources/images/personage/" + i + ".png")));
         }
         //effect

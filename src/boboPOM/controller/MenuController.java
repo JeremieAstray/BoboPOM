@@ -492,7 +492,7 @@ public class MenuController implements Initializable {
             prepareBar.setOwnPrepared(true);
             playerMenu.setVisible(false);
         } else {
-            GameStar();//开始游戏
+            GameStar(playerMenu.getSelectedItem());//开始游戏
         }
     }
 
@@ -525,18 +525,21 @@ public class MenuController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if (!gamesMsg.isEmpty()) {
-                    String recv = (String) gamesMsg.recv();
-                    System.out.println(recv);
-                    if ("ready".equals(recv)) {
-                        currentStatus = recv;
-                        if (!prepareBar.isOwnPrepared()) {
-                            prepareBar.setPeerPrepared(true);
-                        } else {
-                            GameStar();
+                    Object o = gamesMsg.recv();
+                    if(o instanceof String) {
+                        String recv = (String) o;
+                        System.out.println(recv);
+                        if ("ready".equals(recv)) {
+                            currentStatus = recv;
+                            if (!prepareBar.isOwnPrepared()) {
+                                prepareBar.setPeerPrepared(true);
+                            } else {
+                                GameStar(playerMenu.getSelectedItem());
+                            }
+                        } else if ("noReady".equals(recv)) {
+                            currentStatus = recv;
+                            prepareBar.setPeerPrepared(false);
                         }
-                    } else if ("noReady".equals(recv)) {
-                        currentStatus = recv;
-                        prepareBar.setPeerPrepared(false);
                     }
                 }
             }
@@ -545,8 +548,17 @@ public class MenuController implements Initializable {
         PrepareListenerTimeline.play();
     }
 
-    private void GameStar() {
+    private void GameStar(int p1) {
+        broadcastSession.setRun(false);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Config.bgmMedia.stopMusic();
         System.out.println("开始游戏");
+        Config.network = true;
+        Config.controller.initNetGames(p1,socketLink,gamesMsg);
     }
 
     @Override

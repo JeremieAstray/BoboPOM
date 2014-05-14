@@ -7,9 +7,6 @@ package boboPOM.view.menu.mainmenu;
 
 import boboPOM.config.Config;
 import boboPOM.view.menu.ImageEditor;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -24,6 +21,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -110,7 +111,7 @@ public class DialogBox extends Control {
         tTimeline = new Timeline();
 
         tTimeline.setCycleCount(Timeline.INDEFINITE);
-        tTimeline.getKeyFrames().add(new KeyFrame(new Duration(50),
+        tTimeline.getKeyFrames().add(new KeyFrame(new Duration(30),
                 new EventHandler<ActionEvent>() {
 
                     @Override

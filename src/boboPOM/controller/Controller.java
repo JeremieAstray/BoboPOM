@@ -2,8 +2,10 @@ package boboPOM.controller;
 
 import boboPOM.config.Config;
 import boboPOM.net.MsgQueue;
+import boboPOM.net.SocketLink;
 import boboPOM.view.MainView;
 import boboPOM.view.MenuView;
+import boboPOM.view.main.UpdataEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -29,7 +31,9 @@ public class Controller implements Initializable {
     private MenuView menuView;
     private ArrayList<KeyCode> c1, c2;
     private ArrayList<EventHandler> handlerList;
-    private MsgQueue<Object> message;
+    private MsgQueue<Object> gameMsg;
+    private SocketLink socketLink;
+
     @FXML
     private void keyPressed(KeyEvent event) {
         c1Pe(event);
@@ -93,27 +97,47 @@ public class Controller implements Initializable {
         Config.controller = this;
     }
 
-    public void initGames(int p1,int p2){
+    public void initGames(int p1, int p2) {
         menuView.setVisible(false);
-        mainView.init();
+        mainView.init(Config.network);
         mainView.setFocusTraversable(true);
         mainView.requestFocus();
-        mainView.setPersonages(p1,p2);
+        mainView.setPersonages(p1, p2);
         this.addHandler(mainView.getMainFrame().getP1());
         this.addHandler(mainView.getMainFrame().getP2());
-        if(Config.network) {
-            message = new MsgQueue<>();
+    }
+
+    private int p2 = 0;
+
+    public void initNetGames(int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
+        if (Config.network) {
+            System.out.println("network");
+            this.socketLink = socketLink;
+            socketLink.send(new Integer(p1));
+            this.gameMsg = regamesMsg;
             Timeline timeline = new Timeline();
             timeline.setCycleCount(Timeline.INDEFINITE);
             KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    if (!message.isEmpty())
-                        mainView.getMainFrame().getP1().recv(message.recv());
+                    if (!gameMsg.isEmpty()) {
+                        Object o = gameMsg.recv();
+                        if (o instanceof Integer) {
+                            p2 = (Integer) o;
+                            System.out.println("---------->" + o);
+                        } else if (o instanceof UpdataEvent)
+                            mainView.getMainFrame().getP2().recv(o);
+                    }
                 }
             });
             timeline.getKeyFrames().add(kf);
             timeline.play();
         }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        initGames(p1,this.p2);
     }
 
     private void processEvent(Event e) {
@@ -133,6 +157,6 @@ public class Controller implements Initializable {
     }
 
     public void send(Object o) {
-        System.out.println(o.toString());
+        socketLink.send(o);
     }
 }

@@ -16,10 +16,10 @@ public class MainView extends StackPane {
     public MainView() {
     }
 
-    public void init(){
+    public void init(boolean network){
         control = new MyControl();
         this.getChildren().addAll(control);
-        mainFrame = new MainFrame(new MainModel(true,false));
+        mainFrame = new MainFrame(new MainModel(true,network));
         this.layout();
         this.setTranslateY(6);
         mainFrame.getChildren().get(0).requestFocus();
