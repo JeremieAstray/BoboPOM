@@ -17,12 +17,12 @@ public class BroadcastSession extends TimerTask {
 
     public BroadcastSession(int port){
         isServer = true;
-        this.port = port;
+        this.port = 7003;
     }
 
     public BroadcastSession(int port, MsgQueue<String> broadcaseMsg) {
         isServer = false;
-        this.port = port;
+        this.port = 7003;
         this.broadcaseMsg = broadcaseMsg;
     }
 

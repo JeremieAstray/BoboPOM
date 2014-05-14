@@ -31,7 +31,7 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
         cs.regCounters(this);
     }
 
-    private void init(MainModel model ) {
+    private void init(MainModel model) {
         this.model = model;
         this.p1 = model.getP1();
         this.p2 = model.getP2();

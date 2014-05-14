@@ -36,6 +36,9 @@ public class MenuController implements Initializable {
 
     private BroadcastSession broadcastSession;
     private Timeline broadcastListenerTimeline;
+    private Timeline ConnectServerListenerTimeline;
+    private Timeline ServerListenerTimeline;
+    private Timeline PrepareListenerTimeline;
     private MsgQueue<String> status;
     private MsgQueue<Object> gamesMsg;
     private String currentStatus = null;
@@ -368,8 +371,7 @@ public class MenuController implements Initializable {
         socketLink = new SocketLink(status, gamesMsg, Config.PORT, ip);
         Thread socketLinkThread = new Thread(socketLink);
         socketLinkThread.start();
-
-        Timeline ConnectServerListenerTimeline = new Timeline();
+        ConnectServerListenerTimeline = new Timeline();
         ConnectServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             @Override
@@ -428,7 +430,7 @@ public class MenuController implements Initializable {
     }
 
     private void SocketToNext() {
-        Timeline ServerListenerTimeline = new Timeline();
+        ServerListenerTimeline = new Timeline();
         ServerListenerTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             @Override
@@ -519,7 +521,7 @@ public class MenuController implements Initializable {
     }
 
     private void ListenPeerPrepare() {
-        Timeline PrepareListenerTimeline = new Timeline();
+        PrepareListenerTimeline = new Timeline();
         PrepareListenerTimeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             @Override
@@ -549,12 +551,14 @@ public class MenuController implements Initializable {
     }
 
     private void GameStar(int p1) {
-        broadcastSession.setRun(false);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        if(broadcastListenerTimeline!=null)
+            broadcastListenerTimeline.stop();
+        if(ConnectServerListenerTimeline!=null)
+            ConnectServerListenerTimeline.stop();
+        if(ServerListenerTimeline!=null)
+            ServerListenerTimeline.stop();
+        if(PrepareListenerTimeline !=null)
+            PrepareListenerTimeline.stop();
         Config.bgmMedia.stopMusic();
         System.out.println("开始游戏");
         Config.network = true;

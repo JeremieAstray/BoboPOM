@@ -6,9 +6,7 @@ import boboPOM.net.SocketLink;
 import boboPOM.view.MainView;
 import boboPOM.view.MenuView;
 import boboPOM.view.main.UpdataEvent;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +17,8 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Jeremie on 14-3-5.
@@ -33,6 +33,9 @@ public class Controller implements Initializable {
     private ArrayList<EventHandler> handlerList;
     private MsgQueue<Object> gameMsg;
     private SocketLink socketLink;
+    private Timeline timeline;
+    private boolean run = false;
+    private boolean getp2 = false;
 
     @FXML
     private void keyPressed(KeyEvent event) {
@@ -69,9 +72,28 @@ public class Controller implements Initializable {
      * @param location
      * @param resources
      */
+    private Integer p2 = 0;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Timer t = new Timer(true);
+        t.schedule(new TimerTask(){
 
+            @Override
+            public void run() {
+                if (run) {
+                    if (!gameMsg.isEmpty()) {
+                        Object o = gameMsg.recv();
+                        if (o instanceof Integer) {
+                            p2 = (Integer) o;
+                            System.out.println("***************" + p2);
+                            getp2 = true;
+                        } else if (o instanceof UpdataEvent)
+                            mainView.getMainFrame().getP2().recv(o);
+                    }
+                }
+            }
+        },0,40);
         handlerList = new ArrayList<EventHandler>();
         Config.p1Controller = new ArrayList<>();
         c1 = Config.p1Controller;
@@ -99,45 +121,30 @@ public class Controller implements Initializable {
 
     public void initGames(int p1, int p2) {
         menuView.setVisible(false);
-        mainView.init(Config.network);
+        mainView.init(false/*Config.network*/);
         mainView.setFocusTraversable(true);
         mainView.requestFocus();
+        System.out.println(p1 + " " + p2);
         mainView.setPersonages(p1, p2);
         this.addHandler(mainView.getMainFrame().getP1());
         this.addHandler(mainView.getMainFrame().getP2());
     }
 
-    private int p2 = 0;
 
     public void initNetGames(int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
-        if (Config.network) {
-            System.out.println("network");
-            this.socketLink = socketLink;
-            socketLink.send(new Integer(p1));
-            this.gameMsg = regamesMsg;
-            Timeline timeline = new Timeline();
-            timeline.setCycleCount(Timeline.INDEFINITE);
-            KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent event) {
-                    if (!gameMsg.isEmpty()) {
-                        Object o = gameMsg.recv();
-                        if (o instanceof Integer) {
-                            p2 = (Integer) o;
-                            System.out.println("---------->" + o);
-                        } else if (o instanceof UpdataEvent)
-                            mainView.getMainFrame().getP2().recv(o);
-                    }
-                }
-            });
-            timeline.getKeyFrames().add(kf);
-            timeline.play();
+        socketLink.send(new Integer(p1));
+        this.run = true;
+        this.socketLink = socketLink;
+        this.gameMsg = regamesMsg;
+        menuView.setVisible(false);
+        mainView.init(Config.network);
+        mainView.setFocusTraversable(true);
+        mainView.requestFocus();
+        while(!getp2) {
         }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        initGames(p1,this.p2);
+        mainView.setPersonages(p1, p2);
+        this.addHandler(mainView.getMainFrame().getP1());
+        this.addHandler(mainView.getMainFrame().getP2());
     }
 
     private void processEvent(Event e) {

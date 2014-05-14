@@ -17,7 +17,6 @@ public class MsgQueue<T extends Object> {
     }
 
     public synchronized void send(T o){
-        System.out.println(o.toString());
         queue.addElement(o);
     }
 
