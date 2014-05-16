@@ -7,6 +7,8 @@ package boboPOM.view.menu.mainmenu;
 
 import boboPOM.config.Config;
 import boboPOM.view.menu.ImageEditor;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -23,8 +25,12 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -170,13 +176,23 @@ public class DialogBox extends Control {
     }
 
     private void getContent() {
+//        try {
+//            Scanner input = new Scanner(Config.getStateFile(), "utf-8");
+//            while (input.hasNext()) {
+//                lines.add(input.nextLine());
+//            }
+//            input.close();
+//        } catch (FileNotFoundException ex) {
+//            ex.printStackTrace();
+//        }
+        BufferedReader bufferedReader = new BufferedReader(Config.inputStreamReader);
+        String line;
         try {
-            Scanner input = new Scanner(Config.getStateFile(), "utf-8");
-            while (input.hasNext()) {
-                lines.add(input.nextLine());
+            while((line = bufferedReader.readLine()) != null){
+                lines.add(line);
             }
-            input.close();
-        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
+            System.err.println("Dialog IOException");
             ex.printStackTrace();
         }
     }

@@ -4,7 +4,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 
-import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,18 +19,14 @@ public class BGMMedia {
 
     private int playingMusic = -1; //表示当前播放音乐，-1表示当前无音乐
 
-    private String musicPath;
-    private File pathFile;
-    private String[] musicNames;
+    private ArrayList<URL> urls;
 
-    public BGMMedia(String path) {
-        musicPath = path;
-        pathFile = new File(path);
-        File[] files = pathFile.listFiles();
-        musicNames = new String[files.length];
-        for (int i = 0; i < files.length; i++) {
-            musicNames[i] = files[i].getName();
-        }
+    public BGMMedia() {
+        urls = new ArrayList<URL>();
+    }
+    
+    public void addURL(URL url){
+        urls.add(url);
     }
 
     public void stopMusic() {
@@ -42,7 +39,7 @@ public class BGMMedia {
         }
         if (playingMusic != num) {
             this.playingMusic = num;
-            this.music = new Media(pathFile.toURI() + musicNames[num]);
+            this.music = new Media(urls.get(num) + "");
             this.musicPlayer = new MediaPlayer(this.music);
             this.musicPlayer.setVolume(this.volume);
         }
@@ -56,24 +53,12 @@ public class BGMMedia {
     }
 
     public boolean playMusic(int music, boolean loop) {
-        if (music >= 0 && music < musicNames.length) {
+        if (music >= 0 && music < urls.size()) {
             play(loop, music);
             return true;
         } else {
             return false;
         }
-    }
-
-    public boolean playMusic(String music, boolean loop) {
-        boolean isExist = false;
-        for (int i = 0; i < musicNames.length; i++) {
-            if (musicNames[i].equals(music)) {
-                isExist = true;
-                play(loop, i);
-                break;
-            }
-        }
-        return isExist;
     }
 
     public Status getStatus() {

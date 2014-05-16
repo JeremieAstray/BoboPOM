@@ -89,7 +89,8 @@ public class MenuController implements Initializable {
     }
 
     private void MenuToNext(boolean isKey) {
-        if(menuMark != 3 && menuMark != 1){
+        if(menuMark != 3 && menuMark != 1 && menuMark != 21 && menuMark != 22
+                && menuMark != 4){
             Config.effectMedia.play(1);
         }
         if (menuMark < 10) {
@@ -122,7 +123,6 @@ public class MenuController implements Initializable {
                     DialogToNext();
                     break;
                 case 4:  //游戏设置选项
-
                     break;
             }
         } else if (menuMark > 10 && menuMark < 100) {
@@ -385,6 +385,7 @@ public class MenuController implements Initializable {
                         currentStatus = recv;
                         broadcastSession.setConnected(true);
                         broadcastListenerTimeline.stop();
+                        Config.effectMedia.play(1);
                         ListenPeerPrepare();
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
@@ -551,6 +552,9 @@ public class MenuController implements Initializable {
     }
 
     private void GameStar(int p1) {
+        this.prepareBar.setVisible(false);
+        this.playerMenu.setVisible(false);
+        this.menuMark = 0;
         broadcastSession.setRun(false);
         if(broadcastListenerTimeline!=null)
             broadcastListenerTimeline.stop();
@@ -565,9 +569,15 @@ public class MenuController implements Initializable {
         Config.network = true;
         Config.controller.initNetGames(p1,socketLink,gamesMsg);
     }
+    
+    public void ReturnToMenu(){
+        mainMenuBar.reset();
+        mainMenuBar.setVisible(true);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Config.menuController = this;
         soloMenuBar.setVisible(false);
         netMenuBar.setVisible(false);
         socketMenu.setVisible(false);

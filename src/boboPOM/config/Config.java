@@ -1,25 +1,35 @@
 package boboPOM.config;
 
 import boboPOM.controller.Controller;
+import boboPOM.controller.MenuController;
 import boboPOM.media.BGMMedia;
 import boboPOM.media.EffectMedia;
 import boboPOM.net.SocketLink;
 import boboPOM.view.Main;
+import java.io.DataInputStream;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Jeremie on 14-3-4.
  */
 public final class Config {
+
     public static Controller controller;
+    public static MenuController menuController;
     public static BGMMedia bgmMedia;
     public static EffectMedia effectMedia;
+    public static InputStreamReader inputStreamReader;
     
     public static SocketLink socketLink;
 
@@ -92,8 +102,8 @@ public final class Config {
     public static ArrayList<Image> getMemuImages() {
         return memuImages;
     }
-    
-    public static File getStateFile(){
+
+    public static File getStateFile() {
         return stateFile;
     }
 
@@ -107,8 +117,18 @@ public final class Config {
 
     public static void init() {
         //music
-        bgmMedia = new BGMMedia(Main.class.getResource("resources/BGM").getFile());
-        effectMedia = new EffectMedia(Main.class.getResource("resources/sound_effects").getFile());    
+        bgmMedia = new BGMMedia();
+        for (int i = 0; i < 3; i++) {
+            bgmMedia.addURL(Main.class.getResource("/media/BGM/ed758" + (7 + i) + ".mp3"));
+        }
+        effectMedia = new EffectMedia();
+        for (int i = 0; i < 16; i++) {
+            if (i < 10) {
+                effectMedia.addEffect(Main.class.getResource("/media/sound_effects/ed7s000" + i + ".wav"));
+            } else if(i>=10 && i<100){
+                effectMedia.addEffect(Main.class.getResource("/media/sound_effects/ed7s00" + i + ".wav"));
+            }
+        }
         //background
         backgrounds = new ArrayList<>();
         backgrounds.add(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));
@@ -190,11 +210,11 @@ public final class Config {
             memuImages.add(new Image(Main.class.getResourceAsStream("resources/images/"
                     + "menu/" + i + ".png")));
         }
+        InputStream inputStream = Main.class.getResourceAsStream("/boboPOM/view/resources/images/menu/statement.txt");
         try {
-            // stateFile
-            stateFile = new File(Main.class.getResource("resources/images/menu"
-                    + "/statement.txt").toURI());
-        } catch (URISyntaxException ex) {
+            inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+            System.err.println("Config UnsupportedEncodingException");
             ex.printStackTrace();
         }
     }

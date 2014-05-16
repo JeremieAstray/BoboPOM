@@ -106,13 +106,13 @@ public class MenuBar extends Control {
     }
 
     public void addItem(MenuItem menuItem) {
-        menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size()));
-        menuItem.setOnMouseExited(exitMouseEvent(menuItem));
         items.add(menuItem);
         ImageView lineView = new ImageView(this.line);
 
         addBHeight(this.menuItemHeigth);
         if (items.size() == 1) {
+            menuItem.setOnMouseEntered(enterMouseEvent(menuItem, items.size() - 1));
+            menuItem.setOnMouseExited(exitMouseEvent(menuItem));
             items.get(0).setBackground(true);
             AnchorPane ap = new AnchorPane(items.get(0));
             ap.setMinHeight(this.getMenuItemHeigth());
@@ -122,6 +122,8 @@ public class MenuBar extends Control {
             ap.getChildren().addAll(lineView, items.get(items.size() - 1));
             AnchorPane.setTopAnchor(lineView, Double.valueOf(-4));
             ap.setMinHeight(4 + this.getMenuItemHeigth());
+            ap.setOnMouseEntered(enterMouseEvent(menuItem, items.size() - 1));
+            ap.setOnMouseExited(exitMouseEvent(menuItem));
             vBox.getChildren().add(ap);
         }
 
