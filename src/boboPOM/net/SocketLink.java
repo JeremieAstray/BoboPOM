@@ -109,8 +109,9 @@ public class SocketLink implements RunnableFuture {
             while (run) {
                 Object o = null;
                 o = in.readObject();
-                if (o != null)
+                if (o != null){
                     gamesMsg.send(o);
+                }
                 else {
                     if (!client.isClosed())
                         out.writeObject(null);

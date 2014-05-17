@@ -3,6 +3,8 @@ package boboPOM.controller;
 import boboPOM.config.Config;
 import boboPOM.net.MsgQueue;
 import boboPOM.net.SocketLink;
+import boboPOM.net.encoding.FirstMessage;
+import boboPOM.net.encoding.UpdataMessage;
 import boboPOM.view.MainView;
 import boboPOM.view.MenuView;
 import boboPOM.view.main.UpdataEvent;
@@ -122,7 +124,9 @@ public class Controller implements Initializable {
                     if (o instanceof Integer) {
                         p2 = (Integer) o;
                         getp2 = true;
-                    } else if (o instanceof UpdataEvent) {
+                    } else if (o instanceof FirstMessage) {
+                        mainView.getMainFrame().getP2().recv(o);
+                    }else if(o instanceof UpdataMessage){
                         mainView.getMainFrame().getP2().recv(o);
                     }
                 }

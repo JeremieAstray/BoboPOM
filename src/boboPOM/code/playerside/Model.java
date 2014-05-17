@@ -422,7 +422,9 @@ public class Model implements EventHandler<OpEvent> {
 
     //这是一个发出信息的示例
     public void send(boolean first) {
-         System.out.println("send");
+        System.out.println("send");
+        System.out.println(this.mm.getP1().getPersonage());
+        System.out.println(this.mm.getP2().getPersonage());     
         if(first) {
              Config.controller.send(new FirstMessage(this.getPersonage()));
              return;
