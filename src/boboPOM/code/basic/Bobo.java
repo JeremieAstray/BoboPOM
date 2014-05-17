@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import static boboPOM.code.anime.Transitions.newSt;
+import boboPOM.net.encoding.BoboMessage;
 
 /**
  *
@@ -69,7 +70,18 @@ public class Bobo extends ImageView {
         this.x = 0;
         this.y = 16;
     }
-
+    
+    //network use
+    public Bobo(BoboMessage bm){
+        changeType(bm.getType());
+        this.setView(bm.getView());
+        this.setTranslateX(bm.getTranslataX());
+        this.setTranslateY(bm.getTranslateY());
+        this.setScaleX(bm.getScaleX());
+        this.setScaleY(bm.getScaleY());
+        this.setOpacity(bm.getOpacity());
+        this.setVisible(bm.isVisible());
+    }
     private void changeType(int newType) {
         this.type = newType;
         Image image;
@@ -84,6 +96,10 @@ public class Bobo extends ImageView {
                    shinningEffect.setStyle("-fx-opacity:0.5;");
             }
         }
+    }
+
+    public int getView() {
+        return view;
     }
 
     public int getType() {

@@ -29,7 +29,25 @@ public class CounterSet {
         lc = new LineCounter(p1);
         usedPane = new ArrayList<>();
     }
+// network use
+    public CPCounter getCpc() {
+        return cpc;
+    }
 
+    public void setNowCP(int cp){
+        this.cpc.setNowCP(cp);
+    }
+    
+    public LineCounter getLc() {
+        return lc;
+    }
+    
+    public void setNowLines(int lines){
+        this.lc.setNowLines(lines);
+    }
+    // network use
+
+    
     public synchronized int useCP() {
         return cpc.useCP();
     }

@@ -1,4 +1,3 @@
-
 package boboPOM.code.playerside;
 
 import boboPOM.code.basic.Bobo;
@@ -7,10 +6,12 @@ import boboPOM.code.counters.CounterSet;
 import boboPOM.code.prepareContainer.PrepareSet;
 import boboPOM.config.Config;
 import boboPOM.controller.OpEvent;
+import boboPOM.net.encoding.FirstMessage;
 import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.MainModel;
 import boboPOM.view.main.Splash;
 import boboPOM.view.main.UpdataEvent;
+import boboPOM.net.encoding.UpdataMessage;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -45,21 +46,20 @@ public class Model implements EventHandler<OpEvent> {
     private int SAtt;
     private MainModel mm;
 
-    public Model(boolean p1,boolean network) {
+    public Model(boolean p1, boolean network) {
         this.p1 = p1;
         counterSet = new CounterSet(p1);
         prepareSet = new PrepareSet(p1);
         personage = Config.Robozy;
         deep = 0;
         pane = new PlayerSide(p1, personage);
-        sp = new Splash(this,network);
+        sp = new Splash(this, network);
     }
 
     public boolean isP1() {
         return p1;
     }
 
-    
     public void setMainFrame(MainFrame mf) {
         this.mf = mf;
     }
@@ -67,12 +67,12 @@ public class Model implements EventHandler<OpEvent> {
     public MainFrame getMainFrame() {
         return mf;
     }
-    
-    public void setMainModel(MainModel mm){
+
+    public void setMainModel(MainModel mm) {
         this.mm = mm;
     }
-    
-    public MainModel getMainModel(){
+
+    public MainModel getMainModel() {
         return mm;
     }
 
@@ -127,7 +127,7 @@ public class Model implements EventHandler<OpEvent> {
 
     public void updataDeep() {
         deep = this.pane.getDeep();
-        this.pane.getShadow().setWarning(deep>=8);
+        this.pane.getShadow().setWarning(deep >= 8);
     }
 
     public int getDeep() {
@@ -144,7 +144,9 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     public boolean setBrick(Brick brick) {
-        if(!pane.getBobo(3, 12).isNull()) return false;
+        if (!pane.getBobo(3, 12).isNull()) {
+            return false;
+        }
         this.brick = brick;
         pane.addBobo(brick.getD(), 3, 12);
         pane.addBobo(brick.getU(), 3, 13);
@@ -158,50 +160,56 @@ public class Model implements EventHandler<OpEvent> {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
-      
+
     }
 
-    public void setShadowIn(boolean enable){
-          if(!enable) this.pane.getShadow().out();
-        else this.pane.getShadow().setIndex(this.brick.getD().getIndexX());
+    public void setShadowIn(boolean enable) {
+        if (!enable) {
+            this.pane.getShadow().out();
+        } else {
+            this.pane.getShadow().setIndex(this.brick.getD().getIndexX());
+        }
     }
+
     public boolean isSBurst() {
         return sBurst;
     }
-    
-public void setSBurst(boolean sb){
-    this.sBurst = sb;
-}
+
+    public void setSBurst(boolean sb) {
+        this.sBurst = sb;
+    }
+
     public boolean isBurstAtt() {
         return burstAtt;
     }
 
-    public void setBurstAtt(boolean ba,int CPH){
+    public void setBurstAtt(boolean ba, int CPH) {
         this.burstAtt = ba;
         this.SAtt = CPH;
     }
-    
-       public void setBurstAtt(boolean ba){
+
+    public void setBurstAtt(boolean ba) {
         this.burstAtt = ba;
         this.SAtt = 0;
     }
-    
-    public int  getSAtt(){
+
+    public int getSAtt() {
         return SAtt;
     }
+
     public boolean isBurstDef() {
         return burstDef;
     }
 
-    public void setBurstDef(boolean bd){
+    public void setBurstDef(boolean bd) {
         this.burstDef = bd;
     }
-    
+
     public void addLine() {
         pane.addLine(prepareSet.takeBobos());
     }
 
-    public  LinkedList<Bobo> getAllBobo(int boboState) {
+    public LinkedList<Bobo> getAllBobo(int boboState) {
         return pane.getAllBobo(boboState);
     }
 
@@ -291,7 +299,7 @@ public void setSBurst(boolean sb){
                 case Config.sBurst:
                     releasedS();
                     break;
-                    case Config.swap:
+                case Config.swap:
                     releasedSwap();
                     break;
                 default:
@@ -301,46 +309,52 @@ public void setSBurst(boolean sb){
     }
 
     private void moveBrickL() {
-        if (brick != null&&enable) {
+        if (brick != null && enable) {
             if (brick.getD().getLeft() != null && brick.getD().getLeft().isNull()) {
-                if(brick.moveL())
-                     Config.effectMedia.play(0);
+                if (brick.moveL()) {
+                    Config.effectMedia.play(0);
+                }
             }
             this.pane.getShadow().setIndex(brick.getD().getIndexX());
         }
     }
 
     private void moveBrickR() {
-        if (brick != null&&enable) {
+        if (brick != null && enable) {
             if (brick.getD().getRight() != null && brick.getD().getRight().isNull()) {
-                if(brick.moveR())
+                if (brick.moveR()) {
                     Config.effectMedia.play(0);
+                }
             }
-             this.pane.getShadow().setIndex(brick.getD().getIndexX());
+            this.pane.getShadow().setIndex(brick.getD().getIndexX());
         }
     }
 
     private void moveBrickD() {
-        if (brick != null&&enable) {
-           sp.setSpeed(16);
+        if (brick != null && enable) {
+            sp.setSpeed(16);
         }
     }
 
     private void swap() {
-        if(this.swapDown) return;
-        if (brick != null&&enable) {
+        if (this.swapDown) {
+            return;
+        }
+        if (brick != null && enable) {
             brick.swap();
             this.swapDown = true;
         }
     }
 
     private void pressS() {
-        
-        if(this.getMainModel().isEnd()){
+
+        if (this.getMainModel().isEnd()) {
             this.getMainModel().again();
             return;
         }
-        if(sDown) return;
+        if (sDown) {
+            return;
+        }
         if (counterSet.isShinning()) {
             this.setEnable(false);
             // 暗
@@ -350,7 +364,7 @@ public void setSBurst(boolean sb){
     }
 
     private void burstSD() {
-        if (sDown&&counterSet.isShinning()) {
+        if (sDown && counterSet.isShinning()) {
             this.sBurst = true;
             this.burstDef = true;
             Config.effectMedia.play(16);
@@ -358,10 +372,10 @@ public void setSBurst(boolean sb){
     }
 
     private void burstSA() {
-           //test
-        if(sDown&&counterSet.isShinning()){
+        //test
+        if (sDown && counterSet.isShinning()) {
             Config.effectMedia.play(15);
-            this.mm.SAtt(!p1,this.counterSet.useCP());
+            this.mm.SAtt(!p1, this.counterSet.useCP());
         }
     }
 
@@ -378,10 +392,10 @@ public void setSBurst(boolean sb){
     }
 
     private void releasedD() {
-            sp.setSpeed(1.5);
+        sp.setSpeed(1.5);
     }
-    
-    private void releasedSwap(){
+
+    private void releasedSwap() {
         this.swapDown = false;
     }
 
@@ -397,42 +411,69 @@ public void setSBurst(boolean sb){
         }
         ImageView iv = this.getPane().getWol();
         iv.setTranslateX(this.getPane().getTranslateX());
-        iv.setTranslateY(this.getPane().getTranslateY());       
+        iv.setTranslateY(this.getPane().getTranslateY());
         this.getMainFrame().getChildren().add(iv);
         this.enable = false;
         this.sp.getTimeline().stop();
-        if(!win)
-        this.getMainModel().winner(!p1);
-    }
-   
-    //这是一个发出信息的示例
-        public void send(){
-            ObservableList<Node> cops = this.pane.getChildren();
-            ObservableList<Node> comf = this.mf.getChildren(); 
-            ArrayList<Node> temp = new ArrayList<>();
-            if(p1)
-            for(Node n : this.mf.getChildren()){
-                if(n.getTranslateX()>=0){
-                    temp.add(n);
-                }
-            }
-            else
-               for(Node n : this.mf.getChildren()){
-                if(n.getTranslateX()<=0){
-                    temp.add(n);
-                }
-            }
-            comf.removeAll(temp);
-            comf.remove(this.pane);
-            Config.controller.send(new UpdataEvent(p1,cops,comf));
+        if (!win) {
+            this.getMainModel().winner(!p1);
         }
-     
+    }
 
-    public void recv(Object o){
+    //这是一个发出信息的示例
+    public void send(boolean first) {
+        if(first) {
+             Config.controller.send(new FirstMessage(this.getPersonage()));
+             return;
+        }
+        ArrayList<Node> cops = new ArrayList<>();
+        cops.addAll(this.pane.getChildren());
+        ArrayList<Node> comf = new ArrayList<>();
+        comf.addAll(this.mf.getChildren());
+        ArrayList<Node> coqp = new ArrayList<>();
+        comf.addAll(this.prepareSet.getQp().getChildren());
+        ArrayList<Node> corp = new ArrayList<>();
+        comf.addAll(this.prepareSet.getRp().getChildren());
+        
+        ArrayList<Node> temp = new ArrayList<>();
+        if (p1) {
+            for (Node n : this.mf.getChildren()) {
+                if (n.getTranslateX() >= 0) {
+                    temp.add(n);
+                }
+            }
+        } else {
+            for (Node n : this.mf.getChildren()) {
+                if (n.getTranslateX() <= 0) {
+                    temp.add(n);
+                }
+            }
+        }
+        comf.removeAll(temp);
+        comf.remove(this.pane);
+        comf.remove(this.counterSet.getCpc().getContent());
+        comf.remove(this.counterSet.getLc().getContent());
+        comf.remove(this.prepareSet.getQp());
+        comf.remove(this.prepareSet.getRp());
+        
+        cops.remove(this.getPane().getChildren().get(0));
+        cops.remove(this.getPane().getChildren().get(1));
+        
+        
+        Config.controller.send(new UpdataMessage(new UpdataEvent(p1,cops,comf,coqp,corp,this.counterSet.getCpc().getNowCP(),this.counterSet.getLc().getLines())));
+    }
+
+    public void recv(Object o) {
         //这个是被调用的，每次被调用就会接收到对方发出的对象
         //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
-        UpdataEvent ue = (UpdataEvent) o;
-        this.getMainModel().upData(ue);
+          if(o instanceof FirstMessage) {
+             this.setPersonage(((FirstMessage)o).getCharacter());
+             this.mm.upData(new UpdataEvent("clear"));
+             return;
+        }
+         this.mm.upData(new UpdataEvent((UpdataMessage)o));
+//        UpdataEvent ue = (UpdataEvent) o;
+//        this.getMainModel().upData(ue);
     }
 
 }

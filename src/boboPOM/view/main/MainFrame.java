@@ -59,15 +59,19 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
 
     @Override
     public void handle(UpdataEvent arg0) {
-        if (arg0.getCommand().equals("again")) {
-            init(model);
+        switch(arg0.getCommand()){
+            case "again":init(model);
             this.getChildren().get(0).requestFocus();
-        } else {
-            Model m;
+                break;
+            case "clear":
+                break;
+            case "updata":
+                Model m;
              if(arg0.isP1())
                  m = this.p1;
              else m = this.p2;
              override(m,arg0);
+                break;
         }
     }
 
@@ -76,17 +80,43 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
          ArrayList<Node> al = new ArrayList<>();
          if(m.isP1())
          for(Node n: list){
-             if(n.getTranslateX()<=0)
+             if(n.getTranslateX()<0)
                  al.add(n);
          }
          else 
             for(Node n: list){
-             if(n.getTranslateX()>=0)
+             if(n.getTranslateX()>0)
                  al.add(n);
          }
+         al.remove(m.getCounterSet().getCpc());
+         al.remove(m.getCounterSet().getLc());
+         al.remove(m.getPrepareSet().getQp());
+         al.remove(m.getPrepareSet().getRp());
+         al.remove(m.getPane());
          list.removeAll(al);
          list.addAll(arg0.getComf());
-         m.getPane().getChildren().clear();
-         m.getPane().getChildren().addAll(arg0.getCops());
+         
+         list = m.getPane().getChildren();
+         al.clear();
+         al.add(list.get(0));
+         al.add(list.get(1));
+         list.removeAll(al);
+         list.addAll(arg0.getCops());
+         
+         list = m.getPrepareSet().getQp().getChildren();
+         list.clear();
+         list.addAll(arg0.getCoqp());
+         
+         list = m.getPrepareSet().getRp().getChildren();
+         list.clear();
+         list.addAll(arg0.getCorp());
+         
+         m.getCounterSet().setNowCP(arg0.getCp());
+         m.getCounterSet().setNowLines(arg0.getLines());
+    }
+    
+    public void setResolution(double x,double y){
+        this.setScaleX(x/this.getWidth());
+        this.setScaleY(y/this.getHeight());
     }
 }

@@ -51,9 +51,22 @@ public class LineCounter extends Parent {
             setLines(newLines);
         } else {
             setLines(LINE_MAX);
-        }
+        } 
     }
 
+    public int getLines() {
+        return lines;
+    }
+
+    public ContentPane getContent() {
+        return content;
+    }
+
+    //network use
+    public void setNowLines(int lines){
+        this.content.setLines(lines);
+    }
+    
     private class ContentPane extends StackPane {
 
         private ImageView t, c;

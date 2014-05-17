@@ -64,6 +64,20 @@ public class CPCounter extends Parent {
         //Anime setCP;
     }
 
+    public int getNowCP() {
+        return nowCP;
+    }
+
+    //network view
+    public void setNowCP(int cp){
+        this.nowCP = cp;
+        this.CP = cp;
+        this.content.setCP(cp);
+    }
+    public ContentPane getContent() {
+        return content;
+    }
+
     private void init() {
         CP = 0;
         shinning = false;

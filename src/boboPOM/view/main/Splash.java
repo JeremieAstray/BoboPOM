@@ -1,4 +1,3 @@
-
 package boboPOM.view.main;
 
 import boboPOM.config.Level;
@@ -44,7 +43,7 @@ public class Splash {
     private double speed = 1.5;
     private int timecounter = 0;
 
-    public Splash(Model model,boolean network) {
+    public Splash(Model model, boolean network) {
         this.model = model;
         initTimeline(network);
         level = Level.INIT;
@@ -57,8 +56,10 @@ public class Splash {
         timeline.setCycleCount(Timeline.INDEFINITE);
         arg = 0;
         state = Splash.INITING;
-        if(network) state = Splash.SPECIAL;
-        
+        if (network) {
+            state = Splash.SPECIAL;
+        }
+
         KeyFrame kf = new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             private LinkedList<Bobo> list;
             private Bobo b;
@@ -68,10 +69,17 @@ public class Splash {
             private ArrayList<Bobo> boes;
             private ImageView start;
             private boolean tVanish = true;
+
             @Override
             public void handle(ActionEvent event) {
                 if (state == Splash.INITING) {
+                    if (model.getMainModel().isNetwork()) {
+                        model.send(true);
+                    }
                     initing();
+                }
+                if (model.getMainModel().isNetwork()) {
+                    model.send(false);
                 }
                 if (state == Splash.DARGING) {
                     darging();
@@ -102,9 +110,9 @@ public class Splash {
                 if (state == Splash.RAISING) {
                     raising();
                 }
-                
-                if(state == Splash.SPECIAL){
-                    
+
+                if (state == Splash.SPECIAL) {
+
                 }
             }
 
@@ -112,9 +120,11 @@ public class Splash {
                 if (arg == 0) {
                     start = new ImageView(Config.getEffects().get(0));
                     Config.effectMedia.play(13);
-                    if(model.getMainModel().getP2().getPersonage() == Config.Campaleila)
-                    Config.bgmMedia.playMusic(1, true);
-                    else Config.bgmMedia.playMusic(0, true);
+                    if (model.getMainModel().getP2().getPersonage() == Config.Campaleila) {
+                        Config.bgmMedia.playMusic(1, true);
+                    } else {
+                        Config.bgmMedia.playMusic(0, true);
+                    }
                     model.getPane().getChildren().add(start);
                     for (int i = 0; i < 4; i++) {
                         model.addLine();
@@ -209,7 +219,7 @@ public class Splash {
                 }
             }
 
-            private void vanishing() { 
+            private void vanishing() {
                 if (arg == 0) {
                     tVanish = true;
                     list = model.getAllBobo(Bobo.STATE_JUMPING);
@@ -407,9 +417,10 @@ public class Splash {
                     if (bi.getUp().getState() == Bobo.STATE_NORMAL) {
                         bi.getUp().changeState(Bobo.STATE_DROPPING);
                     }
-                    if(tVanish == true){
-                    if(bi.getType() == Bobo.TYPE_WHITE)
-                        ghostAnimePlay(bi);
+                    if (tVanish == true) {
+                        if (bi.getType() == Bobo.TYPE_WHITE) {
+                            ghostAnimePlay(bi);
+                        }
                     }
                     model.deleteBobo(bi);
                 }
@@ -463,7 +474,7 @@ public class Splash {
                     }
                     tt.setAutoReverse(false);
                     tt.setCycleCount(1);
-                    tt.setDelay(Duration.millis(60*i));
+                    tt.setDelay(Duration.millis(60 * i));
                     tt.setInterpolator(Interpolator.EASE_IN);
                     pt.getChildren().add(tt);
                 }
@@ -485,7 +496,7 @@ public class Splash {
 
                             @Override
                             public void handle(ActionEvent arg0) {
-                                  model.getMainFrame().getChildren().remove(vanishEffect);
+                                model.getMainFrame().getChildren().remove(vanishEffect);
                             }
 
                         });

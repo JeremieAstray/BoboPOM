@@ -35,5 +35,13 @@ public class PrepareSet {
     public ArrayList<Bobo> takeBobos() {
         return rp.take();
     }
-
+// network use
+    public QpPane getQp() {
+        return qp;
+    }
+// network use
+    public RpPane getRp() {
+        return rp;
+    }
+   
 }

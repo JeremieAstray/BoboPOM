@@ -7,11 +7,17 @@
 package boboPOM.media;
 
 import boboPOM.config.Config;
+import boboPOM.config.Config;
+import boboPOM.view.Main;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -36,7 +42,14 @@ public class MainTest extends Application {
         
         StackPane root = new StackPane();
         root.getChildren().add(btn);
-        
+        StackPane sp = new StackPane();
+        ImageView iv = new ImageView(Config.getBackgrounds().get(0));
+        ArrayList<Image> li = new ArrayList<>();
+        li.add(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));
+        System.out.println(li.contains(iv.getImage()));
+        sp.getChildren().add(iv);
+        root.getChildren().add(sp);
+        System.out.println(sp instanceof Node);
         Scene scene = new Scene(root, 300, 250);
         
         primaryStage.setTitle("Hello World!");
