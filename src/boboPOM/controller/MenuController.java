@@ -46,7 +46,8 @@ public class MenuController implements Initializable {
     private SocketLink socketLink;
 
     private int menuMark = 0;
-    
+
+    private boolean host = false;
     @FXML
     private MainMenuBar mainMenuBar;
     @FXML
@@ -89,8 +90,8 @@ public class MenuController implements Initializable {
     }
 
     private void MenuToNext(boolean isKey) {
-        if(menuMark != 3 && menuMark != 1 && menuMark != 21 && menuMark != 22
-                && menuMark != 4){
+        if (menuMark != 3 && menuMark != 1 && menuMark != 21 && menuMark != 22
+                && menuMark != 4) {
             Config.effectMedia.play(1);
         }
         if (menuMark < 10) {
@@ -108,7 +109,7 @@ public class MenuController implements Initializable {
                             soloPrepareBar.set1PPrepared(true);
                             soloMenuBar.setMouseEffect(false);
                             if (soloPrepareBar.isPrepared() == 2) {
-                                SoloToNext(soloMenuBar.getSelectedItem(), 
+                                SoloToNext(soloMenuBar.getSelectedItem(),
                                         soloMenuBar.getItemSelected2P());
                             }
                         }
@@ -153,7 +154,7 @@ public class MenuController implements Initializable {
     }
 
     private void MenuReturn() {
-        if(menuMark != 3){
+        if (menuMark != 3) {
             Config.effectMedia.play(2);
         }
         if (menuMark > 0 && menuMark < 10) {
@@ -387,6 +388,7 @@ public class MenuController implements Initializable {
                         broadcastListenerTimeline.stop();
                         Config.effectMedia.play(1);
                         ListenPeerPrepare();
+                        host = false;
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
                         ConnectServerReturn();
@@ -445,6 +447,7 @@ public class MenuController implements Initializable {
                         broadcastSession.setConnected(true);
                         socketMenu.setVisible(false);
                         playerMenu.setVisible(true);
+                        host = true;
                     } else if ("连接断开".equals(recv)) {
                         currentStatus = recv;
                         SocketReturn(true);
@@ -529,7 +532,7 @@ public class MenuController implements Initializable {
             public void handle(ActionEvent event) {
                 if (!gamesMsg.isEmpty()) {
                     Object o = gamesMsg.recv();
-                    if(o instanceof String) {
+                    if (o instanceof String) {
                         String recv = (String) o;
                         System.out.println(recv);
                         if ("ready".equals(recv)) {
@@ -556,21 +559,25 @@ public class MenuController implements Initializable {
         this.playerMenu.setVisible(false);
         this.menuMark = 0;
         broadcastSession.setRun(false);
-        if(broadcastListenerTimeline!=null)
+        if (broadcastListenerTimeline != null) {
             broadcastListenerTimeline.stop();
-        if(ConnectServerListenerTimeline!=null)
+        }
+        if (ConnectServerListenerTimeline != null) {
             ConnectServerListenerTimeline.stop();
-        if(ServerListenerTimeline!=null)
+        }
+        if (ServerListenerTimeline != null) {
             ServerListenerTimeline.stop();
-        if(PrepareListenerTimeline !=null)
+        }
+        if (PrepareListenerTimeline != null) {
             PrepareListenerTimeline.stop();
+        }
         Config.bgmMedia.stopMusic();
         System.out.println("开始游戏");
         Config.network = true;
-        Config.controller.initNetGames(p1,socketLink,gamesMsg);
+        Config.controller.initNetGames(host, p1, socketLink, gamesMsg);
     }
-    
-    public void ReturnToMenu(){
+
+    public void ReturnToMenu() {
         mainMenuBar.reset();
         mainMenuBar.setVisible(true);
     }

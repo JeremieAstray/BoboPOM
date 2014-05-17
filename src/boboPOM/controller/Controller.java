@@ -52,7 +52,6 @@ public class Controller implements Initializable {
         }
     }
 
-
     @FXML
     private void keyRelease(KeyEvent event) {
         if (c1.contains(event.getCode())) {
@@ -101,7 +100,7 @@ public class Controller implements Initializable {
 
     public void initGames(int p1, int p2) {
         menuView.setVisible(false);
-        mainView.init(false/*Config.network*/);
+        mainView.init(true, false/*Config.network*/);
         mainView.setFocusTraversable(true);
         mainView.requestFocus();
         System.out.println(p1 + " " + p2);
@@ -110,8 +109,7 @@ public class Controller implements Initializable {
         this.addHandler(mainView.getMainFrame().getP2());
     }
 
-
-    public void initNetGames(int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
+    public void initNetGames(boolean host, int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
         socketLink.send(new Integer(p1));
         this.socketLink = socketLink;
         this.gameMsg = regamesMsg;
@@ -124,13 +122,14 @@ public class Controller implements Initializable {
                     if (o instanceof Integer) {
                         p2 = (Integer) o;
                         getp2 = true;
-                    } else if (o instanceof UpdataEvent)
+                    } else if (o instanceof UpdataEvent) {
                         mainView.getMainFrame().getP2().recv(o);
+                    }
                 }
             }
         }, 0, 40);
         menuView.setVisible(false);
-        mainView.init(Config.network);
+        mainView.init(host, Config.network);
         mainView.setFocusTraversable(true);
         mainView.requestFocus();
         while (!getp2) {
