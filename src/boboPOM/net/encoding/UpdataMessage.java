@@ -29,6 +29,12 @@ public class UpdataMessage implements java.io.Serializable{// network use
     private int cp,lines;
   
     public UpdataMessage(UpdataEvent ue){
+        bopls = new ArrayList<>();
+        boqp = new ArrayList<>();
+        borp = new ArrayList<>();
+        eopls = new ArrayList<>();
+        eomf = new ArrayList<>();
+        pomf = new ArrayList<>();
         changeToMessages(ue);
     }
 

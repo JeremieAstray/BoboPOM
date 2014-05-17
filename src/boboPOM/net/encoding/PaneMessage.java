@@ -24,6 +24,7 @@ public class PaneMessage extends Message{// network use
     
     public PaneMessage(Pane p){
         super(p);
+        ems = new ArrayList<>();
         for(Node iv : p.getChildren()){
             ems.add(new EffectMessage((ImageView)iv));
         }  

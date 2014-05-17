@@ -422,6 +422,7 @@ public class Model implements EventHandler<OpEvent> {
 
     //这是一个发出信息的示例
     public void send(boolean first) {
+         System.out.println("send");
         if(first) {
              Config.controller.send(new FirstMessage(this.getPersonage()));
              return;
@@ -466,11 +467,13 @@ public class Model implements EventHandler<OpEvent> {
     public void recv(Object o) {
         //这个是被调用的，每次被调用就会接收到对方发出的对象
         //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
+        System.out.println("recv");
           if(o instanceof FirstMessage) {
-             this.setPersonage(((FirstMessage)o).getCharacter());
+        //     this.setPersonage(((FirstMessage)o).getCharacter());
              this.mm.upData(new UpdataEvent("clear"));
              return;
         }
+        System.out.println(((UpdataMessage)o).isP1());
          this.mm.upData(new UpdataEvent((UpdataMessage)o));
 //        UpdataEvent ue = (UpdataEvent) o;
 //        this.getMainModel().upData(ue);
