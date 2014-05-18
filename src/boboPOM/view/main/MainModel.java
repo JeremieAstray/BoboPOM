@@ -39,6 +39,7 @@ public class MainModel {
     }
 
     public void winner(boolean p1) {
+        System.out.println("???winner??");
         if (p1) {
             this.p1.setWin(true);
         } else {

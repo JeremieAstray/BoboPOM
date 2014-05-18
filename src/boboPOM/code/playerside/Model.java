@@ -49,6 +49,7 @@ public class Model implements EventHandler<OpEvent> {
     //network use
     private int sattCPToRival = 0;
     private boolean win = true;
+    private boolean network;
     //network use
 
     public Model(boolean p1, boolean network) {
@@ -59,6 +60,7 @@ public class Model implements EventHandler<OpEvent> {
         deep = 0;
         pane = new PlayerSide(p1, personage);
         sp = new Splash(this, network);
+        this.network = network;
     }
 
     public boolean isP1() {
@@ -418,6 +420,9 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     public void setWin(boolean win) {
+        if(this.network){
+            return;
+        }
 //        controller.send(win);
         Config.bgmMedia.stopMusic();
         if (win) {
