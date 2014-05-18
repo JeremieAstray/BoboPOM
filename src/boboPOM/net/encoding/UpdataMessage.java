@@ -52,6 +52,7 @@ public class UpdataMessage implements java.io.Serializable{// network use
        }
        for(Node node:ue.getComf()){
            if(node instanceof StackPane){
+               if(((StackPane)node).getChildren().size() != 0)
                pomf.add(new PaneMessage((Pane) node));
            }
            else if(node instanceof ImageView){

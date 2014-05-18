@@ -27,7 +27,7 @@ public class PaneMessage extends Message{// network use
         ems = new ArrayList<>();
         for(Node iv : p.getChildren()){
             ems.add(new EffectMessage((ImageView)iv));
-        }  
+        }
         this.chainsT = Config.getNumbers().get(2).indexOf(((ImageView)p.getChildren().get(1)).getImage());
         this.chainsC =  Config.getNumbers().get(2).indexOf(((ImageView)p.getChildren().get(2)).getImage());
         this.bounsT = Config.getNumbers().get(2).indexOf(((ImageView)p.getChildren().get(3)).getImage());
