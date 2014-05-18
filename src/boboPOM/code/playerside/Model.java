@@ -357,7 +357,9 @@ public class Model implements EventHandler<OpEvent> {
     private void pressS() {
 
         if (this.getMainModel().isEnd()) {
+            if(this.getMainModel().isNetwork())
             Config.controller.end(this.getMainModel().isHost());
+            else  Config.controller.end();
             Config.menuController.ReturnToMenu();
             this.getMainModel().again();
             return;
