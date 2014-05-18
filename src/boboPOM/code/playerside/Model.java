@@ -47,8 +47,8 @@ public class Model implements EventHandler<OpEvent> {
     private MainModel mm;
     private double speedTemp = 1.5;
     //network use
-    private int sattCPToRival;
-    private boolean win;
+    private int sattCPToRival = 0;
+    private boolean win = true;
     //network use
     
     public Model(boolean p1, boolean network) {
@@ -429,10 +429,10 @@ public class Model implements EventHandler<OpEvent> {
         this.getMainFrame().getChildren().add(iv);
         this.enable = false;
         this.sp.getTimeline().stop();
-        win = true;
+        this.win = true;
         if (!win) {
             if(this.mm.isNetwork()){
-                win = false;
+                this.win = false;
             }else
             this.getMainModel().winner(!p1);
         }
@@ -541,8 +541,8 @@ public class Model implements EventHandler<OpEvent> {
          m.getCounterSet().setNowLines(arg0.getLines());
          if(arg0.getSattCPToRival() != 0)
          m.getMainModel().SAtt(!m.isP1(), arg0.getSattCPToRival());
-//         if(arg0.isWin() == false)
-//         m.getMainModel().winner(!m.isP1());
+         if(arg0.isWin() == false)
+         m.getMainModel().winner(!m.isP1());
     }
    
 }

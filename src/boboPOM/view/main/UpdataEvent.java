@@ -134,6 +134,8 @@ public final class UpdataEvent extends Event {
         }
         this.cp = um.getCp();
         this.lines = um.getLines();
+        this.win = um.isWin();
+        this.sattCPToRival = um.getSattCPToRival();
         for(PaneMessage pm : um.getPomf()){
             this.comf.add(buildPaneByMessage(pm));
         }

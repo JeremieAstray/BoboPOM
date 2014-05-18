@@ -539,10 +539,10 @@ public class Splash {
                         }else{
                             model.getMainModel().getP1().send(false);
                         }
-//                    }
+                    }
 //                    timecounter++;
 //                    timecounter %= 1;
-                }
+//                }
             }
         });
 
