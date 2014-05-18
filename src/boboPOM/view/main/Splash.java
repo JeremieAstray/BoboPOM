@@ -73,14 +73,9 @@ public class Splash {
             @Override
             public void handle(ActionEvent event) {
                 if (state == Splash.INITING) {
-                    if (model.getMainModel().isNetwork()) {
-                        model.send(true);
-                    }
                     initing();
                 }
-                if (model.getMainModel().isNetwork()) {
-                    model.send(false);
-                }
+               
                 if (state == Splash.DARGING) {
                     darging();
                 }
@@ -113,7 +108,7 @@ public class Splash {
                 }
 
                 if (state == Splash.SPECIAL) {
-
+                    special();
                 }
             }
 
@@ -526,6 +521,28 @@ public class Splash {
 
                 });
                 pt.play();
+            }
+
+            private void special() {
+                if(arg == 0){
+                     if(model.isP1()){
+                            model.getMainModel().getP2().send(true);
+                        }else{
+                            model.getMainModel().getP1().send(true);
+                        }
+                    arg++;
+                }
+                if(arg == 1){
+//                    if(timecounter == 0){
+                        if(model.isP1()){
+                            model.getMainModel().getP2().send(false);
+                        }else{
+                            model.getMainModel().getP1().send(false);
+                        }
+//                    }
+//                    timecounter++;
+//                    timecounter %= 1;
+                }
             }
         });
 

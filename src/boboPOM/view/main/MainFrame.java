@@ -66,55 +66,9 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
             case "clear":
                 break;
             case "updata":
-                Model m;
-             if(arg0.isP1())
-                 m = this.p1;
-             else m = this.p2;
-             override(m,arg0);
+     
                 break;
         }
     }
-//network use
-    private synchronized void override(Model m, UpdataEvent arg0) {
-         ObservableList<Node> list = this.getChildren();
-         ArrayList<Node> al = new ArrayList<>();
-         if(m.isP1())
-         for(Node n: list){
-             if(n.getTranslateX()<0)
-                 al.add(n);
-         }
-         else 
-            for(Node n: list){
-             if(n.getTranslateX()>0)
-                 al.add(n);
-         }
-         al.remove(m.getCounterSet().getCpc());
-         al.remove(m.getCounterSet().getLc());
-         al.remove(m.getPrepareSet().getQp());
-         al.remove(m.getPrepareSet().getRp());
-         al.remove(m.getPane());
-         list.removeAll(al);
-         if(!arg0.getComf().isEmpty())
-         list.addAll(arg0.getComf());
-         
-         list = m.getPane().getChildren();
-         al.clear();
-         al.addAll(list);
-         al.remove(list.get(0));
-         al.remove(list.get(1));
-         list.removeAll(al);
-         list.addAll(arg0.getCops());
-         
-         list = m.getPrepareSet().getQp().getChildren();
-         list.clear();
-         list.addAll(arg0.getCoqp());
-         
-         list = m.getPrepareSet().getRp().getChildren();
-         list.clear();
-         list.addAll(arg0.getCorp());
-         
-         m.getCounterSet().setNowCP(arg0.getCp());
-         m.getCounterSet().setNowLines(arg0.getLines());
-    }
-   
+
 }

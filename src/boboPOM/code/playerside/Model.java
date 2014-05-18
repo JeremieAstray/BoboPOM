@@ -472,16 +472,62 @@ public class Model implements EventHandler<OpEvent> {
     public synchronized void recv(Object o) {
         //这个是被调用的，每次被调用就会接收到对方发出的对象
         //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
-        System.out.println("recv");
           if(o instanceof FirstMessage) {
         //     this.setPersonage(((FirstMessage)o).getCharacter());
              this.mm.upData(new UpdataEvent("clear"));
              return;
         }
-        System.out.println(((UpdataMessage)o).isP1());
-         this.mm.upData(new UpdataEvent((UpdataMessage)o));
-//        UpdataEvent ue = (UpdataEvent) o;
+        UpdataEvent ue = new UpdataEvent((UpdataMessage)o);
+              Model m;
+             if(ue.isP1())
+               m = this.getMainModel().getP1();
+             else  m = this.getMainModel().getP2();
+             override(m,ue);
+//        UpdataEvent ue = (UpdataEvent)o;
 //        this.getMainModel().upData(ue);
     }
 
+    //network use
+    private synchronized void override(Model m, UpdataEvent arg0) {
+         ObservableList<Node> list = m.getMainFrame().getChildren();
+         ArrayList<Node> al = new ArrayList<>();
+         if(m.isP1())
+         for(Node n: list){
+             if(n.getTranslateX()<0)
+                 al.add(n);
+         }
+         else 
+            for(Node n: list){
+             if(n.getTranslateX()>0)
+                 al.add(n);
+         }
+         al.remove(m.getCounterSet().getCpc());
+         al.remove(m.getCounterSet().getLc());
+         al.remove(m.getPrepareSet().getQp());
+         al.remove(m.getPrepareSet().getRp());
+         al.remove(m.getPane());
+         list.removeAll(al);
+         if(!arg0.getComf().isEmpty())
+         list.addAll(arg0.getComf());
+         
+         list = m.getPane().getChildren();
+         al.clear();
+         al.addAll(list);
+         al.remove(list.get(0));
+         al.remove(list.get(1));
+         list.removeAll(al);
+         list.addAll(arg0.getCops());
+         
+         list = m.getPrepareSet().getQp().getChildren();
+         list.clear();
+         list.addAll(arg0.getCoqp());
+         
+         list = m.getPrepareSet().getRp().getChildren();
+         list.clear();
+         list.addAll(arg0.getCorp());
+         
+         m.getCounterSet().setNowCP(arg0.getCp());
+         m.getCounterSet().setNowLines(arg0.getLines());
+    }
+   
 }

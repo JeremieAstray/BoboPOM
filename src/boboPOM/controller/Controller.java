@@ -122,6 +122,7 @@ public class Controller implements Initializable {
         this.gameMsg = regamesMsg;
         this.netgames = new MsgQueue<>();
         Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -129,14 +130,14 @@ public class Controller implements Initializable {
                     Object o = netgames.recv();
                     if (o instanceof FirstMessage || o instanceof UpdataMessage) {
                         if(host)
-                            mainView.getMainFrame().getP2().recv(o);
-                        else
                             mainView.getMainFrame().getP1().recv(o);
+                        else
+                            mainView.getMainFrame().getP2().recv(o);
                     }
                 }
             }
         });
-        timeline.getKeyFrames().addAll(kf);
+        timeline.getKeyFrames().add(kf);
         timeline.play();
         Timer t = new Timer(true);
         t.schedule(new TimerTask() {
