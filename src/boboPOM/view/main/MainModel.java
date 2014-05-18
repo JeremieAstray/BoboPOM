@@ -46,9 +46,11 @@ public class MainModel {
         }
         if(host){
             this.p1.sp.getTimeline().stop();
+            Config.controller.gamerun = false;
         }else{
             this.p2.sp.getTimeline().stop();
             Config.controller.getNetgames().clear();
+            Config.controller.gamerun = false;
         }
         end = true;
     }
