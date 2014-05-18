@@ -446,9 +446,10 @@ public class Model implements EventHandler<OpEvent> {
             }
         }
         this.sp.getTimeline().stop();
-        Config.controller.t.cancel();
-        Config.controller.timeline.stop();
-        Config.controller.getNetgames().clear();
+        if(!mm.isHost()){
+            Config.controller.getNetgames().clear();
+            Config.socketLink.getGamesMsg().clear();
+        }
     }
 
     //这是一个发出信息的示例
