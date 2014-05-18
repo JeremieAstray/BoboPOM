@@ -442,7 +442,9 @@ public class Model implements EventHandler<OpEvent> {
             if (this.mm.isNetwork()) {
                 this.win = false;
             } else {
-                this.getMainModel().winner(!p1);
+                if(Config.controller.gamerun) {
+                    this.getMainModel().winner(!p1);
+                }
             }
         }
     }
@@ -560,7 +562,9 @@ public class Model implements EventHandler<OpEvent> {
             m.getMainModel().SAtt(!m.isP1(), arg0.getSattCPToRival());
         }
         if (arg0.isWin() == false) {
-            m.getMainModel().winner(!m.isP1());
+            if(Config.controller.gamerun) {
+                m.getMainModel().winner(!m.isP1());
+            }
         }
     }
      //network use
