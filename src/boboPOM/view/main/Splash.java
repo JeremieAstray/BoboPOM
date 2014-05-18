@@ -106,10 +106,7 @@ public class Splash {
                 }
 
                 if (state == Splash.SPECIAL) {
-                    if(Config.controller.gamerun)
                         special();
-                    else
-                        timeline.stop();
                 }
             }
 

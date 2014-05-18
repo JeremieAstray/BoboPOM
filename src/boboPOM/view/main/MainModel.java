@@ -39,16 +39,11 @@ public class MainModel {
     }
 
     public void winner(boolean p1) {
-        System.out.println("???winner??");
         if (p1) {
             this.p1.setWin(true);
         } else {
             this.p2.setWin(true);
         }
-//        if(host)
-            this.p1.sp.getTimeline().stop();
-//        else
-            this.p2.sp.getTimeline().stop();
         Config.controller.getNetgames().clear();
         Config.controller.gamerun = false;
         end = true;

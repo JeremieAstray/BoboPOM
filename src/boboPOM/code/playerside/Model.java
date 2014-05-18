@@ -40,7 +40,7 @@ public class Model implements EventHandler<OpEvent> {
     private boolean burstAtt = false;
     private boolean burstDef = false;
     private MainFrame mf;
-    public Splash sp;
+    private Splash sp;
     private boolean sDown = false;
     private boolean swapDown = false;
     private int SAtt;
@@ -420,10 +420,12 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     public void setWin(boolean win) {
-        if(this.network){
-            return;
-        }
 //        controller.send(win);
+//        if(this.network){
+//            this.sp.getTimeline().stop();
+//            return;
+//        }
+        this.sp.getTimeline().stop();
         Config.bgmMedia.stopMusic();
         if (win) {
             Config.effectMedia.play(10);
@@ -439,6 +441,7 @@ public class Model implements EventHandler<OpEvent> {
             this.getMainFrame().getChildren().add(iv);
         } else {
             System.out.println("?dulicate");
+            System.out.println(this.p1);
         }
         this.enable = false;
 
@@ -446,11 +449,8 @@ public class Model implements EventHandler<OpEvent> {
         if (!win) {
             if (this.mm.isNetwork()) {
                 this.win = false;
-            } else {
-                if(Config.controller.gamerun) {
-                    this.getMainModel().winner(!p1);
-                }
-            }
+            } else
+           this.getMainModel().winner(!p1);
         }
     }
 
