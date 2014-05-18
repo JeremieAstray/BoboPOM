@@ -106,4 +106,7 @@ public class CounterSet {
         p.getChildren().addAll(cpc, chc, lc);
     }
 
+    public void setShinning(boolean b) {
+       this.cpc.setShinning(b);
+    }
 }

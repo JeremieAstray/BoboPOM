@@ -583,6 +583,7 @@ public class MenuController implements Initializable {
         this.menuMark = 0;
         this.soloMenuBar.setVisible(false);
         mainMenuBar.setVisible(true);
+        Config.bgmMedia.playMusic(2, true);
     }
 
     @Override

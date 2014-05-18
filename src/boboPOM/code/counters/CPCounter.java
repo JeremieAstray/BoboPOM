@@ -112,6 +112,11 @@ public class CPCounter extends Parent {
        tl.play();
     }
 
+    void setShinning(boolean b) {
+        this.shinning = b;
+        this.content.sButtonShinning(shinning);
+    }
+
     private class ContentPane extends StackPane {
 
         private ImageView CPH, CPT, CP, sButton,shinning;
