@@ -16,9 +16,11 @@ public class MainModel {
     private ArrayList<EventHandler> handlerList;
     private boolean end;
     private boolean network;
+    private boolean host;
     
     public MainModel(boolean host,boolean network) {
         Config.init();
+        this.host = host;
         this.network = network;
         init(host,network);
         this.handlerList = new ArrayList<EventHandler>();
@@ -108,5 +110,9 @@ public class MainModel {
         if (handlerList.contains(eh)) {
             handlerList.remove(eh);
         }
+    }
+
+    public boolean isHost() {
+        return this.host;
     }
 }

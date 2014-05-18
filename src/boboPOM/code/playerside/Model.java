@@ -50,7 +50,7 @@ public class Model implements EventHandler<OpEvent> {
     private int sattCPToRival = 0;
     private boolean win = true;
     //network use
-    
+
     public Model(boolean p1, boolean network) {
         this.p1 = p1;
         counterSet = new CounterSet(p1);
@@ -337,8 +337,9 @@ public class Model implements EventHandler<OpEvent> {
 
     private void moveBrickD() {
         if (brick != null && enable) {
-            if(sp.getSpeed()<10)
-            speedTemp = sp.getSpeed();
+            if (sp.getSpeed() < 10) {
+                speedTemp = sp.getSpeed();
+            }
             sp.setSpeed(16);
         }
     }
@@ -356,9 +357,9 @@ public class Model implements EventHandler<OpEvent> {
     private void pressS() {
 
         if (this.getMainModel().isEnd()) {
-        Config.controller.end();
-        Config.menuController.ReturnToMenu();
-        this.getMainModel().again();
+            Config.controller.end(this.getMainModel().isHost());
+            Config.menuController.ReturnToMenu();
+            this.getMainModel().again();
             return;
         }
         if (sDown) {
@@ -386,10 +387,11 @@ public class Model implements EventHandler<OpEvent> {
         if (sDown && counterSet.isShinning()) {
             Config.effectMedia.play(14);
             this.sattCPToRival = 0;
-            if(this.mm.isNetwork()){
-                 this.sattCPToRival = this.counterSet.useCP();
-            }else
-            this.mm.SAtt(!p1, this.counterSet.useCP());
+            if (this.mm.isNetwork()) {
+                this.sattCPToRival = this.counterSet.useCP();
+            } else {
+                this.mm.SAtt(!p1, this.counterSet.useCP());
+            }
         }
     }
 
@@ -426,25 +428,28 @@ public class Model implements EventHandler<OpEvent> {
         ImageView iv = this.getPane().getWol();
         iv.setTranslateX(this.getPane().getTranslateX());
         iv.setTranslateY(this.getPane().getTranslateY());
-        if(!this.getMainFrame().getChildren().contains(iv))
-        this.getMainFrame().getChildren().add(iv);
-        else{System.out.println("?dulicate");}
+        if (!this.getMainFrame().getChildren().contains(iv)) {
+            this.getMainFrame().getChildren().add(iv);
+        } else {
+            System.out.println("?dulicate");
+        }
         this.enable = false;
         this.sp.getTimeline().stop();
         this.win = true;
         if (!win) {
-            if(this.mm.isNetwork()){
+            if (this.mm.isNetwork()) {
                 this.win = false;
-            }else
-            this.getMainModel().winner(!p1);
+            } else {
+                this.getMainModel().winner(!p1);
+            }
         }
     }
 
     //这是一个发出信息的示例
-    public synchronized void send(boolean first) { 
-        if(first) {
-             Config.controller.send(new FirstMessage(this.getPersonage()));
-             return;
+    public synchronized void send(boolean first) {
+        if (first) {
+            Config.controller.send(new FirstMessage(this.getPersonage()));
+            return;
         }
         ArrayList<Node> cops = new ArrayList<>();
         cops.addAll(this.pane.getChildren());
@@ -454,7 +459,7 @@ public class Model implements EventHandler<OpEvent> {
         coqp.addAll(this.prepareSet.getQp().getChildren());
         ArrayList<Node> corp = new ArrayList<>();
         corp.addAll(this.prepareSet.getRp().getChildren());
-        
+
         ArrayList<Node> temp = new ArrayList<>();
         if (p1) {
             for (Node n : this.mf.getChildren()) {
@@ -475,11 +480,11 @@ public class Model implements EventHandler<OpEvent> {
         comf.remove(this.counterSet.getLc().getContent());
         comf.remove(this.prepareSet.getQp());
         comf.remove(this.prepareSet.getRp());
-        
+
         cops.remove(this.getPane().getChildren().get(0));
         cops.remove(this.getPane().getChildren().get(1));
-        
-        Config.controller.send(new UpdataMessage(new UpdataEvent(p1,cops,comf,coqp,corp,this.counterSet.getCpc().getNowCP(),this.counterSet.getLc().getLines(), sattCPToRival, win)));
+
+        Config.controller.send(new UpdataMessage(new UpdataEvent(p1, cops, comf, coqp, corp, this.counterSet.getCpc().getNowCP(), this.counterSet.getLc().getLines(), sattCPToRival, win)));
         sattCPToRival = 0;
         win = true;
     }
@@ -487,66 +492,75 @@ public class Model implements EventHandler<OpEvent> {
     public synchronized void recv(Object o) {
         //这个是被调用的，每次被调用就会接收到对方发出的对象
         //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
-          if(o instanceof FirstMessage) {
-        //     this.setPersonage(((FirstMessage)o).getCharacter());
-             this.mm.upData(new UpdataEvent("clear"));
-             return;
+        if (o instanceof FirstMessage) {
+            //     this.setPersonage(((FirstMessage)o).getCharacter());
+            this.mm.upData(new UpdataEvent("clear"));
+            return;
         }
-        UpdataEvent ue = new UpdataEvent((UpdataMessage)o);
-              Model m;
-             if(ue.isP1())
-               m = this.getMainModel().getP1();
-             else  m = this.getMainModel().getP2();
-             override(m,ue);
+        UpdataEvent ue = new UpdataEvent((UpdataMessage) o);
+        Model m;
+        if (ue.isP1()) {
+            m = this.getMainModel().getP1();
+        } else {
+            m = this.getMainModel().getP2();
+        }
+        override(m, ue);
 //        UpdataEvent ue = (UpdataEvent)o;
 //        this.getMainModel().upData(ue);
     }
 
     //network use
     private synchronized void override(Model m, UpdataEvent arg0) {
-         ObservableList<Node> list = m.getMainFrame().getChildren();
-         ArrayList<Node> al = new ArrayList<>();
-         if(m.isP1())
-         for(Node n: list){
-             if(n.getTranslateX()<0)
-                 al.add(n);
-         }
-         else 
-            for(Node n: list){
-             if(n.getTranslateX()>0)
-                 al.add(n);
-         }
-         al.remove(m.getCounterSet().getCpc());
-         al.remove(m.getCounterSet().getLc());
-         al.remove(m.getPrepareSet().getQp());
-         al.remove(m.getPrepareSet().getRp());
-         al.remove(m.getPane());
-         list.removeAll(al);
-         if(!arg0.getComf().isEmpty())
-         list.addAll(arg0.getComf());
-         
-         list = m.getPane().getChildren();
-         al.clear();
-         al.addAll(list);
-         al.remove(list.get(0));
-         al.remove(list.get(1));
-         list.removeAll(al);
-         list.addAll(arg0.getCops());
-         
-         list = m.getPrepareSet().getQp().getChildren();
-         list.clear();
-         list.addAll(arg0.getCoqp());
-         
-         list = m.getPrepareSet().getRp().getChildren();
-         list.clear();
-         list.addAll(arg0.getCorp());
-         
-         m.getCounterSet().setNowCP(arg0.getCp());
-         m.getCounterSet().setNowLines(arg0.getLines());
-         if(arg0.getSattCPToRival() != 0)
-         m.getMainModel().SAtt(!m.isP1(), arg0.getSattCPToRival());
-         if(arg0.isWin() == false)
-         m.getMainModel().winner(!m.isP1());
+        ObservableList<Node> list = m.getMainFrame().getChildren();
+        ArrayList<Node> al = new ArrayList<>();
+        if (m.isP1()) {
+            for (Node n : list) {
+                if (n.getTranslateX() < 0) {
+                    al.add(n);
+                }
+            }
+        } else {
+            for (Node n : list) {
+                if (n.getTranslateX() > 0) {
+                    al.add(n);
+                }
+            }
+        }
+        al.remove(m.getCounterSet().getCpc());
+        al.remove(m.getCounterSet().getLc());
+        al.remove(m.getPrepareSet().getQp());
+        al.remove(m.getPrepareSet().getRp());
+        al.remove(m.getPane());
+        list.removeAll(al);
+        if (!arg0.getComf().isEmpty()) {
+            list.addAll(arg0.getComf());
+        }
+
+        list = m.getPane().getChildren();
+        al.clear();
+        al.addAll(list);
+        al.remove(list.get(0));
+        al.remove(list.get(1));
+        list.removeAll(al);
+        list.addAll(arg0.getCops());
+
+        list = m.getPrepareSet().getQp().getChildren();
+        list.clear();
+        list.addAll(arg0.getCoqp());
+
+        list = m.getPrepareSet().getRp().getChildren();
+        list.clear();
+        list.addAll(arg0.getCorp());
+
+        m.getCounterSet().setNowCP(arg0.getCp());
+        m.getCounterSet().setNowLines(arg0.getLines());
+        if (arg0.getSattCPToRival() != 0) {
+            m.getMainModel().SAtt(!m.isP1(), arg0.getSattCPToRival());
+        }
+        if (arg0.isWin() == false) {
+            m.getMainModel().winner(!m.isP1());
+        }
     }
-   
+     //network use
+
 }
