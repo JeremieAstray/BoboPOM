@@ -355,7 +355,10 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     private void pressS() {
-
+        this.sp.getTimeline().stop();
+        if(!mm.isHost()){
+            Config.controller.getNetgames().clear();
+        }
         if (this.getMainModel().isEnd()) {
             if(this.getMainModel().isNetwork())
             Config.controller.end(this.getMainModel().isHost());
@@ -444,11 +447,6 @@ public class Model implements EventHandler<OpEvent> {
             } else {
                 this.getMainModel().winner(!p1);
             }
-        }
-        this.sp.getTimeline().stop();
-        if(!mm.isHost()){
-            Config.controller.getNetgames().clear();
-            Config.socketLink.getGamesMsg().clear();
         }
     }
 
