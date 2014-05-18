@@ -419,9 +419,6 @@ public class Model implements EventHandler<OpEvent> {
 
     public void setWin(boolean win) {
 //        controller.send(win);
-        this.sp.getTimeline().stop();
-        Config.socketLink.getGamesMsg().clear();
-        Config.controller.getNetgames().clear();
         Config.bgmMedia.stopMusic();
         if (win) {
             Config.effectMedia.play(10);
@@ -448,6 +445,9 @@ public class Model implements EventHandler<OpEvent> {
                 this.getMainModel().winner(!p1);
             }
         }
+        this.sp.getTimeline().stop();
+        Config.socketLink.getGamesMsg().clear();
+        Config.controller.getNetgames().clear();
     }
 
     //这是一个发出信息的示例
