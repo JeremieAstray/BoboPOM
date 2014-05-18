@@ -426,7 +426,9 @@ public class Model implements EventHandler<OpEvent> {
         ImageView iv = this.getPane().getWol();
         iv.setTranslateX(this.getPane().getTranslateX());
         iv.setTranslateY(this.getPane().getTranslateY());
+        if(!this.getMainFrame().getChildren().contains(iv))
         this.getMainFrame().getChildren().add(iv);
+        else{System.out.println("?dulicate");}
         this.enable = false;
         this.sp.getTimeline().stop();
         this.win = true;
