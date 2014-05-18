@@ -481,6 +481,7 @@ public class Model implements EventHandler<OpEvent> {
         
         Config.controller.send(new UpdataMessage(new UpdataEvent(p1,cops,comf,coqp,corp,this.counterSet.getCpc().getNowCP(),this.counterSet.getLc().getLines(), sattCPToRival, win)));
         sattCPToRival = 0;
+        win = true;
     }
 
     public synchronized void recv(Object o) {
