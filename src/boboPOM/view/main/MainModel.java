@@ -39,12 +39,14 @@ public class MainModel {
     }
  
     public void winner(boolean p1) {
-        if (p1) {
-            this.p1.setWin(true);
-        } else {
-            this.p2.setWin(true);
+        if(!end) {
+            if (p1) {
+                this.p1.setWin(true);
+            } else {
+                this.p2.setWin(true);
+            }
+            end = true;
         }
-        end = true;
     }
 
     public void SAtt(boolean p1, int add) {
