@@ -126,10 +126,10 @@ public class Controller implements Initializable {
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (!netgames.isEmpty()) {
+                if(!netgames.isEmpty()){
                     Object o = netgames.recv();
                     if (o instanceof FirstMessage || o instanceof UpdataMessage) {
-                        if (host)
+                        if(host)
                             mainView.getMainFrame().getP1().recv(o);
                         else
                             mainView.getMainFrame().getP2().recv(o);
@@ -161,10 +161,10 @@ public class Controller implements Initializable {
         mainView.requestFocus();
         while (!getp2) {
         }
-        if (host)
+        if(host)
             mainView.setPersonages(p1, p2);
         else
-            mainView.setPersonages(p2, p1);
+            mainView.setPersonages(p2,p1);
         this.addHandler(mainView.getMainFrame().getP1());
         this.addHandler(mainView.getMainFrame().getP2());
     }
@@ -188,16 +188,7 @@ public class Controller implements Initializable {
     public void send(Object o) {
         socketLink.send(o);
     }
-
-    public void end(boolean host) {
-        if (host)
-            socketLink.closeserver();
-        else
-            socketLink.close();
-        end();
-    }
-
-    public void end() {
+    public void end(){
         mainView.setVisible(false);
         menuView.setVisible(true);
     }
