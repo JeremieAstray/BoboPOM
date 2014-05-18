@@ -44,14 +44,12 @@ public class MainModel {
         } else {
             this.p2.setWin(true);
         }
-        if(host){
+        if(host)
             this.p1.sp.getTimeline().stop();
-            Config.controller.gamerun = false;
-        }else{
+        else
             this.p2.sp.getTimeline().stop();
-            Config.controller.getNetgames().clear();
-            Config.controller.gamerun = false;
-        }
+        Config.controller.getNetgames().clear();
+        Config.controller.gamerun = false;
         end = true;
     }
 
