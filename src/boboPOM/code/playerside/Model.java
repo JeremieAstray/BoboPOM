@@ -437,7 +437,6 @@ public class Model implements EventHandler<OpEvent> {
         }
         this.enable = false;
         this.sp.getTimeline().stop();
-        Config.socketLink.send(null);
         this.win = true;
         if (!win) {
             if (this.mm.isNetwork()) {

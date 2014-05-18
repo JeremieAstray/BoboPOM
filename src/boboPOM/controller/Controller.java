@@ -190,6 +190,7 @@ public class Controller implements Initializable {
     }
 
     public void end(boolean host) {
+        socketLink.send(null);
         if (host)
             socketLink.closeserver();
         else
