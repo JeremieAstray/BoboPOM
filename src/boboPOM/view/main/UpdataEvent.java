@@ -27,12 +27,14 @@ public final class UpdataEvent extends Event {
     private ArrayList<Node> corp;
     private String command;
     private int cp, lines;
+    private int sattCPToRival;
+    private boolean win;
 
     public UpdataEvent(EventType<? extends Event> arg0) {// network use
         super(arg0);
     }
 
-    public UpdataEvent(boolean p1, ArrayList<Node> cops, ArrayList<Node> comf, ArrayList<Node> coqp, ArrayList<Node> corp, int cp, int lines) {
+    public UpdataEvent(boolean p1, ArrayList<Node> cops, ArrayList<Node> comf, ArrayList<Node> coqp, ArrayList<Node> corp, int cp, int lines,int sattCPToRival,boolean win) {
         this(EventType.ROOT);
         this.p1 = p1;
         this.cops = cops;
@@ -41,6 +43,8 @@ public final class UpdataEvent extends Event {
         this.corp = corp;
         this.cp = cp;
         this.lines = lines;
+        this.sattCPToRival = sattCPToRival;
+        this.win = win;
         this.command = "updata";
     }
 
@@ -91,6 +95,15 @@ public final class UpdataEvent extends Event {
         return lines;
     }
 
+    public int getSattCPToRival() {
+        return sattCPToRival;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    
     private void changeToEvent(UpdataMessage um) {
         this.p1 = um.isP1();
         cops.add(buildEffectByMessage(um.getEopls().get(0)));

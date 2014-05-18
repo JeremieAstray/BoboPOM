@@ -46,7 +46,11 @@ public class Model implements EventHandler<OpEvent> {
     private int SAtt;
     private MainModel mm;
     private double speedTemp = 1.5;
-
+    //network use
+    private int sattCPToRival;
+    private boolean win;
+    //network use
+    
     public Model(boolean p1, boolean network) {
         this.p1 = p1;
         counterSet = new CounterSet(p1);
@@ -381,6 +385,10 @@ public class Model implements EventHandler<OpEvent> {
         //test
         if (sDown && counterSet.isShinning()) {
             Config.effectMedia.play(14);
+            this.sattCPToRival = 0;
+            if(this.mm.isNetwork()){
+                 this.sattCPToRival = this.counterSet.useCP();
+            }else
             this.mm.SAtt(!p1, this.counterSet.useCP());
         }
     }
@@ -421,7 +429,11 @@ public class Model implements EventHandler<OpEvent> {
         this.getMainFrame().getChildren().add(iv);
         this.enable = false;
         this.sp.getTimeline().stop();
+        win = true;
         if (!win) {
+            if(this.mm.isNetwork()){
+                win = false;
+            }else
             this.getMainModel().winner(!p1);
         }
     }
@@ -465,8 +477,7 @@ public class Model implements EventHandler<OpEvent> {
         cops.remove(this.getPane().getChildren().get(0));
         cops.remove(this.getPane().getChildren().get(1));
         
-        
-        Config.controller.send(new UpdataMessage(new UpdataEvent(p1,cops,comf,coqp,corp,this.counterSet.getCpc().getNowCP(),this.counterSet.getLc().getLines())));
+        Config.controller.send(new UpdataMessage(new UpdataEvent(p1,cops,comf,coqp,corp,this.counterSet.getCpc().getNowCP(),this.counterSet.getLc().getLines(), sattCPToRival, win)));
     }
 
     public synchronized void recv(Object o) {
@@ -528,6 +539,10 @@ public class Model implements EventHandler<OpEvent> {
          
          m.getCounterSet().setNowCP(arg0.getCp());
          m.getCounterSet().setNowLines(arg0.getLines());
+         if(arg0.getSattCPToRival() != 0)
+         m.getMainModel().SAtt(!m.isP1(), arg0.getSattCPToRival());
+//         if(arg0.isWin() == false)
+//         m.getMainModel().winner(!m.isP1());
     }
    
 }

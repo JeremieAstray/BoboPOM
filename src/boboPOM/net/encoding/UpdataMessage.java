@@ -27,6 +27,8 @@ public class UpdataMessage implements java.io.Serializable{// network use
     private ArrayList<EffectMessage> eopls,eomf;
     private ArrayList<PaneMessage> pomf;
     private int cp,lines;
+    private int sattCPToRival;
+    private boolean win;
   
     public UpdataMessage(UpdataEvent ue){
         bopls = new ArrayList<>();
@@ -68,6 +70,8 @@ public class UpdataMessage implements java.io.Serializable{// network use
        }
        this.cp = ue.getCp();
        this.lines = ue.getLines();
+       this.sattCPToRival = ue.getSattCPToRival();
+       this.win = ue.isWin();
     }
 
     public ArrayList<BoboMessage> getBopls() {
@@ -105,6 +109,14 @@ public class UpdataMessage implements java.io.Serializable{// network use
 
     public int getLines() {
         return lines;
+    }
+
+    public int getSattCPToRival() {
+        return sattCPToRival;
+    }
+
+    public boolean isWin() {
+        return win;
     }
 
     public boolean isP1() {
