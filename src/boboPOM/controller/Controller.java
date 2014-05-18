@@ -38,7 +38,8 @@ public class Controller implements Initializable {
     private MsgQueue<Object> netgames;
     private SocketLink socketLink;
     private boolean getp2 = false;
-
+    public Timeline timeline ;
+    public Timer t;
     @FXML
     private void keyPressed(KeyEvent event) {
         c1Pe(event);
@@ -121,7 +122,7 @@ public class Controller implements Initializable {
         this.socketLink = socketLink;
         this.gameMsg = regamesMsg;
         this.netgames = new MsgQueue<>();
-        Timeline timeline = new Timeline();
+        timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             @Override
@@ -139,7 +140,7 @@ public class Controller implements Initializable {
         });
         timeline.getKeyFrames().add(kf);
         timeline.play();
-        Timer t = new Timer(true);
+        t = new Timer(true);
         t.schedule(new TimerTask() {
             @Override
             public void run() {

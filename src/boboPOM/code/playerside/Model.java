@@ -446,6 +446,8 @@ public class Model implements EventHandler<OpEvent> {
             }
         }
         this.sp.getTimeline().stop();
+        Config.controller.t.cancel();
+        Config.controller.timeline.stop();
         Config.socketLink.getGamesMsg().clear();
         Config.controller.getNetgames().clear();
     }
