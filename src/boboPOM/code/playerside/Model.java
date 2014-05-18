@@ -419,6 +419,7 @@ public class Model implements EventHandler<OpEvent> {
 
     public void setWin(boolean win) {
 //        controller.send(win);
+        this.sp.getTimeline().stop();
         Config.bgmMedia.stopMusic();
         if (win) {
             Config.effectMedia.play(10);
@@ -436,7 +437,7 @@ public class Model implements EventHandler<OpEvent> {
             System.out.println("?dulicate");
         }
         this.enable = false;
-        this.sp.getTimeline().stop();
+
         this.win = true;
         if (!win) {
             if (this.mm.isNetwork()) {
