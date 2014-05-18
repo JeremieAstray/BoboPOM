@@ -40,6 +40,7 @@ public class Controller implements Initializable {
     private boolean getp2 = false;
     public Timeline timeline ;
     public Timer t;
+    public boolean gamerun;
     @FXML
     private void keyPressed(KeyEvent event) {
         c1Pe(event);
@@ -105,6 +106,7 @@ public class Controller implements Initializable {
     }
 
     public void initGames(int p1, int p2) {
+        this.gamerun = true;
         mainView.setVisible(true);
         menuView.setVisible(false);
         mainView.init(true, false/*Config.network*/);
@@ -117,6 +119,7 @@ public class Controller implements Initializable {
     }
 
     public void initNetGames(boolean host, int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
+        this.gamerun = true;
         mainView.setVisible(true);
         socketLink.send(new Integer(p1));
         this.socketLink = socketLink;
@@ -191,7 +194,7 @@ public class Controller implements Initializable {
     }
 
     public void end(boolean host) {
-        socketLink.send(null);
+        this.gamerun = false;
         if (host)
             socketLink.closeserver();
         else

@@ -448,7 +448,6 @@ public class Model implements EventHandler<OpEvent> {
         this.sp.getTimeline().stop();
         Config.controller.t.cancel();
         Config.controller.timeline.stop();
-        Config.socketLink.getGamesMsg().clear();
         Config.controller.getNetgames().clear();
     }
 
@@ -490,7 +489,7 @@ public class Model implements EventHandler<OpEvent> {
 
         cops.remove(this.getPane().getChildren().get(0));
         cops.remove(this.getPane().getChildren().get(1));
-
+         
         Config.controller.send(new UpdataMessage(new UpdataEvent(p1, cops, comf, coqp, corp, this.counterSet.getCpc().getNowCP(), this.counterSet.getLc().getLines(), sattCPToRival, win)));
         sattCPToRival = 0;
         win = true;
