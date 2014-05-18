@@ -107,5 +107,7 @@ public class SoloPrepareBar extends Parent {
     public void reset(){
         this.sp1P.setVisible(false);
         this.sp2P.setVisible(false);
+        this.prepared1P = false;
+        this.prepared2P = false;
     }
 }

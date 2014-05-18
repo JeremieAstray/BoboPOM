@@ -349,7 +349,9 @@ public class Model implements EventHandler<OpEvent> {
     private void pressS() {
 
         if (this.getMainModel().isEnd()) {
-            this.getMainModel().again();
+        Config.controller.end();
+        Config.menuController.ReturnToMenu();
+        this.getMainModel().again();
             return;
         }
         if (sDown) {
@@ -367,14 +369,14 @@ public class Model implements EventHandler<OpEvent> {
         if (sDown && counterSet.isShinning()) {
             this.sBurst = true;
             this.burstDef = true;
-            Config.effectMedia.play(16);
+            Config.effectMedia.play(15);
         }
     }
 
     private void burstSA() {
         //test
         if (sDown && counterSet.isShinning()) {
-            Config.effectMedia.play(15);
+            Config.effectMedia.play(14);
             this.mm.SAtt(!p1, this.counterSet.useCP());
         }
     }
@@ -403,10 +405,10 @@ public class Model implements EventHandler<OpEvent> {
 //        controller.send(win);
         Config.bgmMedia.stopMusic();
         if (win) {
-            Config.effectMedia.play(11);
+            Config.effectMedia.play(10);
             this.getPane().getWol().setImage(Config.getEffects().get(10));
         } else {
-            Config.effectMedia.play(12);
+            Config.effectMedia.play(11);
             this.getPane().getWol().setImage(Config.getEffects().get(11));
         }
         ImageView iv = this.getPane().getWol();
@@ -421,10 +423,7 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     //这是一个发出信息的示例
-    public void send(boolean first) {
-        System.out.println("send");
-        System.out.println(this.mm.getP1().getPersonage());
-        System.out.println(this.mm.getP2().getPersonage());     
+    public synchronized void send(boolean first) { 
         if(first) {
              Config.controller.send(new FirstMessage(this.getPersonage()));
              return;
@@ -434,9 +433,9 @@ public class Model implements EventHandler<OpEvent> {
         ArrayList<Node> comf = new ArrayList<>();
         comf.addAll(this.mf.getChildren());
         ArrayList<Node> coqp = new ArrayList<>();
-        comf.addAll(this.prepareSet.getQp().getChildren());
+        coqp.addAll(this.prepareSet.getQp().getChildren());
         ArrayList<Node> corp = new ArrayList<>();
-        comf.addAll(this.prepareSet.getRp().getChildren());
+        corp.addAll(this.prepareSet.getRp().getChildren());
         
         ArrayList<Node> temp = new ArrayList<>();
         if (p1) {
@@ -466,7 +465,7 @@ public class Model implements EventHandler<OpEvent> {
         Config.controller.send(new UpdataMessage(new UpdataEvent(p1,cops,comf,coqp,corp,this.counterSet.getCpc().getNowCP(),this.counterSet.getLc().getLines())));
     }
 
-    public void recv(Object o) {
+    public synchronized void recv(Object o) {
         //这个是被调用的，每次被调用就会接收到对方发出的对象
         //这然这里是要根据对方的对象的类型来对这个model(p2)进行修改和更新
         System.out.println("recv");

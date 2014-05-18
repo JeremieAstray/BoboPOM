@@ -74,8 +74,8 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
                 break;
         }
     }
-
-    private void override(Model m, UpdataEvent arg0) {
+//network use
+    private synchronized void override(Model m, UpdataEvent arg0) {
          ObservableList<Node> list = this.getChildren();
          ArrayList<Node> al = new ArrayList<>();
          if(m.isP1())
@@ -94,12 +94,14 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
          al.remove(m.getPrepareSet().getRp());
          al.remove(m.getPane());
          list.removeAll(al);
+         if(!arg0.getComf().isEmpty())
          list.addAll(arg0.getComf());
          
          list = m.getPane().getChildren();
          al.clear();
-         al.add(list.get(0));
-         al.add(list.get(1));
+         al.addAll(list);
+         al.remove(list.get(0));
+         al.remove(list.get(1));
          list.removeAll(al);
          list.addAll(arg0.getCops());
          
@@ -114,9 +116,5 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
          m.getCounterSet().setNowCP(arg0.getCp());
          m.getCounterSet().setNowLines(arg0.getLines());
     }
-    
-    public void setResolution(double x,double y){
-        this.setScaleX(x/this.getWidth());
-        this.setScaleY(y/this.getHeight());
-    }
+   
 }

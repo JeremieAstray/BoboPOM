@@ -119,7 +119,7 @@ public class Splash {
             private void initing() {
                 if (arg == 0) {
                     start = new ImageView(Config.getEffects().get(0));
-                    Config.effectMedia.play(13);
+                    Config.effectMedia.play(12);
                     if (model.getMainModel().getP2().getPersonage() == Config.Campaleila) {
                         Config.bgmMedia.playMusic(1, true);
                     } else {
@@ -327,7 +327,7 @@ public class Splash {
                 if (arg == 0) {
                     if (model.isSBurst()) {
                         if (model.isBurstAtt()) {
-                            Config.effectMedia.play(10);
+                            Config.effectMedia.play(9);
                             int t = model.getSAtt();
                             model.getCounterSet().addLines(t);
                         }

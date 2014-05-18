@@ -8,7 +8,6 @@ import boboPOM.net.encoding.BoboMessage;
 import boboPOM.code.basic.Bobo;
 import boboPOM.config.Config;
 import java.util.ArrayList;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.Node;
@@ -47,6 +46,10 @@ public final class UpdataEvent extends Event {
 
     public UpdataEvent(UpdataMessage um) {
         super(EventType.ROOT);
+        this.cops = new ArrayList<>();
+        this.comf = new ArrayList<>();
+        this.coqp = new ArrayList<>();
+        this.corp = new ArrayList<>();
         changeToEvent(um);
         this.command = "updata";
     }
@@ -90,7 +93,6 @@ public final class UpdataEvent extends Event {
 
     private void changeToEvent(UpdataMessage um) {
         this.p1 = um.isP1();
-        this.cops = new ArrayList<>();
         cops.add(buildEffectByMessage(um.getEopls().get(0)));
         for (BoboMessage bm : um.getBopls()) {
             Bobo bo = new Bobo(bm);
@@ -104,6 +106,10 @@ public final class UpdataEvent extends Event {
         for(EffectMessage em : um.getEomf()){
             ImageView iv = buildEffectByMessage(em);
             this.comf.add(iv);
+        }
+         for (BoboMessage bm : um.getBomf()) {
+            Bobo bo = new Bobo(bm);
+            comf.add(bo);
         }
         for (BoboMessage bm : um.getBoqp()) {
             Bobo bo = new Bobo(bm);

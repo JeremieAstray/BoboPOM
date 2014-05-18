@@ -14,8 +14,10 @@ public class MainView extends StackPane {
     private Control control;
 
     public MainView() {
+        
     }
 
+        
     public void init(boolean host,boolean network){
         control = new MyControl();
         this.getChildren().addAll(control);

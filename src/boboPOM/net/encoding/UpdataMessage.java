@@ -23,13 +23,14 @@ import javafx.scene.layout.StackPane;
  */
 public class UpdataMessage implements java.io.Serializable{// network use
     private boolean p1;
-    private ArrayList<BoboMessage> bopls,boqp,borp;
+    private ArrayList<BoboMessage> bopls,bomf,boqp,borp;
     private ArrayList<EffectMessage> eopls,eomf;
     private ArrayList<PaneMessage> pomf;
     private int cp,lines;
   
     public UpdataMessage(UpdataEvent ue){
         bopls = new ArrayList<>();
+        bomf = new ArrayList<>();
         boqp = new ArrayList<>();
         borp = new ArrayList<>();
         eopls = new ArrayList<>();
@@ -50,7 +51,8 @@ public class UpdataMessage implements java.io.Serializable{// network use
        for(Node node:ue.getComf()){
            if(node instanceof StackPane){
                pomf.add(new PaneMessage((Pane) node));
-           }else if(node instanceof ImageView){
+           }
+           else if(node instanceof ImageView){
                eomf.add(new EffectMessage((ImageView) node));
            }
        }
@@ -72,6 +74,11 @@ public class UpdataMessage implements java.io.Serializable{// network use
         return bopls;
     }
 
+    public ArrayList<BoboMessage> getBomf() {
+        return bomf;
+    }
+
+    
     public ArrayList<BoboMessage> getBoqp() {
         return boqp;
     }

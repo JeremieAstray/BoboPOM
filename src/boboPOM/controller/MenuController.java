@@ -579,6 +579,9 @@ public class MenuController implements Initializable {
 
     public void ReturnToMenu() {
         mainMenuBar.reset();
+        this.soloPrepareBar.reset();
+        this.menuMark = 0;
+        this.soloMenuBar.setVisible(false);
         mainMenuBar.setVisible(true);
     }
 

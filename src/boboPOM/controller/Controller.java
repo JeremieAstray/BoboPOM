@@ -7,6 +7,7 @@ import boboPOM.net.encoding.FirstMessage;
 import boboPOM.net.encoding.UpdataMessage;
 import boboPOM.view.MainView;
 import boboPOM.view.MenuView;
+import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.UpdataEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -101,6 +102,7 @@ public class Controller implements Initializable {
     }
 
     public void initGames(int p1, int p2) {
+        mainView.setVisible(true);
         menuView.setVisible(false);
         mainView.init(true, false/*Config.network*/);
         mainView.setFocusTraversable(true);
@@ -112,6 +114,7 @@ public class Controller implements Initializable {
     }
 
     public void initNetGames(boolean host, int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
+        mainView.setVisible(true);
         socketLink.send(new Integer(p1));
         this.socketLink = socketLink;
         this.gameMsg = regamesMsg;
@@ -138,7 +141,10 @@ public class Controller implements Initializable {
         mainView.requestFocus();
         while (!getp2) {
         }
-        mainView.setPersonages(p1, p2);
+        if(host)
+            mainView.setPersonages(p1, p2);
+        else
+            mainView.setPersonages(p2,p1);
         this.addHandler(mainView.getMainFrame().getP1());
         this.addHandler(mainView.getMainFrame().getP2());
     }
@@ -161,5 +167,9 @@ public class Controller implements Initializable {
 
     public void send(Object o) {
         socketLink.send(o);
+    }
+    public void end(){
+        mainView.setVisible(false);
+        menuView.setVisible(true);
     }
 }

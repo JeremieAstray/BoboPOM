@@ -60,8 +60,9 @@ public class MainModel {
     }
 
     public void again() {
-      // init();
-        //  processEvent(new UpdataEvent("again"));
+//          init(false,false);
+//          processEvent(new UpdataEvent("again"));
+        this.end = false;
     }
 
     public void upData(UpdataEvent ue) {
