@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
@@ -122,7 +123,12 @@ public class SocketLink implements RunnableFuture {
                     break;
                 }
             }
-        } catch (IOException e) {
+        }catch(SocketException e){
+            if("Socket closed".equals(e.getMessage()))
+                System.out.println("连接断开成功!");
+            else
+                e.printStackTrace();
+        }catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
