@@ -40,11 +40,11 @@ public class Model implements EventHandler<OpEvent> {
     private boolean burstAtt = false;
     private boolean burstDef = false;
     private MainFrame mf;
-    private Splash sp;
+    public Splash sp;
     private boolean sDown = false;
     private boolean swapDown = false;
     private int SAtt;
-    private MainModel mm;
+    public MainModel mm;
     private double speedTemp = 1.5;
     //network use
     private int sattCPToRival = 0;
@@ -355,10 +355,7 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     private void pressS() {
-        this.sp.getTimeline().stop();
-        if(!mm.isHost()){
-            Config.controller.getNetgames().clear();
-        }
+
         if (this.getMainModel().isEnd()) {
             if(this.getMainModel().isNetwork())
             Config.controller.end(this.getMainModel().isHost());

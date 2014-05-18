@@ -17,12 +17,12 @@ public class MainModel {
     private boolean end;
     private boolean network;
     private boolean host;
-    
-    public MainModel(boolean host,boolean network) {
+
+    public MainModel(boolean host, boolean network) {
         Config.init();
         this.host = host;
         this.network = network;
-        init(host,network);
+        init(host, network);
         this.handlerList = new ArrayList<EventHandler>();
     }
 
@@ -37,16 +37,20 @@ public class MainModel {
     public boolean isNetwork() {
         return network;
     }
- 
+
     public void winner(boolean p1) {
-        if(!end) {
-            if (p1) {
-                this.p1.setWin(true);
-            } else {
-                this.p2.setWin(true);
-            }
-            end = true;
+        if (p1) {
+            this.p1.setWin(true);
+        } else {
+            this.p2.setWin(true);
         }
+        if(host){
+            this.p1.sp.getTimeline().stop();
+        }else{
+            this.p2.sp.getTimeline().stop();
+            Config.controller.getNetgames().clear();
+        }
+        end = true;
     }
 
     public void SAtt(boolean p1, int add) {
