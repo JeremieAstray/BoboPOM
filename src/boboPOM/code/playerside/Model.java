@@ -420,6 +420,8 @@ public class Model implements EventHandler<OpEvent> {
     public void setWin(boolean win) {
 //        controller.send(win);
         this.sp.getTimeline().stop();
+        Config.socketLink.getGamesMsg().clear();
+        Config.controller.getNetgames().clear();
         Config.bgmMedia.stopMusic();
         if (win) {
             Config.effectMedia.play(10);

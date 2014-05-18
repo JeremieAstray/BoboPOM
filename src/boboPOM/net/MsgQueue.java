@@ -31,4 +31,8 @@ public class MsgQueue<T extends Object> {
     public synchronized boolean isEmpty(){
         return queue.isEmpty();
     }
+
+    public synchronized void clear(){
+        queue.clear();
+    }
 }

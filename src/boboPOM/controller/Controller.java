@@ -202,4 +202,8 @@ public class Controller implements Initializable {
         mainView.setVisible(false);
         menuView.setVisible(true);
     }
+
+    public MsgQueue<Object> getNetgames() {
+        return netgames;
+    }
 }
