@@ -63,7 +63,7 @@ public class Splash {
         KeyFrame kf = new KeyFrame(Duration.millis(40), new EventHandler<ActionEvent>() {
             private LinkedList<Bobo> list;
             private Bobo b;
-            private double temp;
+            private int temp = 0;
             private boolean movingSBurst;
             private boolean animeFinished = true;
             private ArrayList<Bobo> boes;
@@ -88,10 +88,11 @@ public class Splash {
                     // lineUp
                     timecounter++;
                     lineUp();
-                    timecounter %= 1800;
+                    speedUp();
+                    timecounter %= 1000;
                     moving();
                 }
-
+               speedUp();
                 if (state == Splash.VANISHING) {
 //                    // lineUp
 //                    timecounter++;
@@ -288,7 +289,6 @@ public class Splash {
                 if (arg == 5) {
                     delete();
                     arg = 6;
-                    temp = 0;
                 }
                 if (arg == 6) {
                     state = Splash.DROPPING;
@@ -397,6 +397,26 @@ public class Splash {
                 if (Utils.lineUp(timecounter, model.getDeep())) {
                     model.getCounterSet().addLines(1);
                     timecounter = 0;
+                }
+            }
+            
+            private synchronized void speedUp(){
+               if(temp < 4000)
+                temp += 1;
+               
+                if(temp == 1000){
+                    speed = 3;
+                }
+                if(temp == 2000){
+                    speed = 5;
+                }
+                if(temp == 3000){
+                    speed = 7;
+                    
+                }
+                if(temp == 4000){
+                    speed = 10;
+                    temp ++;
                 }
             }
 
@@ -526,5 +546,9 @@ public class Splash {
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public double getSpeed() {
+        return this.speed;
     }
 }

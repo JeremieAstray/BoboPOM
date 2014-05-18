@@ -299,7 +299,7 @@ public class Bobo extends ImageView {
             }
 
             if (state == Bobo.STATE_RISING) {
-                kf = new KeyFrame(Duration.millis(50), new EventHandler<ActionEvent>() {
+                kf = new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent arg0) {
                         bo.setView(view);

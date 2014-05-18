@@ -45,6 +45,7 @@ public class Model implements EventHandler<OpEvent> {
     private boolean swapDown = false;
     private int SAtt;
     private MainModel mm;
+    private double speedTemp = 1.5;
 
     public Model(boolean p1, boolean network) {
         this.p1 = p1;
@@ -332,6 +333,8 @@ public class Model implements EventHandler<OpEvent> {
 
     private void moveBrickD() {
         if (brick != null && enable) {
+            if(sp.getSpeed()<10)
+            speedTemp = sp.getSpeed();
             sp.setSpeed(16);
         }
     }
@@ -367,6 +370,7 @@ public class Model implements EventHandler<OpEvent> {
 
     private void burstSD() {
         if (sDown && counterSet.isShinning()) {
+            counterSet.setShinning(false);
             this.sBurst = true;
             this.burstDef = true;
             Config.effectMedia.play(15);
@@ -394,7 +398,7 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     private void releasedD() {
-        sp.setSpeed(1.5);
+        sp.setSpeed(speedTemp);
     }
 
     private void releasedSwap() {
