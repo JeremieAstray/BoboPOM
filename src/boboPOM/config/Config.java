@@ -6,7 +6,6 @@ import boboPOM.media.BGMMedia;
 import boboPOM.media.EffectMedia;
 import boboPOM.net.SocketLink;
 import boboPOM.view.Main;
-import java.io.DataInputStream;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
@@ -15,10 +14,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Jeremie on 14-3-4.

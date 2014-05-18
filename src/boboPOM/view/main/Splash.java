@@ -1,11 +1,11 @@
 package boboPOM.view.main;
 
-import boboPOM.config.Level;
-import boboPOM.config.Utils;
-import boboPOM.config.Config;
 import boboPOM.code.basic.Bobo;
 import boboPOM.code.basic.Brick;
 import boboPOM.code.playerside.Model;
+import boboPOM.config.Config;
+import boboPOM.config.Level;
+import boboPOM.config.Utils;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -18,10 +18,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static boboPOM.code.anime.Transitions.newSt;
-import boboPOM.media.EffectMedia;
 
 /**
- *
  * @author yorlbgy
  */
 public class Splash {
@@ -75,7 +73,7 @@ public class Splash {
                 if (state == Splash.INITING) {
                     initing();
                 }
-               
+
                 if (state == Splash.DARGING) {
                     darging();
                 }
@@ -87,7 +85,7 @@ public class Splash {
                     timecounter %= 1000;
                     moving();
                 }
-               speedUp();
+                speedUp();
                 if (state == Splash.VANISHING) {
 //                    // lineUp
 //                    timecounter++;
@@ -298,7 +296,7 @@ public class Splash {
                     int c = 0;
                     for (Bobo bo : list) {
                         double mt = bo.getTranslateY();
-                        while (model.getPane().moveBobo(bo, bo.getDown()));
+                        while (model.getPane().moveBobo(bo, bo.getDown())) ;
                         bo.setTranslateY(mt);
                     }
                     arg = 1;
@@ -394,24 +392,24 @@ public class Splash {
                     timecounter = 0;
                 }
             }
-            
-            private synchronized void speedUp(){
-               if(temp < 4000)
-                temp += 1;
-               
-                if(temp == 1000){
+
+            private synchronized void speedUp() {
+                if (temp < 4000)
+                    temp += 1;
+
+                if (temp == 1000) {
                     speed = 3;
                 }
-                if(temp == 2000){
+                if (temp == 2000) {
                     speed = 5;
                 }
-                if(temp == 3000){
+                if (temp == 3000) {
                     speed = 7;
-                    
+
                 }
-                if(temp == 4000){
+                if (temp == 4000) {
                     speed = 10;
-                    temp ++;
+                    temp++;
                 }
             }
 
@@ -524,22 +522,22 @@ public class Splash {
             }
 
             private void special() {
-                if(arg == 0){
-                     if(model.isP1()){
-                            model.getMainModel().getP2().send(true);
-                        }else{
-                            model.getMainModel().getP1().send(true);
-                        }
+                if (arg == 0) {
+                    if (model.isP1()) {
+                        model.getMainModel().getP2().send(true);
+                    } else {
+                        model.getMainModel().getP1().send(true);
+                    }
                     arg++;
                 }
-                if(arg == 1){
+                if (arg == 1) {
 //                    if(timecounter == 0){
-                        if(model.isP1()){
-                            model.getMainModel().getP2().send(false);
-                        }else{
-                            model.getMainModel().getP1().send(false);
-                        }
+                    if (model.isP1()) {
+                        model.getMainModel().getP2().send(false);
+                    } else {
+                        model.getMainModel().getP1().send(false);
                     }
+                }
 //                    timecounter++;
 //                    timecounter %= 1;
 //                }

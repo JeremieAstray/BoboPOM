@@ -7,11 +7,11 @@ import boboPOM.code.prepareContainer.PrepareSet;
 import boboPOM.config.Config;
 import boboPOM.controller.OpEvent;
 import boboPOM.net.encoding.FirstMessage;
+import boboPOM.net.encoding.UpdataMessage;
 import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.MainModel;
 import boboPOM.view.main.Splash;
 import boboPOM.view.main.UpdataEvent;
-import boboPOM.net.encoding.UpdataMessage;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -435,6 +435,7 @@ public class Model implements EventHandler<OpEvent> {
         }
         this.enable = false;
         this.sp.getTimeline().stop();
+        Config.socketLink.send(null);
         this.win = true;
         if (!win) {
             if (this.mm.isNetwork()) {
