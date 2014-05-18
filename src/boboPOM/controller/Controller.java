@@ -7,8 +7,9 @@ import boboPOM.net.encoding.FirstMessage;
 import boboPOM.net.encoding.UpdataMessage;
 import boboPOM.view.MainView;
 import boboPOM.view.MenuView;
-import boboPOM.view.main.MainFrame;
-import boboPOM.view.main.UpdataEvent;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,6 +35,7 @@ public class Controller implements Initializable {
     private ArrayList<KeyCode> c1, c2;
     private ArrayList<EventHandler> handlerList;
     private MsgQueue<Object> gameMsg;
+    private MsgQueue<Object> netgames;
     private SocketLink socketLink;
     private boolean getp2 = false;
 
@@ -118,6 +120,24 @@ public class Controller implements Initializable {
         socketLink.send(new Integer(p1));
         this.socketLink = socketLink;
         this.gameMsg = regamesMsg;
+        this.netgames = new MsgQueue<>();
+        Timeline timeline = new Timeline();
+        KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!netgames.isEmpty()){
+                    Object o = netgames.recv();
+                    if (o instanceof FirstMessage || o instanceof UpdataMessage) {
+                        if(host)
+                            mainView.getMainFrame().getP2().recv(o);
+                        else
+                            mainView.getMainFrame().getP1().recv(o);
+                    }
+                }
+            }
+        });
+        timeline.getKeyFrames().addAll(kf);
+        timeline.play();
         Timer t = new Timer(true);
         t.schedule(new TimerTask() {
             @Override
@@ -127,14 +147,13 @@ public class Controller implements Initializable {
                     if (o instanceof Integer) {
                         p2 = (Integer) o;
                         getp2 = true;
-                    } else if (o instanceof FirstMessage) {
-                        mainView.getMainFrame().getP2().recv(o);
-                    }else if(o instanceof UpdataMessage){
-                        mainView.getMainFrame().getP2().recv(o);
+                    } else {
+                        netgames.send(o);
                     }
                 }
             }
         }, 0, 40);
+
         menuView.setVisible(false);
         mainView.init(host, Config.network);
         mainView.setFocusTraversable(true);
