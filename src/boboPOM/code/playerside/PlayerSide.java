@@ -29,7 +29,7 @@ public class PlayerSide extends StackPane {
         this.getChildren().add(this.personage);
         shadow = new Shadow(this);
         this.getChildren().add(shadow);
-        this.wol = new ImageView(Config.getEffects().get(10));
+        this.wol = new ImageView(Config.getEffects().get(11));
         this.sTip = new ImageView(Config.getEffects().get(6));
 
         for (int i = 0; i < 7; i++) {

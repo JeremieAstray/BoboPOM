@@ -12,6 +12,7 @@ import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.MainModel;
 import boboPOM.view.main.Splash;
 import boboPOM.view.main.UpdataEvent;
+import static java.lang.Thread.sleep;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -20,6 +21,8 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -359,9 +362,11 @@ public class Model implements EventHandler<OpEvent> {
     private void pressS() {
 
         if (this.getMainModel().isEnd()) {
-            if(this.getMainModel().isNetwork())
-            Config.controller.end(this.getMainModel().isHost());
-            else  Config.controller.end();
+            if (this.getMainModel().isNetwork()) {
+                Config.controller.end(this.getMainModel().isHost());
+            } else {
+                Config.controller.end();
+            }
             Config.menuController.ReturnToMenu();
             this.getMainModel().again();
             return;
@@ -426,31 +431,44 @@ public class Model implements EventHandler<OpEvent> {
 //            return;
 //        }
         this.sp.getTimeline().stop();
-        Config.bgmMedia.stopMusic();
-        if (win) {
-            Config.effectMedia.play(10);
-            this.getPane().getWol().setImage(Config.getEffects().get(10));
-        } else {
-            Config.effectMedia.play(11);
-            this.getPane().getWol().setImage(Config.getEffects().get(11));
-        }
-        ImageView iv = this.getPane().getWol();
-        iv.setTranslateX(this.getPane().getTranslateX());
-        iv.setTranslateY(this.getPane().getTranslateY());
-        if (!this.getMainFrame().getChildren().contains(iv)) {
-            this.getMainFrame().getChildren().add(iv);
-        } else {
-            System.out.println("?dulicate");
-            System.out.println(this.p1);
-        }
         this.enable = false;
+        Config.bgmMedia.stopMusic();
 
         this.win = true;
         if (!win) {
             if (this.mm.isNetwork()) {
                 this.win = false;
-            } else
-           this.getMainModel().winner(!p1);
+            } else {
+                this.getMainModel().winner(!p1);
+            }
+        }
+        synchronized (this) {
+                try {
+                    sleep(2000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    if (Config.getEffects().indexOf(this.getPane().getWol().getImage()) != 11) {
+                        win = true;
+                    }
+                    System.out.println(win);
+                    if (win) {
+                        Config.effectMedia.play(10);
+                        this.getPane().getWol().setImage(Config.getEffects().get(10));
+                    } else {
+                        Config.effectMedia.play(11);
+                        this.getPane().getWol().setImage(Config.getEffects().get(11));
+                    }
+                    ImageView iv = this.getPane().getWol();
+                    iv.setTranslateX(this.getPane().getTranslateX());
+                    iv.setTranslateY(this.getPane().getTranslateY());
+                    if (!this.getMainFrame().getChildren().contains(iv)) {
+                        this.getMainFrame().getChildren().add(iv);
+                    } else {
+                        System.out.println("?dulicate");
+                        System.out.println(this.p1);
+                    }
+                }
         }
     }
 
@@ -492,7 +510,7 @@ public class Model implements EventHandler<OpEvent> {
 
         cops.remove(this.getPane().getChildren().get(0));
         cops.remove(this.getPane().getChildren().get(1));
-         
+
         Config.controller.send(new UpdataMessage(new UpdataEvent(p1, cops, comf, coqp, corp, this.counterSet.getCpc().getNowCP(), this.counterSet.getLc().getLines(), sattCPToRival, win)));
         sattCPToRival = 0;
         win = true;
@@ -507,9 +525,8 @@ public class Model implements EventHandler<OpEvent> {
             return;
         }
         UpdataEvent ue = new UpdataEvent((UpdataMessage) o);
-       
-       this.getMainModel().upData(ue);
+
+        this.getMainModel().upData(ue);
     }
 
-   
 }
