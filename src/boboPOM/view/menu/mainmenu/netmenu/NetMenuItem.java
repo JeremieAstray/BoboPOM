@@ -8,10 +8,7 @@ package boboPOM.view.menu.mainmenu.netmenu;
 import boboPOM.config.Config;
 import boboPOM.view.menu.ImageEditor;
 import boboPOM.view.menu.MenuItem;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -22,16 +19,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
  * @author:feng
  */
 public class NetMenuItem extends MenuItem {
 
+    final private Text[] StatusText = {
+            new Text("可连接"), new Text("已连接")
+    };
     private HBox hBox;
     private Text IPText;
-    final private Text[] StatusText = {
-        new Text("可连接"), new Text("已连接")
-    };
     private boolean connected;
     private StackPane statusStackPane;
 
@@ -42,7 +38,8 @@ public class NetMenuItem extends MenuItem {
         IPText = new Text(IP);
         init();
     }
-    public NetMenuItem(String IP, boolean connected){
+
+    public NetMenuItem(String IP, boolean connected) {
         this(300, 40, IP, connected);
     }
 
@@ -94,11 +91,6 @@ public class NetMenuItem extends MenuItem {
 
         this.getChildren().add(gridPane);
     }
-    public void setConnected(boolean connected){
-        this.connected = connected;
-        statusStackPane.getChildren().remove(0);
-        statusStackPane.getChildren().add(StatusText[this.connected ? 0 : 1]);
-    }
 
     public String getIPText() {
         return IPText.getText();
@@ -106,5 +98,11 @@ public class NetMenuItem extends MenuItem {
 
     public boolean isConnected() {
         return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+        statusStackPane.getChildren().remove(0);
+        statusStackPane.getChildren().add(StatusText[this.connected ? 0 : 1]);
     }
 }

@@ -1,18 +1,17 @@
-
 package boboPOM.code.prepareContainer;
 
 import boboPOM.code.basic.Brick;
+import boboPOM.config.Config;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import boboPOM.config.Config;
+
 import static boboPOM.code.anime.Transitions.newTt;
 
 /**
- *
  * @author yorlbgy
  */
 public class QpPane extends StackPane {
@@ -21,7 +20,8 @@ public class QpPane extends StackPane {
     private QueueList<Brick> source, list;
     private double interval = Config.BoboSizeH * 2.1;
     private ParallelTransition pt;
-   private boolean AnimeFinished = true; 
+    private boolean AnimeFinished = true;
+
     public QpPane(boolean p1) {
         this.p1 = p1;
         list = new QueueList<>();
@@ -72,12 +72,12 @@ public class QpPane extends StackPane {
         animePlay();
     }
 
-     public boolean isAnimeFinished() {
+    public boolean isAnimeFinished() {
         return AnimeFinished;
     }
-      
+
     private void animePlay() {
-         initPt();
+        initPt();
         for (int i = 0; i < pt.getChildren().size(); i++) {
             if (i % 2 == 0) {
                 ((TranslateTransition) pt.getChildren().get(i)).setNode(list.get(i / 2).getD());
@@ -104,13 +104,13 @@ public class QpPane extends StackPane {
         }
         pt.setAutoReverse(false);
         pt.setCycleCount(1);
-        pt.setOnFinished(new EventHandler(){
+        pt.setOnFinished(new EventHandler() {
 
             @Override
             public void handle(Event arg0) {
-              AnimeFinished = true;
+                AnimeFinished = true;
             }
-            
+
         });
     }
 }

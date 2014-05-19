@@ -6,32 +6,30 @@
 
 package boboPOM.net.encoding;
 
-import boboPOM.net.encoding.Message;
-import boboPOM.net.encoding.EffectMessage;
 import boboPOM.config.Config;
-import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 /**
- *
  * @author Administrator
  */
-public class PaneMessage extends Message{// network use
-    private int chainsT,chainsC,bounsT,bounsC;
+public class PaneMessage extends Message {// network use
+    private int chainsT, chainsC, bounsT, bounsC;
     private ArrayList<EffectMessage> ems;
-    
-    public PaneMessage(Pane p){
+
+    public PaneMessage(Pane p) {
         super(p);
         ems = new ArrayList<>();
-        for(Node iv : p.getChildren()){
-            ems.add(new EffectMessage((ImageView)iv));
+        for (Node iv : p.getChildren()) {
+            ems.add(new EffectMessage((ImageView) iv));
         }
-        this.chainsT = Config.getNumbers().get(2).indexOf(((ImageView)p.getChildren().get(1)).getImage());
-        this.chainsC =  Config.getNumbers().get(2).indexOf(((ImageView)p.getChildren().get(2)).getImage());
-        this.bounsT = Config.getNumbers().get(2).indexOf(((ImageView)p.getChildren().get(3)).getImage());
-        this.bounsC =  Config.getNumbers().get(2).indexOf(((ImageView)p.getChildren().get(4)).getImage());
+        this.chainsT = Config.getNumbers().get(2).indexOf(((ImageView) p.getChildren().get(1)).getImage());
+        this.chainsC = Config.getNumbers().get(2).indexOf(((ImageView) p.getChildren().get(2)).getImage());
+        this.bounsT = Config.getNumbers().get(2).indexOf(((ImageView) p.getChildren().get(3)).getImage());
+        this.bounsC = Config.getNumbers().get(2).indexOf(((ImageView) p.getChildren().get(4)).getImage());
     }
 
     public int getChainsT() {
@@ -55,5 +53,4 @@ public class PaneMessage extends Message{// network use
     }
 
 
-    
 }

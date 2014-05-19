@@ -12,8 +12,6 @@ import boboPOM.view.main.MainFrame;
 import boboPOM.view.main.MainModel;
 import boboPOM.view.main.Splash;
 import boboPOM.view.main.UpdataEvent;
-import static java.lang.Thread.sleep;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -21,23 +19,21 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
  * @author yorlbgy
  */
 public class Model implements EventHandler<OpEvent> {
 
     private final boolean p1;
+    private final CounterSet counterSet;
+    private final PrepareSet prepareSet;
+    private final PlayerSide pane;
+    public MainModel mm;
     private int deep;
     private Brick brick;
     private int state;
     private int personage;
-    private final CounterSet counterSet;
-    private final PrepareSet prepareSet;
-    private final PlayerSide pane;
     private boolean enable = false;
     private boolean sBurst = false;
     private boolean burstAtt = false;
@@ -47,7 +43,6 @@ public class Model implements EventHandler<OpEvent> {
     private boolean sDown = false;
     private boolean swapDown = false;
     private int SAtt;
-    public MainModel mm;
     private double speedTemp = 1.5;
     //network use
     private int sattCPToRival = 0;
@@ -70,20 +65,20 @@ public class Model implements EventHandler<OpEvent> {
         return p1;
     }
 
-    public void setMainFrame(MainFrame mf) {
-        this.mf = mf;
-    }
-
     public MainFrame getMainFrame() {
         return mf;
     }
 
-    public void setMainModel(MainModel mm) {
-        this.mm = mm;
+    public void setMainFrame(MainFrame mf) {
+        this.mf = mf;
     }
 
     public MainModel getMainModel() {
         return mm;
+    }
+
+    public void setMainModel(MainModel mm) {
+        this.mm = mm;
     }
 
     public Splash getSp() {
@@ -193,14 +188,14 @@ public class Model implements EventHandler<OpEvent> {
         return burstAtt;
     }
 
-    public void setBurstAtt(boolean ba, int CPH) {
-        this.burstAtt = ba;
-        this.SAtt = CPH;
-    }
-
     public void setBurstAtt(boolean ba) {
         this.burstAtt = ba;
         this.SAtt = 0;
+    }
+
+    public void setBurstAtt(boolean ba, int CPH) {
+        this.burstAtt = ba;
+        this.SAtt = CPH;
     }
 
     public int getSAtt() {
@@ -505,12 +500,12 @@ public class Model implements EventHandler<OpEvent> {
 
         cops.remove(this.getPane().getChildren().get(0));
         cops.remove(this.getPane().getChildren().get(1));
-        
+
         UpdataMessage um = new UpdataMessage(new UpdataEvent(p1, cops, comf, coqp, corp, this.counterSet.getCpc().getNowCP(), this.counterSet.getLc().getLines(), sattCPToRival, win));
         Config.controller.send(um);
         sattCPToRival = 0;
         win = true;
-        
+
         return um.isLast();
     }
 
@@ -528,7 +523,7 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     public boolean isNetwork() {
-       return this.network;
+        return this.network;
     }
 
 }

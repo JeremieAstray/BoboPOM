@@ -7,8 +7,6 @@ package boboPOM.view.menu.mainmenu;
 
 import boboPOM.config.Config;
 import boboPOM.view.menu.ImageEditor;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -24,16 +22,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
  * @author:feng
  */
 public class DialogBox extends Control {
@@ -107,7 +100,7 @@ public class DialogBox extends Control {
         sTimeline.setCycleCount(Timeline.INDEFINITE);
         sTimeline.setAutoReverse(true);
         sTimeline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO,
-                new KeyValue(subscriptView.translateYProperty(), 0)),
+                        new KeyValue(subscriptView.translateYProperty(), 0)),
                 new KeyFrame(new Duration(300),
                         new KeyValue(subscriptView.translateYProperty(), 10))
         );
@@ -118,42 +111,43 @@ public class DialogBox extends Control {
 
         tTimeline.setCycleCount(Timeline.INDEFINITE);
         tTimeline.getKeyFrames().add(new KeyFrame(new Duration(30),
-                new EventHandler<ActionEvent>() {
+                        new EventHandler<ActionEvent>() {
 
-                    @Override
-                    public void handle(ActionEvent t) {
-                        if (textIndex < lines.size()
-                        && currentNumOfLine < numOfLineInBox) {
-                            if (!isGPAdd) {
-                                textGridPane.add(texts[currentNumOfLine],
-                                        0, currentNumOfLine);
-                                isGPAdd = true;
-                            }
-                            if (lineCharIndex < lines.get(textIndex).length()) {
-                                for (int i = 0; i < 2 && lineCharIndex < lines.get(textIndex).length(); i++) {
-                                    lineBuffer.append(lines.get(textIndex).charAt(lineCharIndex));
-                                    lineCharIndex++;
+                            @Override
+                            public void handle(ActionEvent t) {
+                                if (textIndex < lines.size()
+                                        && currentNumOfLine < numOfLineInBox) {
+                                    if (!isGPAdd) {
+                                        textGridPane.add(texts[currentNumOfLine],
+                                                0, currentNumOfLine);
+                                        isGPAdd = true;
+                                    }
+                                    if (lineCharIndex < lines.get(textIndex).length()) {
+                                        for (int i = 0; i < 2 && lineCharIndex < lines.get(textIndex).length(); i++) {
+                                            lineBuffer.append(lines.get(textIndex).charAt(lineCharIndex));
+                                            lineCharIndex++;
+                                        }
+                                        if (!Config.effectMedia.isPlaying()) {
+                                            Config.effectMedia.play(4);
+                                        }
+                                        texts[currentNumOfLine].setText(lineBuffer.toString());
+                                    } else {
+                                        lineBuffer.delete(0, lineCharIndex);
+                                        isGPAdd = false;
+                                        currentNumOfLine++;
+                                        textIndex++;
+                                        lineCharIndex = 0;
+                                    }
+                                } else {
+                                    tTimeline.stop();
+                                    setSubscript(true);
+                                    if (textIndex >= lines.size()) {
+                                        setOver(true);
+                                    }
                                 }
-                                if (!Config.effectMedia.isPlaying()) {
-                                    Config.effectMedia.play(4);
-                                }
-                                texts[currentNumOfLine].setText(lineBuffer.toString());
-                            } else {
-                                lineBuffer.delete(0, lineCharIndex);
-                                isGPAdd = false;
-                                currentNumOfLine++;
-                                textIndex++;
-                                lineCharIndex = 0;
-                            }
-                        } else {
-                            tTimeline.stop();
-                            setSubscript(true);
-                            if (textIndex >= lines.size()) {
-                                setOver(true);
                             }
                         }
-                    }
-                })
+                )
         );
 
         upDateUI();
@@ -188,7 +182,7 @@ public class DialogBox extends Control {
         BufferedReader bufferedReader = new BufferedReader(Config.inputStreamReader);
         String line;
         try {
-            while((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
                 lines.add(line);
             }
         } catch (IOException ex) {
@@ -251,16 +245,16 @@ public class DialogBox extends Control {
     }
 
     /**
-     * @return the tTimeline
-     */
-    public Timeline gettTimeline() {
-        return tTimeline;
-    }
-
-    /**
      * @param over the over to set
      */
     public void setOver(boolean over) {
         this.over = over;
+    }
+
+    /**
+     * @return the tTimeline
+     */
+    public Timeline gettTimeline() {
+        return tTimeline;
     }
 }

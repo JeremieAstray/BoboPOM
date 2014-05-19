@@ -7,19 +7,18 @@
 package boboPOM.net.encoding;
 
 /**
- *
  * @author Administrator
  */
-public class FirstMessage implements java.io.Serializable{
+public class FirstMessage implements java.io.Serializable {
     private int character;
-    
-    public FirstMessage(int character){// network use
+
+    public FirstMessage(int character) {// network use
         this.character = character;
     }
 
     public int getCharacter() {
         return character;
     }
-    
-    
+
+
 }

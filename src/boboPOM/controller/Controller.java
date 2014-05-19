@@ -28,6 +28,7 @@ import java.util.TimerTask;
  */
 public class Controller implements Initializable {
 
+    public boolean gamerun;
     @FXML
     private MainView mainView;
     @FXML
@@ -38,9 +39,16 @@ public class Controller implements Initializable {
     private MsgQueue<Object> netgames;
     private SocketLink socketLink;
     private boolean getp2 = false;
-    public Timeline timeline ;
-    public Timer t;
-    public boolean gamerun;
+    private Timeline timeline;
+    private Timer t;
+    /**
+     * 初始化controller
+     *
+     * @param location
+     * @param resources
+     */
+    private Integer p2 = 0;
+
     @FXML
     private void keyPressed(KeyEvent event) {
         c1Pe(event);
@@ -68,14 +76,6 @@ public class Controller implements Initializable {
             processEvent(new OpEvent(false, event.getCode(), true));
         }
     }
-
-    /**
-     * 初始化controller
-     *
-     * @param location
-     * @param resources
-     */
-    private Integer p2 = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -106,9 +106,9 @@ public class Controller implements Initializable {
     }
 
     public void initGames(int p1, int p2) {
+        Config.network = false;
         this.gamerun = true;
         mainView.setVisible(true);
-        menuView.setVisible(false);
         mainView.init(true, false/*Config.network*/);
         mainView.setFocusTraversable(true);
         mainView.requestFocus();
@@ -119,6 +119,7 @@ public class Controller implements Initializable {
     }
 
     public void initNetGames(boolean host, int p1, SocketLink socketLink, MsgQueue<Object> regamesMsg) {
+        Config.network = true;
         this.gamerun = true;
         mainView.setVisible(true);
         socketLink.send(new Integer(p1));
@@ -194,6 +195,8 @@ public class Controller implements Initializable {
     }
 
     public void end(boolean host) {
+        timeline.stop();
+        t.cancel();
         this.gamerun = false;
         if (host)
             socketLink.closeserver();

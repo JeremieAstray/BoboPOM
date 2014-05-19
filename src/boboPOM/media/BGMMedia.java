@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- *
  * @author:feng
  */
 public class BGMMedia {

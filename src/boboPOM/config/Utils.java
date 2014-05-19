@@ -1,8 +1,6 @@
-
 package boboPOM.config;
 
 /**
- *
  * @author yorlbgy
  */
 public class Utils {
@@ -12,6 +10,6 @@ public class Utils {
     }
 
     public static boolean lineUp(int timecounter, int deep) {
-       return timecounter/25 > deep*2 + 2;
+        return timecounter / 25 > deep * 2 + 2;
     }
 }

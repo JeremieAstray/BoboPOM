@@ -22,7 +22,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
  * @author:feng
  */
 public class GameSetting extends Parent {
@@ -93,7 +92,7 @@ public class GameSetting extends Parent {
 
             @Override
             public void changed(ObservableValue<? extends Number> ov,
-                    Number old_val, Number new_val) {
+                                Number old_val, Number new_val) {
                 BGMVolumeSlider.setValue((int) (new_val.doubleValue() + 0.5));
                 Config.bgmMedia.setVolume((int) (new_val.doubleValue() + 0.5));
             }
@@ -103,7 +102,7 @@ public class GameSetting extends Parent {
 
             @Override
             public void changed(ObservableValue<? extends Number> ov,
-                    Number old_val, Number new_val) {
+                                Number old_val, Number new_val) {
                 SoundEffectSlider.setValue((int) (new_val.doubleValue() + 0.5));
                 Config.effectMedia.setVolume((int) (new_val.doubleValue() + 0.5));
             }
@@ -150,7 +149,7 @@ public class GameSetting extends Parent {
             Config.root.setLayoutX(-88);
             Config.root.setLayoutY(32);
         } else if ("1024 * 768".equals(resolution)) {
-            Config.root.setScaleX(1024 * 1.0 / Config.SCREEN_WIDTH );
+            Config.root.setScaleX(1024 * 1.0 / Config.SCREEN_WIDTH);
             Config.root.setScaleY(768 * 1.0 / Config.SCREEN_HEIGHT);
             Config.stage.setMaxWidth(1024);
             Config.stage.setMaxHeight(768);

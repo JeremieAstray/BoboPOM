@@ -9,13 +9,12 @@ package boboPOM.net.encoding;
 import boboPOM.code.basic.Bobo;
 
 /**
- *
  * @author Administrator
  */
-public class BoboMessage extends Message{// network use
-    private int type,view;
-    
-    public BoboMessage(Bobo bo){
+public class BoboMessage extends Message {// network use
+    private int type, view;
+
+    public BoboMessage(Bobo bo) {
         super(bo);
         this.type = bo.getType();
         this.view = bo.getView();
@@ -28,5 +27,5 @@ public class BoboMessage extends Message{// network use
     public int getView() {
         return view;
     }
-    
+
 }

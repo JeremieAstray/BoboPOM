@@ -17,18 +17,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
  * @author:feng
  */
 public class MenuItem extends Parent {
 
+    protected Rectangle rectangle;
+    protected Text text;
+    protected StackPane stackPane;
     private boolean selected;
     private int IHeigth;
     private int IWidth;
-    protected Rectangle rectangle;
-    protected Text text;
     private LinearGradient linearGradient;
-    protected StackPane stackPane;
 
     public MenuItem(String name, int width, int height) {
         this.IWidth = width;
@@ -47,10 +46,10 @@ public class MenuItem extends Parent {
     private void init() {
 
         Stop[] stops = new Stop[]{new Stop(0, Color.web("#00BFFF", 0.1)),
-            new Stop(0.3, Color.web("#00BFFF", 0.5)),
-            new Stop(0.5, Color.web("#00BFFF", 1)),
-            new Stop(0.7, Color.web("#00BFFF", 0.5)),
-            new Stop(1, Color.web("#00BFFF", 0.1))
+                new Stop(0.3, Color.web("#00BFFF", 0.5)),
+                new Stop(0.5, Color.web("#00BFFF", 1)),
+                new Stop(0.7, Color.web("#00BFFF", 0.5)),
+                new Stop(1, Color.web("#00BFFF", 0.1))
         };
 
         linearGradient = new LinearGradient(0, 0, 1, 0, true,
@@ -86,24 +85,17 @@ public class MenuItem extends Parent {
     }
 
     /**
-     * @param IHeigth the IHeigth to set
-     */
-    public void setIHeigth(int IHeigth) {
-        this.IHeigth = IHeigth;
-    }
-
-    /**
-     * @param IWidth the IWidth to set
-     */
-    public void setIWidth(int IWidth) {
-        this.IWidth = IWidth;
-    }
-
-    /**
      * @return the IHeigth
      */
     public int getIHeigth() {
         return IHeigth;
+    }
+
+    /**
+     * @param IHeigth the IHeigth to set
+     */
+    public void setIHeigth(int IHeigth) {
+        this.IHeigth = IHeigth;
     }
 
     /**
@@ -114,6 +106,13 @@ public class MenuItem extends Parent {
     }
 
     /**
+     * @param IWidth the IWidth to set
+     */
+    public void setIWidth(int IWidth) {
+        this.IWidth = IWidth;
+    }
+
+    /**
      * @return the stackPane
      */
     public StackPane getStackPane() {
@@ -121,16 +120,16 @@ public class MenuItem extends Parent {
     }
 
     /**
-     * @param selected the selected to set
-     */
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    /**
      * @return the selected
      */
     public boolean isSelected() {
         return selected;
+    }
+
+    /**
+     * @param selected the selected to set
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

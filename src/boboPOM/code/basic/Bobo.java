@@ -1,8 +1,8 @@
-
 package boboPOM.code.basic;
 
-import boboPOM.config.Config;
 import boboPOM.code.playerside.PlayerSide;
+import boboPOM.config.Config;
+import boboPOM.net.encoding.BoboMessage;
 import javafx.animation.KeyFrame;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
@@ -15,10 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import static boboPOM.code.anime.Transitions.newSt;
-import boboPOM.net.encoding.BoboMessage;
 
 /**
- *
  * @author yorlbgy
  */
 public class Bobo extends ImageView {
@@ -70,9 +68,9 @@ public class Bobo extends ImageView {
         this.x = 0;
         this.y = 16;
     }
-    
+
     //network use
-    public Bobo(BoboMessage bm){
+    public Bobo(BoboMessage bm) {
         changeType(bm.getType());
         this.setView(bm.getView());
         this.setTranslateX(bm.getTranslataX());
@@ -82,6 +80,7 @@ public class Bobo extends ImageView {
         this.setOpacity(bm.getOpacity());
         this.setVisible(bm.isVisible());
     }
+
     private void changeType(int newType) {
         this.type = newType;
         Image image;
@@ -93,13 +92,20 @@ public class Bobo extends ImageView {
             this.vanishEffect = new ImageView(Config.getEffects().get(type + 12));
             if (type == Bobo.TYPE_WHITE) {
                 this.shinningEffect = new ImageView(Config.getEffects().get(9));
-                   shinningEffect.setStyle("-fx-opacity:0.5;");
+                shinningEffect.setStyle("-fx-opacity:0.5;");
             }
         }
     }
 
     public int getView() {
         return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+        if (!this.isNull()) {
+            this.setImage(Config.getBobosImages().get(type).get(this.view));
+        }
     }
 
     public int getType() {
@@ -131,20 +137,20 @@ public class Bobo extends ImageView {
             }
         }
 
-        if (state == Bobo.STATE_NORMAL&&newState == Bobo.STATE_VANSHING) {
+        if (state == Bobo.STATE_NORMAL && newState == Bobo.STATE_VANSHING) {
             this.state = newState;
             this.setView(7);
-            stateAnimePlay(Bobo.STATE_VANSHING);       
+            stateAnimePlay(Bobo.STATE_VANSHING);
         }
-        
-        if(newState == Bobo.STATE_RISING){
+
+        if (newState == Bobo.STATE_RISING) {
             this.state = newState;
         }
-        
-        if(newState == Bobo.STATE_NORMAL){
+
+        if (newState == Bobo.STATE_NORMAL) {
             this.state = newState;
         }
-        
+
         if (this.type == Bobo.TYPE_WHITE) {
             if (newState == Bobo.STATE_NORMAL) {
                 shinningAnimePlay();
@@ -157,13 +163,6 @@ public class Bobo extends ImageView {
 
     public int getState() {
         return state;
-    }
-
-    public void setView(int view) {
-        this.view = view;
-        if (!this.isNull()) {
-            this.setImage(Config.getBobosImages().get(type).get(this.view));
-        }
     }
 
     public Bobo getUp() {
@@ -202,6 +201,10 @@ public class Bobo extends ImageView {
         }
     }
 
+    public int getIndexX() {
+        return this.x;
+    }
+
     public void setIndexX(int x) {
         this.x = x;
         setTranslateX(parent.getPosX(x));
@@ -210,20 +213,16 @@ public class Bobo extends ImageView {
         }
     }
 
+    public int getIndexY() {
+        return this.y;
+    }
+
     public void setIndexY(int y) {
         this.y = y;
         setTranslateY(parent.getPosY(y));
         if (this.getType() == Bobo.TYPE_WHITE) {
             this.shinningEffect.setTranslateY(getTranslateY());
         }
-    }
-
-    public int getIndexX() {
-        return this.x;
-    }
-
-    public int getIndexY() {
-        return this.y;
     }
 
     public boolean isNull() {
@@ -248,7 +247,7 @@ public class Bobo extends ImageView {
         } else {
             int c = 0;
             this.changeState(Bobo.STATE_VANSHING);
-            if (this.getType() != Bobo.TYPE_WHITE) {           
+            if (this.getType() != Bobo.TYPE_WHITE) {
                 if (this.getUp() != null && (this.getUp().getType() == this.getType() || this.getUp().getType() == Bobo.TYPE_WHITE) && this.getUp().getState() == Bobo.STATE_NORMAL) {
                     c += this.getUp().vanish(true);
                 }
@@ -333,7 +332,7 @@ public class Bobo extends ImageView {
             }
 
             if (state == Bobo.STATE_VANSHING) {
-                 Config.effectMedia.play(8);
+                Config.effectMedia.play(8);
                 ScaleTransition newSt = newSt(Duration.millis(500), 1.2, false);
                 vanishEffect.setTranslateX(bo.getTranslateX());
                 vanishEffect.setTranslateY(bo.getTranslateY());
@@ -371,10 +370,9 @@ public class Bobo extends ImageView {
         tl.setCycleCount(1);
     }
 
-    public boolean isAnimeFinished(){
+    public boolean isAnimeFinished() {
         return animeFinished;
     }
-
 
 
 }

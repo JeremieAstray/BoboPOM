@@ -1,7 +1,6 @@
 package boboPOM.view;
 
 import boboPOM.config.Config;
-import boboPOM.controller.Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
@@ -15,14 +14,12 @@ import java.io.IOException;
  */
 public class MenuView extends AnchorPane {
 
-    private Controller controller;
-
     public MenuView() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menu/menu.fxml"));
         ImageView background = new ImageView(new Image(Main.class.getResourceAsStream("resources/images/background/main.png")));
         background.setFitHeight(Config.getSCREEN_HEIGHT());
         background.setFitWidth(Config.getSCREEN_WIDTH());
-        this.getChildren().addAll(background,root);
+        this.getChildren().addAll(background, root);
     }
 
 }

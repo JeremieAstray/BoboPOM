@@ -1,11 +1,9 @@
-
 package boboPOM.code.playerside;
 
 import boboPOM.config.Config;
 import javafx.scene.image.ImageView;
 
 /**
- *
  * @author yorlbgy
  */
 public class Shadow extends ImageView {

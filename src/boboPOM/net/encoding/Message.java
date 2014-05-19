@@ -9,14 +9,14 @@ package boboPOM.net.encoding;
 import javafx.scene.Node;
 
 /**
- *
  * @author Administrator
  */
-public abstract class Message implements java.io.Serializable{// network use
-    private double translataX,translateY;
-    private double opacity,scaleX,scaleY;
+public abstract class Message implements java.io.Serializable {// network use
+    private double translataX, translateY;
+    private double opacity, scaleX, scaleY;
     private boolean visible;
-    protected Message(Node no){
+
+    protected Message(Node no) {
         this.opacity = no.getOpacity();
         this.scaleX = no.getScaleX();
         this.scaleY = no.getScaleY();
@@ -48,6 +48,6 @@ public abstract class Message implements java.io.Serializable{// network use
     public boolean isVisible() {
         return visible;
     }
-    
-    
+
+
 }

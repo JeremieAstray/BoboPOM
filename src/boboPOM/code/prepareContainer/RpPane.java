@@ -1,14 +1,12 @@
-
 package boboPOM.code.prepareContainer;
 
-import boboPOM.config.Config;
 import boboPOM.code.basic.Bobo;
+import boboPOM.config.Config;
 import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 
 /**
- *
  * @author yorlbgy
  */
 public class RpPane extends StackPane {

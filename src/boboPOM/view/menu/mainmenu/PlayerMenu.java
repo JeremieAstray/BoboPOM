@@ -14,7 +14,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
  * @author:feng
  */
 public class PlayerMenu extends MenuBar {
@@ -32,7 +31,7 @@ public class PlayerMenu extends MenuBar {
 
     private void init() {
         String[] itemNames = {"罗伯兹", "罗伊德", "芙兰", "米歇尔", "约纳",
-            "阿巴斯", "玛丽亚贝尔", "缇欧", "肯帕雷拉"};
+                "阿巴斯", "玛丽亚贝尔", "缇欧", "肯帕雷拉"};
         MenuItem menuItem;
         for (int i = 0; i < itemNums; i++) {
             menuItem = new MenuItem(itemNames[i], this.getMenuItemWidth(),
@@ -57,6 +56,7 @@ public class PlayerMenu extends MenuBar {
     protected void changeCursorLocation(int index) {
         AnchorPane.setTopAnchor(cursorView,
                 Double.valueOf(index * (this.getMenuItemHeigth() + 6) - 5
-                        + this.getMenuItemHeigth()));
+                        + this.getMenuItemHeigth())
+        );
     }
 }

@@ -3,20 +3,31 @@ package boboPOM.view;
 import boboPOM.config.Config;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-//import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+//import javafx.scene.layout.Pane;
+
 public class Main extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+//    public void setResulation(double x, double y) {
+//        Config.stage.setMaxHeight(y + 38);
+//        Config.stage.setMaxWidth(x);
+//        Config.root.setScaleX(x / (Config.SCREEN_WIDTH));
+//        Config.root.setScaleY(y / (Config.SCREEN_HEIGHT));
+//    }
 
     /**
      * 主程序
      *
      * @param primaryStage
+     *
      * @throws Exception
      */
     @Override
@@ -35,16 +46,5 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-    }
-
-//    public void setResulation(double x, double y) {
-//        Config.stage.setMaxHeight(y + 38);
-//        Config.stage.setMaxWidth(x);
-//        Config.root.setScaleX(x / (Config.SCREEN_WIDTH));
-//        Config.root.setScaleY(y / (Config.SCREEN_HEIGHT));
-//    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

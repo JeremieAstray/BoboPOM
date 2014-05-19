@@ -9,7 +9,6 @@ import boboPOM.view.menu.MenuBar;
 import boboPOM.view.menu.MenuItem;
 
 /**
- *
  * @author:feng
  */
 public class MainMenuBar extends MenuBar {
@@ -27,7 +26,7 @@ public class MainMenuBar extends MenuBar {
 
     private void init() {
         String[] itemNames = {"单机模式", "网络对战", "游戏说明", "设置",
-            "退出游戏"};
+                "退出游戏"};
         MenuItem menuItem;
         for (int i = 0; i < itemNums; i++) {
             menuItem = new MenuItem(itemNames[i], this.getMenuItemWidth(),

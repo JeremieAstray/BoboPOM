@@ -14,7 +14,6 @@ import javafx.scene.layout.StackPane;
 import java.util.ArrayList;
 
 /**
- *
  * @author yorlbgy
  */
 public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
@@ -73,9 +72,9 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
                 } else {
                     m = this.model.getP2();
                 }
-                
-               override(m, arg0);
-               
+
+                override(m, arg0);
+
 //                if(arg0.isLast()){
 //                    System.out.println("last");
 //                    if(p1.isNetwork()) 
@@ -141,6 +140,6 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
             }
         }
     }
-     //network use
+    //network use
 
 }

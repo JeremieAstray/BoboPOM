@@ -17,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
  * @author:feng
  */
 public class SoloPrepareBar extends Parent {
@@ -56,7 +55,7 @@ public class SoloPrepareBar extends Parent {
         border = imageEditor.ChangeHeight(border, SHeight);
         borderView1P = new ImageView(border);
         borderView2P = new ImageView(border);
-        
+
         Text text1P = new Text(string1P);
         Text text2P = new Text(string2P);
         Font font = new Font(25);
@@ -72,7 +71,7 @@ public class SoloPrepareBar extends Parent {
 
         sp1P.setVisible(false);
         sp2P.setVisible(false);
-        
+
         sp1P.setTranslateX(Config.getSCREEN_WIDTH() / 2 - 300);
         sp1P.setTranslateY(Config.getSCREEN_HEIGHT() / 2);
         sp2P.setTranslateX(Config.getSCREEN_WIDTH() / 2 + 150);
@@ -103,8 +102,8 @@ public class SoloPrepareBar extends Parent {
         }
         return -1;
     }
-    
-    public void reset(){
+
+    public void reset() {
         this.sp1P.setVisible(false);
         this.sp2P.setVisible(false);
         this.prepared1P = false;

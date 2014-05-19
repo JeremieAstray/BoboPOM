@@ -7,19 +7,18 @@
 package boboPOM.net.encoding;
 
 import boboPOM.config.Config;
-import java.util.ArrayList;
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.ImageView;
-import javax.swing.JFrame;
+
+import java.util.ArrayList;
 
 /**
- *
  * @author Administrator
  */
-public class EffectMessage extends Message{// network use
-    private int index;
+public class EffectMessage extends Message {// network use
     public ArrayList<ImageView> ivs = new ArrayList<>();
-    public EffectMessage(ImageView iv){
+    private int index;
+
+    public EffectMessage(ImageView iv) {
         super(iv);
         this.index = Config.getEffects().indexOf(iv.getImage());
 //        if(index < 0){
@@ -30,5 +29,5 @@ public class EffectMessage extends Message{// network use
     public int getIndex() {
         return index;
     }
-    
+
 }

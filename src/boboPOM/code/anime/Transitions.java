@@ -1,4 +1,3 @@
-
 package boboPOM.code.anime;
 
 import javafx.animation.ScaleTransition;
@@ -8,7 +7,6 @@ import javafx.util.Duration;
 
 
 /**
- *
  * @author yorlbgy
  */
 public class Transitions {
@@ -35,5 +33,5 @@ public class Transitions {
         st.setByY(scale);
         return st;
     }
-   
+
 }

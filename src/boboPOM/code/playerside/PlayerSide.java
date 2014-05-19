@@ -1,9 +1,8 @@
-
 package boboPOM.code.playerside;
 
-import boboPOM.config.Utils;
-import boboPOM.config.Config;
 import boboPOM.code.basic.Bobo;
+import boboPOM.config.Config;
+import boboPOM.config.Utils;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- *
  * @author yorlbgy
  */
 public class PlayerSide extends StackPane {
@@ -21,7 +19,7 @@ public class PlayerSide extends StackPane {
     private ImageView personage;
     private ImageView wol;
     private ImageView sTip;
-            
+
     public PlayerSide(boolean p1, int personage) {
         this.getChildren().add(new ImageView(Config.getBackgrounds().get(1)));
         this.personage = new ImageView(Config.getPersonages().get(personage));
@@ -35,7 +33,7 @@ public class PlayerSide extends StackPane {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 16; j++) {
                 this.getChildren().add(new Bobo(this));
-                 addBobo(new Bobo(this), i, j);
+                addBobo(new Bobo(this), i, j);
             }
         }
         if (p1) {
@@ -90,7 +88,10 @@ public class PlayerSide extends StackPane {
         if (newY > 15) {
             return true;
         }
-        if(!addBobo(bo, newX, newY)) {addBobo(bo,x,y);return false;}
+        if (!addBobo(bo, newX, newY)) {
+            addBobo(bo, x, y);
+            return false;
+        }
         return true;
     }
 
@@ -101,12 +102,12 @@ public class PlayerSide extends StackPane {
         return moveBobo(bo.getIndexX(), bo.getIndexY(), bi.getIndexX(), bi.getIndexY());
     }
 
-    public  LinkedList<Bobo> getAllBobo(int boboState) {
+    public LinkedList<Bobo> getAllBobo(int boboState) {
         LinkedList<Bobo> list = new LinkedList<>();
         for (int i = 0; i < 16 * 7; i++) {
             Bobo bo = (Bobo) this.getChildren().get(i + 3);
-            if(bo.getState() == boboState)
-            list.add(bo);
+            if (bo.getState() == boboState)
+                list.add(bo);
         }
         return list;
     }
@@ -140,22 +141,24 @@ public class PlayerSide extends StackPane {
         }
         return 0;
     }
-    public Shadow getShadow(){
+
+    public Shadow getShadow() {
         return shadow;
     }
-    public ImageView getWol(){
+
+    public ImageView getWol() {
         return wol;
     }
-    
-    public void addSTip(){
-       this.getChildren().add(this.sTip);
+
+    public void addSTip() {
+        this.getChildren().add(this.sTip);
     }
-    
-    public void removeSTip(){
+
+    public void removeSTip() {
         this.getChildren().remove(sTip);
     }
-    
-    public ImageView getSTip(){
+
+    public ImageView getSTip() {
         return sTip;
     }
 }

@@ -1,9 +1,6 @@
-
-
 package boboPOM.code.anime;
 
 /**
- *
  * @author yorlbgy
  */
 public class Animes {
@@ -15,7 +12,7 @@ public class Animes {
     public static final int CP_SHINNING = 5;
     public static final int BRICK_SWAP = 6;
     public static final int BOBO_BURST = 7;
-    public static final int BOBO_INERTIA = 8;    
+    public static final int BOBO_INERTIA = 8;
     public static final int BOBO_JUMP = 9;
     public static final int BOBO_VANSH = 10;// include burst & chains
     public static final int CP_UP = 11;

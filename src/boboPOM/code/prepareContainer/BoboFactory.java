@@ -1,12 +1,11 @@
-
 package boboPOM.code.prepareContainer;
 
 import boboPOM.code.basic.Bobo;
 import boboPOM.code.basic.Brick;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author yorlbgy
  */
 public class BoboFactory {
@@ -15,7 +14,7 @@ public class BoboFactory {
     public static QueueList<ArrayList<Bobo>> rp1 = new QueueList<>(), rp2 = new QueueList<>();
     public static BoboProducer bp = new BoboProducer();
     public static int numOfLine_Produced = 10;
-    
+
     public static void init() {
 //        qp1.clear();
 //        qp2.clear();
@@ -37,18 +36,18 @@ public class BoboFactory {
     public static void makeBobos() {
         ArrayList<Bobo> rbobo1 = new ArrayList<>();
         ArrayList<Bobo> rbobo2 = new ArrayList<>();
-       int[][] rs = bp.BoboProduce(numOfLine_Produced);
-       int r;
-      for(int k = 0 ; k < numOfLine_Produced; k++){
-        for (int i = 0; i < 7; i++) {
-           r = rs[k][i];
-           rbobo1.add(new Bobo(r, Bobo.STATE_RISING));
-           rbobo2.add(new Bobo(r, Bobo.STATE_RISING));
-        }
-        rp1.add((ArrayList<Bobo>)rbobo1.clone());
-        rp2.add((ArrayList<Bobo>)rbobo2.clone());
-        rbobo1.clear();
-        rbobo2.clear();
+        int[][] rs = bp.BoboProduce(numOfLine_Produced);
+        int r;
+        for (int k = 0; k < numOfLine_Produced; k++) {
+            for (int i = 0; i < 7; i++) {
+                r = rs[k][i];
+                rbobo1.add(new Bobo(r, Bobo.STATE_RISING));
+                rbobo2.add(new Bobo(r, Bobo.STATE_RISING));
+            }
+            rp1.add((ArrayList<Bobo>) rbobo1.clone());
+            rp2.add((ArrayList<Bobo>) rbobo2.clone());
+            rbobo1.clear();
+            rbobo2.clear();
         }
     }
 }

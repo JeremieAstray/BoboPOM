@@ -87,13 +87,13 @@ public class SocketLink implements RunnableFuture {
         } catch (IOException e) {
             if ("socket closed".equals(e.getMessage())) {
                 status.send("socket closed");
-            }else if("Connection refused: connect".equals(e.getMessage())){
+            } else if ("Connection refused: connect".equals(e.getMessage())) {
                 status.send("该服务器已被连接或不存在");
-            }else {
+            } else {
                 status.send("端口被占用");
                 e.printStackTrace();
             }
-        }finally {
+        } finally {
             this.isDone = true;
         }
 
@@ -110,10 +110,9 @@ public class SocketLink implements RunnableFuture {
             while (run) {
                 Object o = null;
                 o = in.readObject();
-                if (o != null){
+                if (o != null) {
                     gamesMsg.send(o);
-                }
-                else {
+                } else {
                     if (!client.isClosed())
                         out.writeObject(null);
                     this.run = false;
@@ -123,12 +122,12 @@ public class SocketLink implements RunnableFuture {
                     break;
                 }
             }
-        }catch(SocketException e){
-            if("Socket closed".equals(e.getMessage()))
+        } catch (SocketException e) {
+            if ("Socket closed".equals(e.getMessage()))
                 System.out.println("连接断开成功!");
             else
                 e.printStackTrace();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -161,7 +160,7 @@ public class SocketLink implements RunnableFuture {
                     server.close();
             } else {
                 if (isServer) {
-                    if(server!=null) {
+                    if (server != null) {
                         server.setSoTimeout(0);
                         Thread.sleep(200);
                     }
@@ -175,12 +174,12 @@ public class SocketLink implements RunnableFuture {
         }
     }
 
-    public void closeserver(){
+    public void closeserver() {
         this.run = false;
         try {
-            if(out!=null)
+            if (out != null)
                 out.close();
-            if(client!=null)
+            if (client != null)
                 client.close();
             else if (isServer) {
                 server.setSoTimeout(0);
@@ -199,15 +198,15 @@ public class SocketLink implements RunnableFuture {
         return gamesMsg;
     }
 
+    public boolean isServer() {
+        return isServer;
+    }
+
     /**
      * @param isServer
      */
     public void setServer(boolean isServer) {
         this.isServer = isServer;
-    }
-
-    public boolean isServer() {
-        return isServer;
     }
 
     @Override

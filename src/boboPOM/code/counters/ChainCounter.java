@@ -1,4 +1,3 @@
-
 package boboPOM.code.counters;
 
 import boboPOM.config.Config;
@@ -10,7 +9,6 @@ import javafx.scene.layout.StackPane;
 import java.util.ArrayList;
 
 /**
- *
  * @author yorlbgy
  */
 public class ChainCounter extends Parent {

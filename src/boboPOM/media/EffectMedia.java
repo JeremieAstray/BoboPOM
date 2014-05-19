@@ -1,11 +1,11 @@
 package boboPOM.media;
 
 import javafx.scene.media.AudioClip;
+
 import java.net.URL;
 import java.util.ArrayList;
 
 /**
- *
  * @author:feng
  */
 public class EffectMedia {
@@ -18,11 +18,12 @@ public class EffectMedia {
 
         effects = new ArrayList<AudioClip>();
     }
-    public void addEffect(URL url){
+
+    public void addEffect(URL url) {
         AudioClip audioClip = new AudioClip(url + "");
         effects.add(audioClip);
     }
-    
+
     public void stop() {
         if (effect != null) {
             effect.stop();

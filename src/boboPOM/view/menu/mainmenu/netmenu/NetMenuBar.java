@@ -10,10 +10,9 @@ import boboPOM.view.menu.MenuBar;
 import boboPOM.view.menu.MenuItem;
 
 /**
- *
  * @author:feng
  */
-public class NetMenuBar extends MenuBar{
+public class NetMenuBar extends MenuBar {
     private int itemNums = 2;
 
     public NetMenuBar() {

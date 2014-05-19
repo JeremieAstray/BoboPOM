@@ -1,4 +1,3 @@
-
 package boboPOM.code.counters;
 
 import boboPOM.config.Config;
@@ -14,12 +13,11 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
+import static boboPOM.code.anime.Transitions.newSt;
 import static boboPOM.config.Config.CP_MAX;
 import static boboPOM.config.Config.CP_MIN;
-import static boboPOM.code.anime.Transitions.newSt;
 
 /**
- *
  * @author yorlbgy
  */
 public class CPCounter extends Parent {
@@ -50,6 +48,11 @@ public class CPCounter extends Parent {
         return shinning;
     }
 
+    void setShinning(boolean b) {
+        this.shinning = b;
+        this.content.sButtonShinning(shinning);
+    }
+
     public synchronized void addCP(int add) {
         int newCP = CP + add;
         if (newCP <= CP_MAX) {
@@ -69,11 +72,12 @@ public class CPCounter extends Parent {
     }
 
     //network view
-    public void setNowCP(int cp){
+    public void setNowCP(int cp) {
         this.nowCP = cp;
         this.CP = cp;
         this.content.setCP(cp);
     }
+
     public ContentPane getContent() {
         return content;
     }
@@ -94,32 +98,26 @@ public class CPCounter extends Parent {
     }
 
     private void upCPAnimePlay() {
-       Timeline tl = new Timeline();
-       tl.setAutoReverse(false);
-       tl.setCycleCount(Timeline.INDEFINITE);
-       KeyFrame kf = new KeyFrame(Duration.millis(7),new EventHandler<ActionEvent>(){
-           @Override
-           public void handle(ActionEvent arg0) {
-           //    System.out.println(CP);
-               if(nowCP<CP){
-               nowCP++;        
-               content.setCP(nowCP);
-               }
-               else return;
-           }
-       });
-       tl.getKeyFrames().add(kf);
-       tl.play();
-    }
-
-    void setShinning(boolean b) {
-        this.shinning = b;
-        this.content.sButtonShinning(shinning);
+        Timeline tl = new Timeline();
+        tl.setAutoReverse(false);
+        tl.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame kf = new KeyFrame(Duration.millis(7), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+                //    System.out.println(CP);
+                if (nowCP < CP) {
+                    nowCP++;
+                    content.setCP(nowCP);
+                } else return;
+            }
+        });
+        tl.getKeyFrames().add(kf);
+        tl.play();
     }
 
     private class ContentPane extends StackPane {
 
-        private ImageView CPH, CPT, CP, sButton,shinning;
+        private ImageView CPH, CPT, CP, sButton, shinning;
         private ProgressBar processor;
         private ArrayList<Image> CPHImages, CPImages;
 
@@ -144,15 +142,15 @@ public class CPCounter extends Parent {
             if (p1) {
                 sButton.setTranslateX(processor.getTranslateX() - Config.getEffects().get(5).getWidth() / 2 - sButton.getImage().getWidth() / 2);
             } else {
-                sButton.setTranslateX(processor.getTranslateX() + Config.getEffects().get(5).getWidth() / 2 + sButton.getImage().getWidth() / 2);              
+                sButton.setTranslateX(processor.getTranslateX() + Config.getEffects().get(5).getWidth() / 2 + sButton.getImage().getWidth() / 2);
                 processor.setRotate(180);
             }
             processor.setStyle("-fx-accent:red;");
             sButton.setTranslateY(sButton.getImage().getHeight());
             sButton.setVisible(false);
-             shinning.setTranslateX(sButton.getTranslateX());
-             shinning.setTranslateY(sButton.getTranslateY());
-             shinning.setVisible(true);
+            shinning.setTranslateX(sButton.getTranslateX());
+            shinning.setTranslateY(sButton.getTranslateY());
+            shinning.setVisible(true);
             this.getChildren().addAll(CPH, CPT, CP, processor, sButton);
             shinningAnimePlay();
         }
@@ -171,25 +169,24 @@ public class CPCounter extends Parent {
 
         public void sButtonShinning(boolean shinning) {
             sButton.setVisible(shinning);
-            if(shinning == false){
+            if (shinning == false) {
                 this.getChildren().remove(this.shinning);
-            }
-            else{
-                if(!this.getChildren().contains(this.shinning))
-                this.getChildren().add(this.shinning);
+            } else {
+                if (!this.getChildren().contains(this.shinning))
+                    this.getChildren().add(this.shinning);
             }
             //anime
         }
 
-      private void shinningAnimePlay() {
-       ScaleTransition st = newSt(Duration.millis(700), 0.9, true);
-        st.setFromX(0.3);
-        st.setFromY(0.3);
-        st.setAutoReverse(false);
-        st.setCycleCount(Transition.INDEFINITE);
-        st.setInterpolator(Interpolator.EASE_IN);
-        st.setNode(shinning);
-        st.play();
+        private void shinningAnimePlay() {
+            ScaleTransition st = newSt(Duration.millis(700), 0.9, true);
+            st.setFromX(0.3);
+            st.setFromY(0.3);
+            st.setAutoReverse(false);
+            st.setCycleCount(Transition.INDEFINITE);
+            st.setInterpolator(Interpolator.EASE_IN);
+            st.setNode(shinning);
+            st.play();
         }
     }
 }

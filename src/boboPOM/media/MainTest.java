@@ -7,9 +7,7 @@
 package boboPOM.media;
 
 import boboPOM.config.Config;
-import boboPOM.config.Config;
 import boboPOM.view.Main;
-import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,41 +19,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 /**
- *
  * @author Administrator
  */
 public class MainTest extends Application {
-    
-    @Override
-    public void start(Stage primaryStage) {
-        Config.init();
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-               Config.effectMedia.play(13);
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        StackPane sp = new StackPane();
-        ImageView iv = new ImageView(Config.getBackgrounds().get(0));
-        ArrayList<Image> li = new ArrayList<>();
-        li.add(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));
-        System.out.println(li.contains(iv.getImage()));
-        sp.getChildren().add(iv);
-        root.getChildren().add(sp);
-        System.out.println(sp instanceof Node);
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
@@ -68,5 +37,35 @@ public class MainTest extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
+    @Override
+    public void start(Stage primaryStage) {
+        Config.init();
+        Button btn = new Button();
+        btn.setText("Say 'Hello World'");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Config.effectMedia.play(13);
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        StackPane sp = new StackPane();
+        ImageView iv = new ImageView(Config.getBackgrounds().get(0));
+        ArrayList<Image> li = new ArrayList<>();
+        li.add(new Image(Main.class.getResourceAsStream("resources/images/background/background.png")));
+        System.out.println(li.contains(iv.getImage()));
+        sp.getChildren().add(iv);
+        root.getChildren().add(sp);
+        System.out.println(sp instanceof Node);
+        Scene scene = new Scene(root, 300, 250);
+
+        primaryStage.setTitle("Hello World!");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
 }

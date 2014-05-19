@@ -1,4 +1,3 @@
-
 package boboPOM.code.counters;
 
 import boboPOM.code.playerside.Model;
@@ -9,7 +8,6 @@ import javafx.scene.layout.StackPane;
 import java.util.ArrayList;
 
 /**
- *
  * @author yorlbgy
  */
 public class CounterSet {
@@ -29,25 +27,26 @@ public class CounterSet {
         lc = new LineCounter(p1);
         usedPane = new ArrayList<>();
     }
-// network use
+
+    // network use
     public CPCounter getCpc() {
         return cpc;
     }
 
-    public void setNowCP(int cp){
+    public void setNowCP(int cp) {
         this.cpc.setNowCP(cp);
     }
-    
+
     public LineCounter getLc() {
         return lc;
     }
-    
-    public void setNowLines(int lines){
+
+    public void setNowLines(int lines) {
         this.lc.setNowLines(lines);
     }
     // network use
 
-    
+
     public synchronized int useCP() {
         return cpc.useCP();
     }
@@ -56,16 +55,20 @@ public class CounterSet {
         return cpc.isShinning();
     }
 
+    public void setShinning(boolean b) {
+        this.cpc.setShinning(b);
+    }
+
     public void addCP(int add) {
         cpc.addCP(add);
     }
 
-    public synchronized StackPane chains(double x, double y,boolean newChain) {
+    public synchronized StackPane chains(double x, double y, boolean newChain) {
         StackPane sp;
         if (newChain) {
             sp = chc.chains(x, y);
         } else {
-            sp =  spClone(usedPane.get(usedPane.size() - 1));
+            sp = spClone(usedPane.get(usedPane.size() - 1));
             sp.setTranslateX(x);
             sp.setTranslateY(y);
         }
@@ -73,23 +76,25 @@ public class CounterSet {
         return sp;
     }
 
-    private StackPane spClone(StackPane sp){
+    private StackPane spClone(StackPane sp) {
         StackPane newSp = new StackPane();
-        for(int i=0;i<sp.getChildren().size();i++){
-            ImageView iv = (ImageView)sp.getChildren().get(i);
+        for (int i = 0; i < sp.getChildren().size(); i++) {
+            ImageView iv = (ImageView) sp.getChildren().get(i);
             ImageView newIv = new ImageView();
-           newIv.setImage(iv.getImage());
-           newIv.setVisible(iv.isVisible());
-           newIv.setTranslateX(iv.getTranslateX());
-           newIv.setTranslateY(iv.getTranslateY());
-           newSp.getChildren().add(newIv);
+            newIv.setImage(iv.getImage());
+            newIv.setVisible(iv.isVisible());
+            newIv.setTranslateX(iv.getTranslateX());
+            newIv.setTranslateY(iv.getTranslateY());
+            newSp.getChildren().add(newIv);
         }
         return newSp;
     }
-    public void spClear(Model m){
+
+    public void spClear(Model m) {
         m.getMainFrame().getChildren().removeAll(usedPane);
         usedPane.clear();
     }
+
     public void down() {
         chc.down();
     }
@@ -104,9 +109,5 @@ public class CounterSet {
 
     public void regCounters(Pane p) {
         p.getChildren().addAll(cpc, chc, lc);
-    }
-
-    public void setShinning(boolean b) {
-       this.cpc.setShinning(b);
     }
 }

@@ -11,7 +11,6 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
 /**
- *
  * @author:feng
  */
 public class ImageEditor {
@@ -26,6 +25,34 @@ public class ImageEditor {
         this.rightRetainWidth = rightRetainWidth;
         this.upRetainHeight = upRetainHeight;
         this.downRetainHeight = downRetainHeight;
+    }
+
+    public static Image CreatSymImage(Image origin) {
+        PixelReader pixelReader = origin.getPixelReader();
+        WritableImage wi = new WritableImage((int) origin.getWidth(),
+                (int) origin.getHeight());
+        PixelWriter pixelWriter = wi.getPixelWriter();
+        for (int i = 0; i < wi.getWidth(); i++) {
+            for (int j = 0; j < wi.getHeight(); j++) {
+                pixelWriter.setArgb(i, j,
+                        pixelReader.getArgb((int) wi.getWidth() - i - 1, j));
+            }
+        }
+        return wi;
+    }
+
+    public static Image ExchangeWidthHeight(Image origin) {
+        PixelReader pixelReader = origin.getPixelReader();
+        WritableImage wi = new WritableImage((int) origin.getHeight(),
+                (int) origin.getWidth());
+        PixelWriter pixelWriter = wi.getPixelWriter();
+        for (int i = 0; i < wi.getWidth(); i++) {
+            for (int j = 0; j < wi.getHeight(); j++) {
+                pixelWriter.setArgb(i, j,
+                        pixelReader.getArgb(j, i));
+            }
+        }
+        return wi;
     }
 
     public Image ChangeWidth(Image origin, int changeWidth) {
@@ -108,34 +135,6 @@ public class ImageEditor {
     public Image SubHeight(Image origin, int subHeight) {
         int changeHeight = (int) origin.getHeight() - subHeight;
         return ChangeHeight(origin, changeHeight);
-    }
-
-    public static Image CreatSymImage(Image origin) {
-        PixelReader pixelReader = origin.getPixelReader();
-        WritableImage wi = new WritableImage((int) origin.getWidth(),
-                (int) origin.getHeight());
-        PixelWriter pixelWriter = wi.getPixelWriter();
-        for (int i = 0; i < wi.getWidth(); i++) {
-            for (int j = 0; j < wi.getHeight(); j++) {
-                pixelWriter.setArgb(i, j,
-                        pixelReader.getArgb((int) wi.getWidth() - i - 1, j));
-            }
-        }
-        return wi;
-    }
-
-    public static Image ExchangeWidthHeight(Image origin) {
-        PixelReader pixelReader = origin.getPixelReader();
-        WritableImage wi = new WritableImage((int) origin.getHeight(),
-                (int) origin.getWidth());
-        PixelWriter pixelWriter = wi.getPixelWriter();
-        for (int i = 0; i < wi.getWidth(); i++) {
-            for (int j = 0; j < wi.getHeight(); j++) {
-                pixelWriter.setArgb(i, j, 
-                        pixelReader.getArgb(j, i));
-            }
-        }
-        return wi;
     }
 
     /**

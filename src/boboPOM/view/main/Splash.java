@@ -106,7 +106,7 @@ public class Splash {
                 }
 
                 if (state == Splash.SPECIAL) {
-                        special();
+                    special();
                 }
             }
 
@@ -531,16 +531,16 @@ public class Splash {
                     arg++;
                 }
                 if (arg == 1) {
-                    if(timecounter == 0){
+                    if (timecounter == 0) {
                         //System.out.println("??");
-                    if (model.isP1()) {
-                        if(model.getMainModel().getP2().send(false))
-                            timeline.stop();
-                    } else {
-                         if(model.getMainModel().getP1().send(false))
-                            timeline.stop();
+                        if (model.isP1()) {
+                            if (model.getMainModel().getP2().send(false))
+                                timeline.stop();
+                        } else {
+                            if (model.getMainModel().getP1().send(false))
+                                timeline.stop();
+                        }
                     }
-                }
                     timecounter++;
                     timecounter %= 2;
                 }
@@ -562,16 +562,16 @@ public class Splash {
         return this.timeline;
     }
 
+    public double getSpeed() {
+        return this.speed;
+    }
+
     public void setSpeed(double speed) {
         this.speed = speed;
     }
 
-    public double getSpeed() {
-        return this.speed;
-    }
-    
-    public void stop(){
+    public void stop() {
         this.timeline.stop();
     }
-    
+
 }

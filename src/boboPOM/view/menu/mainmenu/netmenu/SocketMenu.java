@@ -11,11 +11,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -24,33 +22,27 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 /**
- *
  * @author:feng
  */
 public class SocketMenu extends Control {
 
-    private int SWidth;
-    private int SHeight;
-
-    private ImageView borderView;
-
-    protected String waitString;
-    private StringBuilder wait;
     final private int spotMaxTime = 3;
-    private int spotTime = 0;
+    protected String waitString;
     protected Text waitText;
     protected Timeline timeline;
-
+    protected AnchorPane anchorPane;
+    private int SWidth;
+    private int SHeight;
+    private ImageView borderView;
+    private StringBuilder wait;
+    private int spotTime = 0;
     private Text connectText;
     private TextFlow textFlow;
-
     private boolean connected;
-    
-    protected AnchorPane anchorPane;
 
     public SocketMenu() {
         this("等待连接中", 250, 100);
-    }   
+    }
 
     public SocketMenu(String waitTip, int width, int height) {
         this.waitString = waitTip;
@@ -89,25 +81,26 @@ public class SocketMenu extends Control {
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(new KeyFrame(new Duration(250),
-                new EventHandler<ActionEvent>() {
+                        new EventHandler<ActionEvent>() {
 
-                    @Override
-                    public void handle(ActionEvent t) {
-                        if (!isConnected()) {
-                            if (spotTime < spotMaxTime) {
-                                wait.append('.');
-                                spotTime++;
-                            } else {
-                                spotTime = 0;
-                                wait.delete(waitString.length(),
-                                        waitString.length() + spotMaxTime);
+                            @Override
+                            public void handle(ActionEvent t) {
+                                if (!isConnected()) {
+                                    if (spotTime < spotMaxTime) {
+                                        wait.append('.');
+                                        spotTime++;
+                                    } else {
+                                        spotTime = 0;
+                                        wait.delete(waitString.length(),
+                                                waitString.length() + spotMaxTime);
+                                    }
+                                    waitText.setText(wait.toString());
+                                } else {
+                                    timeline.stop();
+                                }
                             }
-                            waitText.setText(wait.toString());
-                        } else {
-                            timeline.stop();
                         }
-                    }
-                })
+                )
         );
         timeline.play();
 
@@ -124,14 +117,6 @@ public class SocketMenu extends Control {
     private void setStatus() {
         textFlow.setVisible(connected);
         waitText.setVisible(!connected);
-    }
-
-    public void setConnected(String IP) {
-        this.connected = true;
-        connectText.setText(IP);
-        AnchorPane.setLeftAnchor(textFlow, Double.valueOf(this.borderView.
-                getImage().getWidth() / 2 - 6 * (connectText.getText().length() + 8)));
-        setStatus();
     }
 
     /**
@@ -153,5 +138,13 @@ public class SocketMenu extends Control {
      */
     public boolean isConnected() {
         return connected;
+    }
+
+    public void setConnected(String IP) {
+        this.connected = true;
+        connectText.setText(IP);
+        AnchorPane.setLeftAnchor(textFlow, Double.valueOf(this.borderView.
+                getImage().getWidth() / 2 - 6 * (connectText.getText().length() + 8)));
+        setStatus();
     }
 }

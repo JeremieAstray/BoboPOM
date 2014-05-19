@@ -1,4 +1,3 @@
-
 package boboPOM.code.basic;
 
 import boboPOM.config.Config;
@@ -13,13 +12,13 @@ import static boboPOM.code.anime.Transitions.newTt;
 
 
 /**
- *
  * @author yorlbgy
  */
 public class Brick {
 
     private Bobo u, d;
     private boolean AnimeFinished = true;
+
     public Brick(Bobo u, Bobo d) {
         this.u = u;
         this.d = d;
@@ -30,7 +29,7 @@ public class Brick {
         Config.effectMedia.play(7);
         animePlay();
         double dy = d.getTranslateY();
-         double uy = u.getTranslateY();
+        double uy = u.getTranslateY();
         Bobo t = u;
         t.getPlayerSide().deleteBobo(u.getIndexX(), u.getIndexY());
         t.getPlayerSide().moveBobo(d, u);
@@ -64,24 +63,22 @@ public class Brick {
         return AnimeFinished;
     }
 
-    
-    
+    public final double getTranslateX() {
+        return d.getTranslateX();
+    }
+
     public final void setTranslateX(double arg0) {
         d.setTranslateX(arg0);
         u.setTranslateX(arg0);
     }
 
+    public final double getTranslateY() {
+        return d.getTranslateY();
+    }
+
     public final void setTranslateY(double arg0) {
         d.setTranslateY(arg0);
         u.setTranslateY(arg0 - Config.BoboSizeH);
-    }
-
-    public final double getTranslateX() {
-        return d.getTranslateX();
-    }
-
-    public final double getTranslateY() {
-        return d.getTranslateY();
     }
 
     public final boolean moveL() {
@@ -101,7 +98,7 @@ public class Brick {
 
     public final boolean moveR() {
         synchronized (this) {
-          double dy = d.getTranslateY();
+            double dy = d.getTranslateY();
             double uy = u.getTranslateY();
             boolean b = d.getPlayerSide().moveBobo(d, d.getRight());
             if (!b) {
@@ -114,34 +111,34 @@ public class Brick {
         }
     }
 
-    public  final boolean moveD() {
+    public final boolean moveD() {
         synchronized (this) {
-        boolean b = d.getPlayerSide().moveBobo(d, d.getDown());
-        if (!b) {
-            return b;
-        }
-        u.getPlayerSide().moveBobo(u, u.getDown());
-        return true;
+            boolean b = d.getPlayerSide().moveBobo(d, d.getDown());
+            if (!b) {
+                return b;
+            }
+            u.getPlayerSide().moveBobo(u, u.getDown());
+            return true;
         }
     }
-    
+
 
     private void animePlay() {
-        ParallelTransition  pt = new ParallelTransition();
+        ParallelTransition pt = new ParallelTransition();
         pt.getChildren().add(newTt(Duration.millis(200), 0, -Config.BoboSizeH));
         pt.getChildren().add(newTt(Duration.millis(200), 0, Config.BoboSizeH));
         ((TranslateTransition) pt.getChildren().get(0)).setNode(d);
         ((TranslateTransition) pt.getChildren().get(1)).setNode(u);
-        pt.setOnFinished(new EventHandler(){
+        pt.setOnFinished(new EventHandler() {
 
             @Override
             public void handle(Event arg0) {
-               AnimeFinished = true;
+                AnimeFinished = true;
             }
-            
+
         });
         this.AnimeFinished = false;
-        pt.play();   
+        pt.play();
     }
-    
+
 }

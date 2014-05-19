@@ -6,7 +6,6 @@
 package boboPOM.view.menu;
 
 import boboPOM.config.Config;
-import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,37 +14,34 @@ import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
 /**
- *
  * @author:feng
  */
 public class MenuBar extends Control {
 
-    private int BWidth;
-    private int BHeight;
-    protected int nowItemSelected = 0;
     final private int menuItemHeigth = 40;
-    private int menuItemWidth = 200;
-
+    protected int nowItemSelected = 0;
     protected ImageView cursorView;
-    private ImageView borderView;
     protected Image line;
-    private ImageEditor borderEditor;
-    private ImageEditor lineEditor;
-    private VBox vBox;
-
     protected KeyFrame keyFrameStar;
     protected KeyFrame keyFrameEnd;
     protected Timeline timeline;
     protected ArrayList<MenuItem> items;
     protected AnchorPane anchorPane;
+    private int BWidth;
+    private int BHeight;
+    private int menuItemWidth = 200;
+    private ImageView borderView;
+    private ImageEditor borderEditor;
+    private ImageEditor lineEditor;
+    private VBox vBox;
 
     public MenuBar() {
         this(250, 70, 200);

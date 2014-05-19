@@ -1,7 +1,6 @@
 package boboPOM.config;
 
 /**
- *
  * @author yorlbgy
  */
 public class Level {

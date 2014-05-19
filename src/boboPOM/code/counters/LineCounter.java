@@ -1,4 +1,3 @@
-
 package boboPOM.code.counters;
 
 import boboPOM.config.Config;
@@ -13,7 +12,6 @@ import static boboPOM.config.Config.LINE_MAX;
 import static boboPOM.config.Config.LINE_MIN;
 
 /**
- *
  * @author yorlbgy
  */
 public class LineCounter extends Parent {
@@ -34,11 +32,6 @@ public class LineCounter extends Parent {
         setLines(0);
     }
 
-    private void setLines(int lines) {
-        this.lines = lines;
-        content.setLines(lines);
-    }
-
     public int useLines() {
         int addLines = lines;
         setLines(LINE_MIN);
@@ -51,11 +44,16 @@ public class LineCounter extends Parent {
             setLines(newLines);
         } else {
             setLines(LINE_MAX);
-        } 
+        }
     }
 
     public int getLines() {
         return lines;
+    }
+
+    private void setLines(int lines) {
+        this.lines = lines;
+        content.setLines(lines);
     }
 
     public ContentPane getContent() {
@@ -63,10 +61,10 @@ public class LineCounter extends Parent {
     }
 
     //network use
-    public void setNowLines(int lines){
+    public void setNowLines(int lines) {
         this.content.setLines(lines);
     }
-    
+
     private class ContentPane extends StackPane {
 
         private ImageView t, c;

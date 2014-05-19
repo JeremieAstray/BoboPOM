@@ -8,7 +8,6 @@ package boboPOM.code.prepareContainer;
 import java.util.Stack;
 
 /**
- *
  * @author:feng
  */
 public class BoboProducer {
@@ -20,6 +19,11 @@ public class BoboProducer {
     private Stack<Point> stack;
 
     public BoboProducer() {
+    }
+
+    public static void main(String[] args) {
+        BoboProducer boboProducer = new BoboProducer();
+        boboProducer.BoboProduce(10);
     }
 
     public int[][] BoboProduce(int numOfline) {
@@ -55,8 +59,8 @@ public class BoboProducer {
                 }
                 mark2[point.getX()][point.getY()] = 1;
             }
-        } else{
-            while(!stack.empty()){
+        } else {
+            while (!stack.empty()) {
                 point = stack.pop();
                 mark2[point.getX()][point.getY()] = 1;
             }
@@ -129,11 +133,6 @@ public class BoboProducer {
         } else {
             return 4;
         }
-    }
-
-    public static void main(String[] args) {
-        BoboProducer boboProducer = new BoboProducer();
-        boboProducer.BoboProduce(10);
     }
 
     public class Point {

@@ -20,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 /**
- *
  * @author:feng
  */
 public class SoloMenuBar extends PlayerMenu {
@@ -46,7 +45,7 @@ public class SoloMenuBar extends PlayerMenu {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.setAutoReverse(true);
         timeline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO,
-                new KeyValue(cursorView2P.translateYProperty(), 0)),
+                        new KeyValue(cursorView2P.translateYProperty(), 0)),
                 new KeyFrame(new Duration(300),
                         new KeyValue(cursorView2P.translateYProperty(), 10))
         );
@@ -137,7 +136,8 @@ public class SoloMenuBar extends PlayerMenu {
     private void change2PCursorLocation(int index) {
         AnchorPane.setTopAnchor(cursorView2P,
                 Double.valueOf(index * (this.getMenuItemHeigth() + 4)
-                        + this.getMenuItemHeigth()));
+                        + this.getMenuItemHeigth())
+        );
     }
 
     @Override

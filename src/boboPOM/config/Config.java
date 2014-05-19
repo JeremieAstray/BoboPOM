@@ -6,8 +6,10 @@ import boboPOM.media.BGMMedia;
 import boboPOM.media.EffectMedia;
 import boboPOM.net.SocketLink;
 import boboPOM.view.Main;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -15,58 +17,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import javafx.scene.Parent;
-import javafx.stage.Stage;
 
 /**
  * Created by Jeremie on 14-3-4.
  */
 public final class Config {
 
-    public static Stage stage;
-    public static Parent root;
-    
-    public static Controller controller;
-    public static MenuController menuController;
-    public static BGMMedia bgmMedia;
-    public static EffectMedia effectMedia;
-    public static InputStreamReader inputStreamReader;
-    
-    public static SocketLink socketLink;
-
-    private static ArrayList<ArrayList<Image>> bobosImages;
-    private static ArrayList<Image> effects;
-    private static ArrayList<ArrayList<Image>> numbers;
-    private static ArrayList<Image> backgrounds;
-    private static ArrayList<Image> personages;
-    private static ArrayList<Image> memuImages;
-
-    private static File stateFile;
-
-    public static ArrayList<KeyCode> p1Controller, p2Controller;
-
-    public static boolean network = false;
     public static final int NULL = -1;
     public static final int TYPE_YELLOW = 0;
     public static final int TYPE_RED = 1;
     public static final int TYPE_BLUE = 2;
     public static final int TYPE_GREEN = 3;
     public static final int TYPE_WHITE = 4;
-
     public static final int PORT = 7001;//5918
-
     public static final int SCREEN_WIDTH = 960;//pixel
     public static final int SCREEN_HEIGHT = 540;//pixel
-
     public static final Duration ANIMATION_TIME = Duration.millis(40);//ms
-
     public static final int CP_MAX = 999;
     public static final int CP_MIN = 0;
     public static final int LINE_MAX = 16;
     public static final int LINE_MIN = 0;
-
     public static final int left = 0, right = 1, down = 2, swap = 3, sBurst = 4, sDef = 5, sAtt = 6, stop = 7;
-
     public static final int Robozy = 0;
     public static final int Royde = 1;
     public static final int Fran = 2;
@@ -76,9 +47,25 @@ public final class Config {
     public static final int MariaBell = 6;
     public static final int Tio = 7;
     public static final int Campaleila = 8;
-
     public static final double BoboSizeW = 44;
     public static final double BoboSizeH = 44;
+    public static Stage stage;
+    public static Parent root;
+    public static Controller controller;
+    public static MenuController menuController;
+    public static BGMMedia bgmMedia;
+    public static EffectMedia effectMedia;
+    public static InputStreamReader inputStreamReader;
+    public static SocketLink socketLink;
+    public static ArrayList<KeyCode> p1Controller, p2Controller;
+    public static boolean network = false;
+    private static ArrayList<ArrayList<Image>> bobosImages;
+    private static ArrayList<Image> effects;
+    private static ArrayList<ArrayList<Image>> numbers;
+    private static ArrayList<Image> backgrounds;
+    private static ArrayList<Image> personages;
+    private static ArrayList<Image> memuImages;
+    private static File stateFile;
 
     public static ArrayList<ArrayList<Image>> getBobosImages() {
         return bobosImages;
@@ -126,7 +113,7 @@ public final class Config {
         for (int i = 0; i < 16; i++) {
             if (i < 10) {
                 effectMedia.addEffect(Main.class.getResource("/media/sound_effects/ed7s000" + i + ".wav"));
-            } else if(i>=10 && i<100){
+            } else if (i >= 10 && i < 100) {
                 effectMedia.addEffect(Main.class.getResource("/media/sound_effects/ed7s00" + i + ".wav"));
             }
         }

@@ -1,4 +1,3 @@
-
 package boboPOM.code.prepareContainer;
 
 import boboPOM.code.basic.Bobo;
@@ -8,7 +7,6 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 /**
- *
  * @author yorlbgy
  */
 public class PrepareSet {
@@ -35,13 +33,15 @@ public class PrepareSet {
     public ArrayList<Bobo> takeBobos() {
         return rp.take();
     }
-// network use
+
+    // network use
     public QpPane getQp() {
         return qp;
     }
-// network use
+
+    // network use
     public RpPane getRp() {
         return rp;
     }
-   
+
 }

@@ -1,21 +1,17 @@
 package boboPOM.view.main;
 
-import boboPOM.net.encoding.UpdataMessage;
-import boboPOM.net.encoding.PaneMessage;
-import boboPOM.net.encoding.Message;
-import boboPOM.net.encoding.EffectMessage;
-import boboPOM.net.encoding.BoboMessage;
 import boboPOM.code.basic.Bobo;
 import boboPOM.config.Config;
-import java.util.ArrayList;
+import boboPOM.net.encoding.*;
 import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+import java.util.ArrayList;
+
 /**
- *
  * @author yorlbgy
  */
 public final class UpdataEvent extends Event {
@@ -35,7 +31,7 @@ public final class UpdataEvent extends Event {
         super(arg0);
     }
 
-    public UpdataEvent(boolean p1, ArrayList<Node> cops, ArrayList<Node> comf, ArrayList<Node> coqp, ArrayList<Node> corp, int cp, int lines,int sattCPToRival,boolean win) {
+    public UpdataEvent(boolean p1, ArrayList<Node> cops, ArrayList<Node> comf, ArrayList<Node> coqp, ArrayList<Node> corp, int cp, int lines, int sattCPToRival, boolean win) {
         this(EventType.ROOT);
         this.p1 = p1;
         this.cops = cops;
@@ -104,7 +100,7 @@ public final class UpdataEvent extends Event {
         return win;
     }
 
-    
+
     private void changeToEvent(UpdataMessage um) {
         this.p1 = um.isP1();
         this.last = um.isLast();
@@ -118,11 +114,11 @@ public final class UpdataEvent extends Event {
             ImageView iv = buildEffectByMessage(em);
             cops.add(iv);
         }
-        for(EffectMessage em : um.getEomf()){
+        for (EffectMessage em : um.getEomf()) {
             ImageView iv = buildEffectByMessage(em);
             this.comf.add(iv);
         }
-         for (BoboMessage bm : um.getBomf()) {
+        for (BoboMessage bm : um.getBomf()) {
             Bobo bo = new Bobo(bm);
             comf.add(bo);
         }
@@ -138,7 +134,7 @@ public final class UpdataEvent extends Event {
         this.lines = um.getLines();
         this.win = um.isWin();
         this.sattCPToRival = um.getSattCPToRival();
-        for(PaneMessage pm : um.getPomf()){
+        for (PaneMessage pm : um.getPomf()) {
             this.comf.add(buildPaneByMessage(pm));
         }
     }
@@ -148,17 +144,17 @@ public final class UpdataEvent extends Event {
         setBasicPro(iv, em);
         return iv;
     }
-    
-    private StackPane buildPaneByMessage(PaneMessage pm){
+
+    private StackPane buildPaneByMessage(PaneMessage pm) {
         StackPane sp = new StackPane();
         sp.getChildren().add(buildEffectByMessage(pm.getEms().get(0)));
-        int[] num = new int[]{pm.getChainsT(),pm.getChainsC(),pm.getBounsT(),pm.getBounsC()};
-        for(int i=0;i<4;i++){
+        int[] num = new int[]{pm.getChainsT(), pm.getChainsC(), pm.getBounsT(), pm.getBounsC()};
+        for (int i = 0; i < 4; i++) {
             ImageView iv = new ImageView(Config.getNumbers().get(2).get(num[i]));
-            setBasicPro(iv,pm.getEms().get(i+1));
+            setBasicPro(iv, pm.getEms().get(i + 1));
             sp.getChildren().add(iv);
         }
-        setBasicPro(sp,pm);
+        setBasicPro(sp, pm);
         return sp;
     }
 

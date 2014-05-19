@@ -1,10 +1,8 @@
-
 package boboPOM.code.prepareContainer;
 
 import java.util.LinkedList;
 
 /**
- *
  * @author yorlbgy
  */
 public class QueueList<T> extends LinkedList<T> {
@@ -16,6 +14,6 @@ public class QueueList<T> extends LinkedList<T> {
     }
 
     public T look() {
-        return  super.getFirst();
+        return super.getFirst();
     }
 }

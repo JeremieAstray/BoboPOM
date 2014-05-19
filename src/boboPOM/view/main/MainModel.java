@@ -38,10 +38,6 @@ public class MainModel {
         } else {
             this.p2.setWin(true);
         }
-        if(Config.network){
-        Config.controller.getNetgames().clear();
-        Config.controller.gamerun = false;
-        }
         end = true;
     }
 

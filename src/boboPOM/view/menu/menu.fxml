@@ -5,18 +5,18 @@
 <?import boboPOM.view.menu.mainmenu.netmenu.NetMenuBar?>
 <?import boboPOM.view.menu.mainmenu.netmenu.SocketMenu?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane  prefHeight="540" prefWidth="960"
-             onKeyPressed="#MenuInKeyEvent" onMousePressed="#MenuInMouseEvent" 
-             styleClass="background" xmlns:fx="http://javafx.com/fxml"  fx:controller="boboPOM.controller.MenuController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="540"
+            prefWidth="960" onKeyPressed="#MenuInKeyEvent"
+            onMousePressed="#MenuInMouseEvent" styleClass="background" fx:controller="boboPOM.controller.MenuController">
     <children>
-        <MainMenuBar    fx:id="mainMenuBar" />
-        <SoloMenuBar     fx:id="soloMenuBar" />
-        <NetMenuBar     fx:id="netMenuBar" />
-        <ConnectServerMenu   fx:id="connectServerMenu"/>
-        <SocketMenu   fx:id="socketMenu"/>
-        <DialogBox   fx:id="dialogBox" />
-        <GameSetting   fx:id="gameSetting"/>
-        <PlayerMenu   fx:id="playerMenu"/>
+        <MainMenuBar fx:id="mainMenuBar"/>
+        <SoloMenuBar fx:id="soloMenuBar"/>
+        <NetMenuBar fx:id="netMenuBar"/>
+        <ConnectServerMenu fx:id="connectServerMenu"/>
+        <SocketMenu fx:id="socketMenu"/>
+        <DialogBox fx:id="dialogBox"/>
+        <GameSetting fx:id="gameSetting"/>
+        <PlayerMenu fx:id="playerMenu"/>
         <PrepareBar fx:id="prepareBar"/>
         <SoloPrepareBar fx:id="soloPrepareBar"/>
     </children>
