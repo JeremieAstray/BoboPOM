@@ -1,4 +1,4 @@
-package boboPOM.view.main;
+package boboPOM.code.main;
 
 import boboPOM.code.basic.Bobo;
 import boboPOM.code.basic.Brick;
@@ -113,6 +113,7 @@ public class Splash {
             private void initing() {
                 if (arg == 0) {
                     start = new ImageView(Config.getEffects().get(0));
+                    boboPOM.code.prepareContainer.BoboFactory.init();
                     Config.effectMedia.play(12);
                     if (model.getMainModel().getP2().getPersonage() == Config.Campaleila) {
                         Config.bgmMedia.playMusic(1, true);

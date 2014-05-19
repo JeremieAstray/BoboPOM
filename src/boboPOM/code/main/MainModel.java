@@ -1,4 +1,4 @@
-package boboPOM.view.main;
+package boboPOM.code.main;
 
 import boboPOM.code.playerside.Model;
 import boboPOM.config.Config;
@@ -39,6 +39,7 @@ public class MainModel {
             this.p2.setWin(true);
         }
         end = true;
+        System.out.println(end);
     }
 
     public void SAtt(boolean p1, int add) {
@@ -108,5 +109,9 @@ public class MainModel {
 
     public boolean isHost() {
         return this.host;
+    }
+
+    public void setEnd(boolean b) {
+        this.end = b;
     }
 }

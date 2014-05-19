@@ -8,10 +8,10 @@ import boboPOM.config.Config;
 import boboPOM.controller.OpEvent;
 import boboPOM.net.encoding.FirstMessage;
 import boboPOM.net.encoding.UpdataMessage;
-import boboPOM.view.main.MainFrame;
-import boboPOM.view.main.MainModel;
-import boboPOM.view.main.Splash;
-import boboPOM.view.main.UpdataEvent;
+import boboPOM.code.main.MainFrame;
+import boboPOM.code.main.MainModel;
+import boboPOM.code.main.Splash;
+import boboPOM.code.main.UpdataEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -355,7 +355,6 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     private void pressS() {
-
         if (this.getMainModel().isEnd()) {
             if (Config.network) {
                 Config.controller.end(this.getMainModel().isHost());
@@ -433,6 +432,7 @@ public class Model implements EventHandler<OpEvent> {
         if (!win) {
             if (Config.network) {
                 this.win = false;
+                this.mm.setEnd(true);
             } else {
                 this.getMainModel().winner(!p1);
             }

@@ -1,4 +1,4 @@
-package boboPOM.view.main;
+package boboPOM.code.main;
 
 import boboPOM.code.basic.Bobo;
 import boboPOM.config.Config;

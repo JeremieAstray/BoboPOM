@@ -1,7 +1,7 @@
 package boboPOM.view;
 
-import boboPOM.view.main.MainFrame;
-import boboPOM.view.main.MainModel;
+import boboPOM.code.main.MainFrame;
+import boboPOM.code.main.MainModel;
 import javafx.scene.control.Control;
 import javafx.scene.layout.StackPane;
 
