@@ -7,7 +7,7 @@
 package boboPOM.net.encoding;
 
 import boboPOM.code.basic.Bobo;
-import boboPOM.view.main.UpdataEvent;
+import boboPOM.code.main.UpdataEvent;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;

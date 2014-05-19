@@ -1,4 +1,4 @@
-package boboPOM.view.main;
+package boboPOM.code.main;
 
 import boboPOM.code.counters.CounterSet;
 import boboPOM.code.playerside.Model;

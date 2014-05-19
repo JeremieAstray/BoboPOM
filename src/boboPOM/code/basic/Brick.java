@@ -1,7 +1,7 @@
 package boboPOM.code.basic;
 
 import boboPOM.config.Config;
-import boboPOM.view.main.MainFrame;
+import boboPOM.code.main.MainFrame;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.Event;
