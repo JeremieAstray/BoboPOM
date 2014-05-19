@@ -29,6 +29,7 @@ public class UpdataMessage implements java.io.Serializable{// network use
     private int cp,lines;
     private int sattCPToRival;
     private boolean win;
+    private boolean last = false;
   
     public UpdataMessage(UpdataEvent ue){
         bopls = new ArrayList<>();
@@ -56,7 +57,9 @@ public class UpdataMessage implements java.io.Serializable{// network use
                pomf.add(new PaneMessage((Pane) node));
            }
            else if(node instanceof ImageView){
-               eomf.add(new EffectMessage((ImageView) node));
+             EffectMessage  em = new EffectMessage((ImageView) node);
+               eomf.add(em);
+               if(em.getIndex() == 10) this.last = true;
            }
        }
        for(Node node:ue.getCoqp()){
@@ -123,4 +126,10 @@ public class UpdataMessage implements java.io.Serializable{// network use
     public boolean isP1() {
         return p1;
     }
+
+    public boolean isLast() {
+        return last;
+    }
+    
+    
 }

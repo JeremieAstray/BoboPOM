@@ -566,4 +566,9 @@ public class Splash {
     public double getSpeed() {
         return this.speed;
     }
+    
+    public void stop(){
+        this.timeline.stop();
+    }
+    
 }

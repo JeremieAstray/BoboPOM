@@ -362,7 +362,7 @@ public class Model implements EventHandler<OpEvent> {
     private void pressS() {
 
         if (this.getMainModel().isEnd()) {
-            if (this.getMainModel().isNetwork()) {
+            if (Config.network) {
                 Config.controller.end(this.getMainModel().isHost());
             } else {
                 Config.controller.end();
@@ -396,7 +396,7 @@ public class Model implements EventHandler<OpEvent> {
         if (sDown && counterSet.isShinning()) {
             Config.effectMedia.play(14);
             this.sattCPToRival = 0;
-            if (this.mm.isNetwork()) {
+            if (Config.network) {
                 this.sattCPToRival = this.counterSet.useCP();
             } else {
                 this.mm.SAtt(!p1, this.counterSet.useCP());
@@ -430,13 +430,13 @@ public class Model implements EventHandler<OpEvent> {
 //            this.sp.getTimeline().stop();
 //            return;
 //        }
-        this.sp.getTimeline().stop();
+        this.sp.stop();
         this.enable = false;
         Config.bgmMedia.stopMusic();
 
         this.win = true;
         if (!win) {
-            if (this.mm.isNetwork()) {
+            if (Config.network) {
                 this.win = false;
             } else {
                 this.getMainModel().winner(!p1);
@@ -522,6 +522,10 @@ public class Model implements EventHandler<OpEvent> {
         UpdataEvent ue = new UpdataEvent((UpdataMessage) o);
 
         this.getMainModel().upData(ue);
+    }
+
+    public boolean isNetwork() {
+       return this.network;
     }
 
 }

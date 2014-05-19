@@ -73,12 +73,18 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
                 } else {
                     m = this.model.getP2();
                 }
-                override(m, arg0);
+                
+               override(m, arg0);
+               
+                if(arg0.isLast()){
+                    if(p1.isNetwork()) p1.getSp().stop();
+                    if(p2.isNetwork()) p2.getSp().stop();
+                }
                 break;
         }
     }
-    
-     //network use
+
+    //network use
     private synchronized void override(Model m, UpdataEvent arg0) {
         ObservableList<Node> list = m.getMainFrame().getChildren();
         ArrayList<Node> al = new ArrayList<>();
@@ -127,12 +133,11 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
             m.getMainModel().SAtt(!m.isP1(), arg0.getSattCPToRival());
         }
         if (arg0.isWin() == false) {
-            if(Config.controller.gamerun) {
+            if (Config.controller.gamerun) {
                 m.getMainModel().winner(!m.isP1());
             }
         }
     }
      //network use
-
 
 }

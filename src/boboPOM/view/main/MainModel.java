@@ -15,13 +15,11 @@ public class MainModel {
     private Model p1, p2;
     private ArrayList<EventHandler> handlerList;
     private boolean end;
-    private boolean network;
     private boolean host;
 
     public MainModel(boolean host, boolean network) {
         Config.init();
         this.host = host;
-        this.network = network;
         init(host, network);
         this.handlerList = new ArrayList<EventHandler>();
     }
@@ -34,17 +32,13 @@ public class MainModel {
         return p2;
     }
 
-    public boolean isNetwork() {
-        return network;
-    }
-
     public void winner(boolean p1) {
         if (p1) {
             this.p1.setWin(true);
         } else {
             this.p2.setWin(true);
         }
-        if(network){
+        if(Config.network){
         Config.controller.getNetgames().clear();
         Config.controller.gamerun = false;
         }

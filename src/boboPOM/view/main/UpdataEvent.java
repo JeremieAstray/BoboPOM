@@ -29,6 +29,7 @@ public final class UpdataEvent extends Event {
     private int cp, lines;
     private int sattCPToRival;
     private boolean win;
+    private boolean last;
 
     public UpdataEvent(EventType<? extends Event> arg0) {// network use
         super(arg0);
@@ -106,6 +107,7 @@ public final class UpdataEvent extends Event {
     
     private void changeToEvent(UpdataMessage um) {
         this.p1 = um.isP1();
+        this.last = um.isLast();
         cops.add(buildEffectByMessage(um.getEopls().get(0)));
         for (BoboMessage bm : um.getBopls()) {
             Bobo bo = new Bobo(bm);
@@ -167,5 +169,9 @@ public final class UpdataEvent extends Event {
         n.setScaleY(m.getScaleY());
         n.setOpacity(m.getOpacity());
         n.setVisible(m.isVisible());
+    }
+
+    public boolean isLast() {
+        return this.last;
     }
 }
