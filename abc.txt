@@ -1,0 +1,2 @@
+java -jar dist/BoboPOM.jar
+pause

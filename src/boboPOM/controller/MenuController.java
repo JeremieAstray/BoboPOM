@@ -90,16 +90,13 @@ public class MenuController implements Initializable {
     }
 
     private void MenuToNext(boolean isKey) {
-        if (menuMark != 3 && menuMark != 1 && menuMark != 21 && menuMark != 22
-                && menuMark != 4) {
-            Config.effectMedia.play(1);
-        }
         if (menuMark < 10) {
             switch (menuMark) {
                 case 0:  //主菜单
                     if (mainMenuBar.getvBox().isHover() || isKey) {
                         MainToNext();
                         menuMark = menuMark * 10 + mainMenuBar.getSelectedItem() + 1;
+                        Config.effectMedia.play(1);
                     }
                     break;
                 case 1:  //单机模式菜单
@@ -118,6 +115,7 @@ public class MenuController implements Initializable {
                 case 2:  //网络对战菜单
                     if (netMenuBar.getvBox().isHover() || isKey) {
                         NetToNext();
+                        Config.effectMedia.play(1);
                     }
                     break;
                 case 3:  //游戏说明对话框
@@ -147,6 +145,7 @@ public class MenuController implements Initializable {
                     if (playerMenu.getvBox().isHover() || isKey) {
                         PlayerMenuToNext();
                         menuMark *= 10;
+                        Config.effectMedia.play(1);
                     }
                     break;
             }

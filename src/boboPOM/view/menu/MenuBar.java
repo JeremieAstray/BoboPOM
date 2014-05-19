@@ -193,6 +193,9 @@ public class MenuBar extends Control {
     public void reset() {
         if (nowItemSelected != -1) {
             items.get(nowItemSelected).setBackground(false);
+            if (items.get(0) != null) {
+                items.get(0).setBackground(true);
+            }
             nowItemSelected = 0;
             changeCursorLocation(0);
         }
