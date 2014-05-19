@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
+ *
  * @author:feng
  */
 public class GameSetting extends Parent {
@@ -35,6 +36,7 @@ public class GameSetting extends Parent {
     private Slider SoundEffectSlider;
     private ComboBox<String> ResolutionBox;
     private GridPane gridPane;
+    private ObservableList resolutions;
 
     public GameSetting() {
         init();
@@ -55,9 +57,9 @@ public class GameSetting extends Parent {
         this.GWidth = (int) border.getWidth();
         this.GHeight = (int) border.getHeight();
 
-        ObservableList resolutions = FXCollections.observableArrayList(
+        resolutions = FXCollections.observableArrayList(
                 Config.getSCREEN_WIDTH() + " * " + Config.getSCREEN_HEIGHT(),
-                "800 * 600", "1024 * 768"
+                "1280 * 720", "1360 * 768", "1440 * 900" , "1920 * 1080"
         );
         ResolutionBox = new ComboBox<String>(resolutions);
         ResolutionBox.setMinWidth(100);
@@ -92,7 +94,7 @@ public class GameSetting extends Parent {
 
             @Override
             public void changed(ObservableValue<? extends Number> ov,
-                                Number old_val, Number new_val) {
+                    Number old_val, Number new_val) {
                 BGMVolumeSlider.setValue((int) (new_val.doubleValue() + 0.5));
                 Config.bgmMedia.setVolume((int) (new_val.doubleValue() + 0.5));
             }
@@ -102,7 +104,7 @@ public class GameSetting extends Parent {
 
             @Override
             public void changed(ObservableValue<? extends Number> ov,
-                                Number old_val, Number new_val) {
+                    Number old_val, Number new_val) {
                 SoundEffectSlider.setValue((int) (new_val.doubleValue() + 0.5));
                 Config.effectMedia.setVolume((int) (new_val.doubleValue() + 0.5));
             }
@@ -130,34 +132,31 @@ public class GameSetting extends Parent {
     }
 
     private void setResolution(String resolution) {
-        if ("960 * 540".equals(resolution)) {
-            Config.root.setScaleX(960 * 1.0 / Config.SCREEN_WIDTH);
-            Config.root.setScaleY(540 * 1.0 / Config.SCREEN_HEIGHT);
-            Config.stage.setMaxWidth(960);
-            Config.stage.setMaxHeight(540 + 38);
-            Config.stage.setMinWidth(960);
-            Config.stage.setMinHeight(540 + 38);
-            Config.root.setLayoutX(0);
-            Config.root.setLayoutY(0);
-        } else if ("800 * 600".equals(resolution)) {
-            Config.root.setScaleX(800 * 1.0 / Config.SCREEN_WIDTH);
-            Config.root.setScaleY(600 * 1.0 / Config.SCREEN_HEIGHT);
-            Config.stage.setMaxWidth(800);
-            Config.stage.setMaxHeight(600);
-            Config.stage.setMinWidth(800);
-            Config.stage.setMinHeight(600 + 38);
-            Config.root.setLayoutX(-88);
-            Config.root.setLayoutY(32);
-        } else if ("1024 * 768".equals(resolution)) {
-            Config.root.setScaleX(1024 * 1.0 / Config.SCREEN_WIDTH);
-            Config.root.setScaleY(768 * 1.0 / Config.SCREEN_HEIGHT);
-            Config.stage.setMaxWidth(1024);
-            Config.stage.setMaxHeight(768);
-            Config.stage.setMinWidth(1024);
-            Config.stage.setMinHeight(768 + 38);
-            Config.root.setLayoutX(30);
-            Config.root.setLayoutY(130);
+        String[] strings = resolution.split(" ");
+        double x = Double.parseDouble(strings[0]);
+        double y = Double.parseDouble(strings[2]);
+        if (((String)resolutions.get(0)).equals(resolution)) {
+            adjust(x, y, 0, 0);
+        } else if (((String)resolutions.get(1)).equals(resolution)) {
+            adjust(x, y, 180, 65);
+        } else if (((String)resolutions.get(2)).equals(resolution)) {
+            adjust(x, y, 230, 100);
+        }else if (((String)resolutions.get(3)).equals(resolution)) {
+            adjust(x, y, 280, 190);
+        }else if (((String)resolutions.get(4)).equals(resolution)) {
+            adjust(x, y, 640, 335);
         }
+    }
+    
+    private void adjust(double x, double y, int lx, int ly){
+        Config.root.setScaleX(x / Config.SCREEN_WIDTH);
+            Config.root.setScaleY(y / Config.SCREEN_HEIGHT);
+            Config.stage.setMaxWidth(x);
+            Config.stage.setMaxHeight(y);
+            Config.stage.setMinWidth(x);
+            Config.stage.setMinHeight(y);
+            Config.root.setLayoutX(lx);
+            Config.root.setLayoutY(ly);
     }
 
     /**
