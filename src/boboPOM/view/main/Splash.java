@@ -531,16 +531,16 @@ public class Splash {
                     arg++;
                 }
                 if (arg == 1) {
-//                    if(timecounter == 0){
+                    if(timecounter == 0){
                     if (model.isP1()) {
                         model.getMainModel().getP2().send(false);
                     } else {
                         model.getMainModel().getP1().send(false);
                     }
                 }
-//                    timecounter++;
-//                    timecounter %= 1;
-//                }
+                    timecounter++;
+                    timecounter %= 2;
+                }
             }
         });
 

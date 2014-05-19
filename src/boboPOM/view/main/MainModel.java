@@ -44,8 +44,10 @@ public class MainModel {
         } else {
             this.p2.setWin(true);
         }
+        if(network){
         Config.controller.getNetgames().clear();
         Config.controller.gamerun = false;
+        }
         end = true;
     }
 

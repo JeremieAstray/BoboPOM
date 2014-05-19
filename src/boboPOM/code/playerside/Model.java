@@ -442,34 +442,29 @@ public class Model implements EventHandler<OpEvent> {
                 this.getMainModel().winner(!p1);
             }
         }
-        synchronized (this) {
-                try {
-                    sleep(2000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-                } finally {
-                    if (Config.getEffects().indexOf(this.getPane().getWol().getImage()) != 11) {
-                        win = true;
-                    }
-                    System.out.println(win);
-                    if (win) {
-                        Config.effectMedia.play(10);
-                        this.getPane().getWol().setImage(Config.getEffects().get(10));
-                    } else {
-                        Config.effectMedia.play(11);
-                        this.getPane().getWol().setImage(Config.getEffects().get(11));
-                    }
-                    ImageView iv = this.getPane().getWol();
-                    iv.setTranslateX(this.getPane().getTranslateX());
-                    iv.setTranslateY(this.getPane().getTranslateY());
-                    if (!this.getMainFrame().getChildren().contains(iv)) {
-                        this.getMainFrame().getChildren().add(iv);
-                    } else {
-                        System.out.println("?dulicate");
-                        System.out.println(this.p1);
-                    }
-                }
+//        synchronized (this) {
+//                try {
+//                    sleep(2000);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+//                } finally {
+        if (win) {
+            Config.effectMedia.play(10);
+            this.getPane().getWol().setImage(Config.getEffects().get(10));
+        } else {
+            Config.effectMedia.play(11);
+            this.getPane().getWol().setImage(Config.getEffects().get(11));
         }
+        ImageView iv = this.getPane().getWol();
+        iv.setTranslateX(this.getPane().getTranslateX());
+        iv.setTranslateY(this.getPane().getTranslateY());
+        if (!this.getMainFrame().getChildren().contains(iv)) {
+            this.getMainFrame().getChildren().add(iv);
+        } else {
+            System.out.println("?dulicate");
+            System.out.println(this.p1);
+        }
+
     }
 
     //这是一个发出信息的示例
