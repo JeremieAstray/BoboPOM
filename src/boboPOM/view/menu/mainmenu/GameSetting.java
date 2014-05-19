@@ -57,10 +57,22 @@ public class GameSetting extends Parent {
         this.GHeight = (int) border.getHeight();
 
         ObservableList resolutions = FXCollections.observableArrayList(
-                "全屏", "窗口"
+                Config.getSCREEN_WIDTH() + " * " + Config.getSCREEN_HEIGHT(),
+                "800 * 600", "1024 * 768"
         );
         ResolutionBox = new ComboBox<String>(resolutions);
         ResolutionBox.setMinWidth(100);
+        ResolutionBox.setPromptText((String) resolutions.get(0));
+        ResolutionBox.valueProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+                System.out.println(t);
+                System.out.println(t1);
+                setResolution(t1);
+            }
+
+        });
 
         BGMVolumeSlider = new Slider(0, 5, 5);
         SoundEffectSlider = new Slider(0, 5, 5);
@@ -116,6 +128,37 @@ public class GameSetting extends Parent {
         gridPane.add(SFText, 0, 2);
         gridPane.add(SoundEffectSlider, 1, 2);
 
+    }
+
+    private void setResolution(String resolution) {
+        if ("960 * 540".equals(resolution)) {
+            Config.root.setScaleX(960 * 1.0 / Config.SCREEN_WIDTH);
+            Config.root.setScaleY(540 * 1.0 / Config.SCREEN_HEIGHT);
+            Config.stage.setMaxWidth(960);
+            Config.stage.setMaxHeight(540 + 38);
+            Config.stage.setMinWidth(960);
+            Config.stage.setMinHeight(540 + 38);
+            Config.root.setLayoutX(0);
+            Config.root.setLayoutY(0);
+        } else if ("800 * 600".equals(resolution)) {
+            Config.root.setScaleX(800 * 1.0 / Config.SCREEN_WIDTH);
+            Config.root.setScaleY(600 * 1.0 / Config.SCREEN_HEIGHT);
+            Config.stage.setMaxWidth(800);
+            Config.stage.setMaxHeight(600);
+            Config.stage.setMinWidth(800);
+            Config.stage.setMinHeight(600 + 38);
+            Config.root.setLayoutX(-88);
+            Config.root.setLayoutY(32);
+        } else if ("1024 * 768".equals(resolution)) {
+            Config.root.setScaleX(1024 * 1.0 / Config.SCREEN_WIDTH );
+            Config.root.setScaleY(768 * 1.0 / Config.SCREEN_HEIGHT);
+            Config.stage.setMaxWidth(1024);
+            Config.stage.setMaxHeight(768);
+            Config.stage.setMinWidth(1024);
+            Config.stage.setMinHeight(768 + 38);
+            Config.root.setLayoutX(30);
+            Config.root.setLayoutY(130);
+        }
     }
 
     /**

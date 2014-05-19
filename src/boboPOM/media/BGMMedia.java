@@ -24,13 +24,15 @@ public class BGMMedia {
     public BGMMedia() {
         urls = new ArrayList<URL>();
     }
-    
-    public void addURL(URL url){
+
+    public void addURL(URL url) {
         urls.add(url);
     }
 
     public void stopMusic() {
-        musicPlayer.stop();
+        if (playingMusic != -1) {
+            musicPlayer.stop();
+        }
     }
 
     private void play(boolean loop, int num) {
@@ -67,7 +69,7 @@ public class BGMMedia {
 
     public void setVolume(int volume) {
         this.volume = volume * 1.0 / 5;
-        if(this.musicPlayer != null){
+        if (this.musicPlayer != null) {
             this.musicPlayer.setVolume(this.volume);
         }
     }

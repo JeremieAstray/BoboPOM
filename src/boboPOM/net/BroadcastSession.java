@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.TimerTask;
 
 /**
- * Created by Jeremie on 14-3-8.
+ * created by jeremie on 14-3-8.
  */
 public class BroadcastSession extends TimerTask {
 

@@ -15,12 +15,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
 
 /**
  * Created by Jeremie on 14-3-4.
  */
 public final class Config {
 
+    public static Stage stage;
+    public static Parent root;
+    
     public static Controller controller;
     public static MenuController menuController;
     public static BGMMedia bgmMedia;

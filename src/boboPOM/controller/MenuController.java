@@ -241,7 +241,14 @@ public class MenuController implements Initializable {
         } else if (menuMark > 10 && menuMark < 100) {
             switch (menuMark) {
                 case 22:  //连接服务菜单
-                    connectServerMenu.DealKeyEvent(keyCode);
+                    if (keyCode == keyCode.ENTER) {
+                        if (connectServerMenu.ButtonActionDeal()) {
+                            Config.effectMedia.play(1);
+                            ConnectServerToNext(connectServerMenu.getTextFieldIP());
+                        }
+                    } else {
+                        connectServerMenu.DealKeyEvent(keyCode);
+                    }
                     break;
             }
         } else if (menuMark > 100 && menuMark < 1000) {

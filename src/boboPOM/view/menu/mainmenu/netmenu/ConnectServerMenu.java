@@ -127,7 +127,7 @@ public class ConnectServerMenu extends MenuBar {
         KeyFrame kf = new KeyFrame(Config.ANIMATION_TIME, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (textField.isPressed()) {
+                if (getTextField().isPressed()) {
                     tipText.setVisible(false);
                     textFieldTimeline.stop();
                 }
@@ -277,5 +277,12 @@ public class ConnectServerMenu extends MenuBar {
      */
     public Timeline getListenSocketTimeTimeline() {
         return listenSocketTimeTimeline;
+    }
+
+    /**
+     * @return the textField
+     */
+    public TextField getTextField() {
+        return textField;
     }
 }

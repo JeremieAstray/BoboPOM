@@ -12,7 +12,6 @@ public class EffectMedia {
 
     private AudioClip effect;
     private int playing = -1;
-    private ArrayList<URL> urls;
     private ArrayList<AudioClip> effects;
 
     public EffectMedia() {
