@@ -112,7 +112,6 @@ public class Controller implements Initializable {
         mainView.init(true, false/*Config.network*/);
         mainView.setFocusTraversable(true);
         mainView.requestFocus();
-        System.out.println(p1 + " " + p2);
         mainView.setPersonages(p1, p2);
         this.addHandler(mainView.getMainFrame().getP1());
         this.addHandler(mainView.getMainFrame().getP2());

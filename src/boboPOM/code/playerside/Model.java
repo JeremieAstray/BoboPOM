@@ -456,8 +456,6 @@ public class Model implements EventHandler<OpEvent> {
         if (!this.getMainFrame().getChildren().contains(iv)) {
             this.getMainFrame().getChildren().add(iv);
         } else {
-            System.out.println("?dulicate");
-            System.out.println(this.p1);
         }
 
     }

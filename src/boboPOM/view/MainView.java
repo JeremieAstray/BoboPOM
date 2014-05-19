@@ -23,7 +23,6 @@ public class MainView extends StackPane {
         this.getChildren().addAll(control);
         MainModel mm = new MainModel(host, network);
         mainFrame = new MainFrame(mm);
-        System.out.println(mm.getP2());
         this.layout();
         this.setTranslateY(6);
         mainFrame.getChildren().get(0).requestFocus();

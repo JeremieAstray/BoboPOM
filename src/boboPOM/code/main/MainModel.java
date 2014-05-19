@@ -39,7 +39,7 @@ public class MainModel {
             this.p2.setWin(true);
         }
         end = true;
-        System.out.println(end);
+//        System.out.println(end);
     }
 
     public void SAtt(boolean p1, int add) {

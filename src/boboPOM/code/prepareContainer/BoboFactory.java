@@ -39,7 +39,6 @@ public class BoboFactory {
         int lu = qp1.getLast().getU().getType();
         int ld = qp1.getLast().getD().getType();
          u = countTheType(lu,ld);
-            System.out.println("");
         lu = ld;
         ld = u;
          d = countTheType(lu,ld);
