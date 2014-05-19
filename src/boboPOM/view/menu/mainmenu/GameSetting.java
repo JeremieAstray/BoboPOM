@@ -138,13 +138,13 @@ public class GameSetting extends Parent {
         if (((String)resolutions.get(0)).equals(resolution)) {
             adjust(x, y, 0, 0);
         } else if (((String)resolutions.get(1)).equals(resolution)) {
-            adjust(x, y, 180, 65);
+            adjust(x, y, 180, 103);
         } else if (((String)resolutions.get(2)).equals(resolution)) {
-            adjust(x, y, 230, 100);
+            adjust(x, y, 230, 134);
         }else if (((String)resolutions.get(3)).equals(resolution)) {
-            adjust(x, y, 280, 190);
+            adjust(x, y, 280, 225);
         }else if (((String)resolutions.get(4)).equals(resolution)) {
-            adjust(x, y, 640, 335);
+            adjust(x, y, 640, 339);
         }
     }
     
@@ -152,9 +152,9 @@ public class GameSetting extends Parent {
         Config.root.setScaleX(x / Config.SCREEN_WIDTH);
             Config.root.setScaleY(y / Config.SCREEN_HEIGHT);
             Config.stage.setMaxWidth(x);
-            Config.stage.setMaxHeight(y);
+            Config.stage.setMaxHeight(y + 38);
             Config.stage.setMinWidth(x);
-            Config.stage.setMinHeight(y);
+            Config.stage.setMinHeight(y + 38);
             Config.root.setLayoutX(lx);
             Config.root.setLayoutY(ly);
     }
