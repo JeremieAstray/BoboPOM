@@ -57,7 +57,7 @@ public class DialogBox extends Control {
 
     public DialogBox() {
         this(Config.SCREEN_WIDTH - 50, 140,
-                new int[]{4, 3, 4, 3, 4, 2});
+                new int[]{4, 4, 4, 3, 4, 3});
     }
 
     public DialogBox(int Width, int Height, int[] linesNum) {
