@@ -59,7 +59,7 @@ public class UpdataMessage implements java.io.Serializable{// network use
            else if(node instanceof ImageView){
              EffectMessage  em = new EffectMessage((ImageView) node);
                eomf.add(em);
-               if(em.getIndex() == 10) this.last = true;
+               if(em.getIndex() == 10 || em.getIndex() == 11) this.last = true;
            }
        }
        for(Node node:ue.getCoqp()){

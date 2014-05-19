@@ -468,10 +468,10 @@ public class Model implements EventHandler<OpEvent> {
     }
 
     //这是一个发出信息的示例
-    public synchronized void send(boolean first) {
+    public synchronized boolean send(boolean first) {
         if (first) {
             Config.controller.send(new FirstMessage(this.getPersonage()));
-            return;
+            return false;
         }
         ArrayList<Node> cops = new ArrayList<>();
         cops.addAll(this.pane.getChildren());
@@ -505,10 +505,13 @@ public class Model implements EventHandler<OpEvent> {
 
         cops.remove(this.getPane().getChildren().get(0));
         cops.remove(this.getPane().getChildren().get(1));
-
-        Config.controller.send(new UpdataMessage(new UpdataEvent(p1, cops, comf, coqp, corp, this.counterSet.getCpc().getNowCP(), this.counterSet.getLc().getLines(), sattCPToRival, win)));
+        
+        UpdataMessage um = new UpdataMessage(new UpdataEvent(p1, cops, comf, coqp, corp, this.counterSet.getCpc().getNowCP(), this.counterSet.getLc().getLines(), sattCPToRival, win));
+        Config.controller.send(um);
         sattCPToRival = 0;
         win = true;
+        
+        return um.isLast();
     }
 
     public synchronized void recv(Object o) {

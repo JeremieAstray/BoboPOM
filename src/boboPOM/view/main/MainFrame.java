@@ -76,10 +76,13 @@ public class MainFrame extends StackPane implements EventHandler<UpdataEvent> {
                 
                override(m, arg0);
                
-                if(arg0.isLast()){
-                    if(p1.isNetwork()) p1.getSp().stop();
-                    if(p2.isNetwork()) p2.getSp().stop();
-                }
+//                if(arg0.isLast()){
+//                    System.out.println("last");
+//                    if(p1.isNetwork()) 
+//                      p1.getSp().stop();
+//                    if(p2.isNetwork()) 
+//                    p2.getSp().stop();
+//                }
                 break;
         }
     }

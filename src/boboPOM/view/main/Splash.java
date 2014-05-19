@@ -532,10 +532,13 @@ public class Splash {
                 }
                 if (arg == 1) {
                     if(timecounter == 0){
+                        //System.out.println("??");
                     if (model.isP1()) {
-                        model.getMainModel().getP2().send(false);
+                        if(model.getMainModel().getP2().send(false))
+                            timeline.stop();
                     } else {
-                        model.getMainModel().getP1().send(false);
+                         if(model.getMainModel().getP1().send(false))
+                            timeline.stop();
                     }
                 }
                     timecounter++;
