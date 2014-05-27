@@ -2,11 +2,13 @@ package boboPOM.view;
 
 import boboPOM.config.Config;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 //import javafx.scene.layout.Pane;
 
@@ -44,7 +46,12 @@ public class Main extends Application {
         primaryStage.setTitle("BoboPom!");
         primaryStage.getIcons().add(new Image(Main.class.getResource("resources/images/title.png").toExternalForm()));
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent arg0) {
+                System.exit(0);
+            }
+        });
         primaryStage.show();
-
     }
 }

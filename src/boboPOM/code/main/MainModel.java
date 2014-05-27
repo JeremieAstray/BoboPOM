@@ -1,7 +1,6 @@
 package boboPOM.code.main;
 
 import boboPOM.code.playerside.Model;
-import boboPOM.config.Config;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
@@ -18,7 +17,6 @@ public class MainModel {
     private boolean host;
 
     public MainModel(boolean host, boolean network) {
-        Config.init();
         this.host = host;
         init(host, network);
         this.handlerList = new ArrayList<EventHandler>();

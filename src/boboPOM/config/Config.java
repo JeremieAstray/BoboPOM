@@ -53,8 +53,8 @@ public final class Config {
     public static Parent root;
     public static Controller controller;
     public static MenuController menuController;
-    public static BGMMedia bgmMedia;
-    public static EffectMedia effectMedia;
+    public static final BGMMedia bgmMedia = new BGMMedia();
+    public static  final EffectMedia effectMedia = new EffectMedia();
     public static InputStreamReader inputStreamReader;
     public static SocketLink socketLink;
     public static ArrayList<KeyCode> p1Controller, p2Controller;
@@ -105,11 +105,9 @@ public final class Config {
 
     public static void init() {
         //music
-        bgmMedia = new BGMMedia();
         for (int i = 0; i < 3; i++) {
             bgmMedia.addURL(Main.class.getResource("/media/BGM/ed758" + (7 + i) + ".mp3"));
         }
-        effectMedia = new EffectMedia();
         for (int i = 0; i < 16; i++) {
             if (i < 10) {
                 effectMedia.addEffect(Main.class.getResource("/media/sound_effects/ed7s000" + i + ".wav"));
