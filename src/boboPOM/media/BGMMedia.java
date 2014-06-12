@@ -1,7 +1,6 @@
 package boboPOM.media;
 
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 
@@ -30,30 +29,26 @@ public class BGMMedia {
     }
 
     public void stopMusic() {
-        if ( playingMusic != -1) {
+        if (playingMusic != -1) {
             musicPlayer.stop();
         }
     }
 
     private void play(boolean loop, int num) {
-        try {
-            if (playingMusic != -1) {
-                this.musicPlayer.stop();
+        if (playingMusic != -1) {
+            this.musicPlayer.stop();
+        }
+        if (playingMusic != num) {
+            this.music = new Media(urls.get(num) + "");
+            this.musicPlayer = new MediaPlayer(this.music);
+            this.playingMusic = num;
+            this.musicPlayer.setVolume(this.volume);
+            if (loop) {
+                musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            } else {
+                musicPlayer.setCycleCount(1);
             }
-            if (playingMusic != num) {
-                this.music = new Media(urls.get(num) + "");
-                this.musicPlayer = new MediaPlayer(this.music);
-                this.playingMusic = num;
-                this.musicPlayer.setVolume(this.volume);
-                if (loop) {
-                    musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-                } else {
-                    musicPlayer.setCycleCount(1);
-                }
-                musicPlayer.play();
-            }
-        } catch (MediaException e) {
-            e.printStackTrace();
+            musicPlayer.play();
         }
     }
 

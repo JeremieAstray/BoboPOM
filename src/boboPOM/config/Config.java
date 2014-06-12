@@ -106,8 +106,9 @@ public final class Config {
     public static void init() {
         //music
         for (int i = 0; i < 3; i++) {
-            bgmMedia.addURL(Main.class.getResource("/media/BGM/ed758" + (7 + i) + ".mp3"));
+            bgmMedia.addURL(Main.class.getResource("/media/BGM/ed758" + (7 + i) + ".wav"));
         }
+
         for (int i = 0; i < 16; i++) {
             if (i < 10) {
                 effectMedia.addEffect(Main.class.getResource("/media/sound_effects/ed7s000" + i + ".wav"));
