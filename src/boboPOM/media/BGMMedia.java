@@ -35,10 +35,8 @@ public class BGMMedia {
     }
 
     private void play(boolean loop, int num) {
-        if (playingMusic != -1) {
-            this.musicPlayer.stop();
-        }
         if (playingMusic != num) {
+            this.stopMusic();
             this.music = new Media(urls.get(num) + "");
             this.musicPlayer = new MediaPlayer(this.music);
             this.playingMusic = num;
